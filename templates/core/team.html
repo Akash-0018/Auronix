@@ -166,10 +166,9 @@
                 <!-- Photo -->
                 <div class="team-photo">
                     {% if member.image and member.image.url %}
-                    <img src="{{ member.image.url }}" alt="{{ member.name }}"
-                         onerror="this.src='{% static 'images/default-user.jpg' %}'">
+                    <img src="{{ member.image.url }}" alt="{{ member.name }}" class="team-member-avatar" data-fallback="{% static 'images/default-user.jpg' %}">
                     {% else %}
-                    <img src="{% static 'images/default-user.jpg' %}" alt="{{ member.name }}">
+                    <img src="{% static 'images/default-user.jpg' %}" alt="{{ member.name }}" class="team-member-avatar">
                     {% endif %}
                 </div>
 
@@ -191,5 +190,26 @@
 
     </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle image fallbacks
+    document.querySelectorAll('img[data-fallback]').forEach(img => {
+        img.addEventListener('error', function() {
+            this.src = this.getAttribute('data-fallback');
+        });
+    });
+
+    // Handle hover transforms for team member avatars
+    document.querySelectorAll('.team-member-avatar').forEach(img => {
+        img.addEventListener('mouseover', function() {
+            this.style.transform = 'scale(1.04)';
+        });
+        img.addEventListener('mouseout', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+});
+</script>
 
 {% endblock %}

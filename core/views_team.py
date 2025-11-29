@@ -1,5 +1,10 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
+from django.urls import reverse
 from .models import TeamMember, Project
+from .forms import ContactForm
 
 def get_team_members():
     """Returns list of all team members with their details"""
@@ -71,11 +76,14 @@ def team_member_portfolio(request, member_name):
     # Prepare member data
     member_data = {
         'name': member.name,
+        'slug': member.slug,
         'email': member.email,
         'admin_email': member.admin_email,
         'role': member.role,
         'bio': member.bio,
         'image': member.image,
+        'location': member.location,
+        'phone': member.phone,
         'education': member.education.split('\n') if member.education else [],
         'experience': member.experience.split('\n') if member.experience else [],
         'skills': [skill.strip() for skill in member.skills.split(',') if skill.strip()],
@@ -106,4 +114,62 @@ def team_member_portfolio(request, member_name):
     return render(request, 'core/team_member_portfolio.html', {
         'section': 'team',
         'member': member_data
+    })
+
+def developer_contact(request, member_slug):
+    """Display contact form for specific developer"""
+    try:
+        member = TeamMember.objects.get(slug=member_slug)
+    except TeamMember.DoesNotExist:
+        return redirect('contact')
+    
+    member_data = {
+        'name': member.name,
+        'slug': member.slug,
+        'email': member.email,
+        'role': member.role,
+        'image': member.image,
+        'location': member.location,
+        'phone': member.phone,
+    }
+    
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            contact_message = form.save(commit=False)
+            contact_message.team_member = member.name
+            contact_message.save()
+            
+            # Send email to developer
+            recipient_email = member.email if member.email else 'akashcse018@gmail.com'
+            subject = f"New Contact Form Submission: {form.cleaned_data['subject']}"
+            message = f"""Hello {member.name},
+
+You have received a new message from {form.cleaned_data['name']}:
+
+Email: {form.cleaned_data['email']}
+Subject: {form.cleaned_data['subject']}
+Inquiry Type: {form.cleaned_data['inquiry_type']}
+Pricing Plan: {form.cleaned_data['pricing_plan']}
+
+Message:
+{form.cleaned_data['message']}
+
+---
+This message was sent via your portfolio contact form."""
+            
+            try:
+                send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [recipient_email])
+            except Exception as e:
+                print(f"Error sending email: {e}")
+            
+            messages.success(request, f'Your message has been sent to {member.name} successfully!')
+            return redirect('developer_contact', member_slug=member_slug)
+    else:
+        form = ContactForm()
+    
+    return render(request, 'core/developer_contact.html', {
+        'form': form,
+        'member': member_data,
+        'member_data': member_data,
     })

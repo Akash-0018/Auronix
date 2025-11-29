@@ -113,6 +113,7 @@
             text-transform: uppercase;
             background: var(--gradient);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             position: relative;
             display: inline-block;
@@ -622,7 +623,6 @@
     /* CTA Section */
     .cta-section {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
-        background-image: url('https://images.unsplash.com/photo-1542744094-3a31f272c490?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');
         background-blend-mode: overlay;
         background-size: cover;
         background-position: center;
@@ -827,7 +827,7 @@
         
         <div style="margin-top:150px" class="container">
             <div class="header-content">
-                <h1 class="page-title"><span  style="background-color: var(--light, #f4f5f3); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" class="highlight">Our</span>  <span style="background-color: var(--yellow-green, #A2C11C); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" class="highlight">Portfolio</span></h1>
+                <h1 class="page-title"><span  style="background-color: var(--light, #f4f5f3); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;" class="highlight">Our</span>  <span style="background-color: var(--yellow-green, #A2C11C); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;" class="highlight">Portfolio</span></h1>
                 <p class="page-subtitle">Showcasing my recent work and projects</p>
             </div>
         </div>
@@ -914,17 +914,6 @@
 </div>
 {% endfor %}
 
-<!-- CTA Section -->
-<section class="cta-section">
-    <div class="container">
-        <div class="cta-content">
-            <h2 class="cta-title">Like what you see?</h2>
-            <p class="cta-text">Let's work together on your next project!</p>
-            <a href="{% url 'contact' %}" class="btn btn-primary btn-lg">Get in Touch</a>
-        </div>
-    </div>
-</section>
-
 <!-- Team Section -->
 <section style="padding: 100px 0; background: #f8f9fa;">
     <div class="container">
@@ -946,14 +935,12 @@
                     {% if member.image and member.image.url %}
                     <img src="{{ member.image.url }}" alt="{{ member.name }}"
                          style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 0 25px rgba(162,193,28,0.35); transition: all 0.35s ease;"
-                         onerror="this.src='{% static 'images/default-user.jpg' %}'"
-                         onmouseover="this.style.transform='scale(1.04)'"
-                         onmouseout="this.style.transform='scale(1)'">
+                         class="team-member-img"
+                         data-fallback="{% static 'images/default-user.jpg' %}">
                     {% else %}
                     <img src="{% static 'images/default-user.jpg' %}" alt="{{ member.name }}"
                          style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 0 25px rgba(162,193,28,0.35); transition: all 0.35s ease;"
-                         onmouseover="this.style.transform='scale(1.04)'"
-                         onmouseout="this.style.transform='scale(1)'">
+                         class="team-member-img">
                     {% endif %}
                 </div>
 
@@ -976,7 +963,20 @@
         </div>
     </div>
 </section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2 class="cta-title">Like what you see?</h2>
+            <p class="cta-text">Let's work together on your next project!</p>
+            <a href="{% url 'contact' %}" class="btn btn-primary btn-lg">Get in Touch</a>
+        </div>
+    </div>
+</section>
+
 {% endblock %}
+
 
 {% block extra_js %}
 <script>
@@ -1080,6 +1080,23 @@
                 
                 particlesContainer.appendChild(particle);
             }
+        });
+
+        // Handle image fallbacks
+        document.querySelectorAll('img[data-fallback]').forEach(img => {
+            img.addEventListener('error', function() {
+                this.src = this.getAttribute('data-fallback');
+            });
+        });
+
+        // Handle hover transforms for team member images
+        document.querySelectorAll('.team-member-img').forEach(img => {
+            img.addEventListener('mouseover', function() {
+                this.style.transform = 'scale(1.04)';
+            });
+            img.addEventListener('mouseout', function() {
+                this.style.transform = 'scale(1)';
+            });
         });
 
 </script>

@@ -765,9 +765,9 @@
             <div class="profile-content">
                 <div class="member-image">
                     {% if member.image and member.image.url %}
-                    <img src="{{ member.image.url }}" alt="{{ member.name }}" onerror="this.src='{% static 'images/profile.jpg' %}'">
+                    <img src="{{ member.image.url }}" alt="{{ member.name }}" class="member-img" data-fallback="{% static 'images/profile.jpg' %}">
                     {% else %}
-                        <img src="{% static 'images/profile.jpg' %}" alt="{{ member.name }}">
+                    <img src="{% static 'images/profile.jpg' %}" alt="{{ member.name }}" class="member-img">
                     {% endif %}
                 </div>
                 <div class="member-intro">
@@ -817,7 +817,7 @@
             
             <div class="cta-container">
                 <div class="action-buttons">
-                    <a href="{% url 'contact' %}?team_member={{ member.name|urlencode }}" class="btn btn-primary">
+                    <a href="{% url 'developer_contact' member.slug|default:member.name|slugify %}" class="btn btn-primary">
                         <i class="fas fa-handshake"></i> Work with Me
                     </a>
                     <a href="#portfolio" class="btn btn-outline scroll-link">
@@ -900,9 +900,9 @@
                 <div class="project-card">
                     <div class="project-image">
                         {% if project.image and project.image.url %}
-                            <img src="{{ project.image.url }}" alt="{{ project.title }}" onerror="this.src='{% static 'images/project1.jpg' %}'">
+                            <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-img" data-fallback="{% static 'images/project1.jpg' %}">
                         {% else %}
-                            <img src="{% static 'images/project1.jpg' %}" alt="{{ project.title }}">
+                            <img src="{% static 'images/project1.jpg' %}" alt="{{ project.title }}" class="project-img">
                         {% endif %}
                         <div class="project-overlay">
                             <span class="category-badge">{{ project.get_category_display }}</span>
@@ -987,6 +987,24 @@
                 behavior: 'smooth'
             });
         });
+
+        // Handle image fallbacks
+        document.querySelectorAll('img[data-fallback]').forEach(img => {
+            img.addEventListener('error', function() {
+                this.src = this.getAttribute('data-fallback');
+            });
+        });
+
+        // Handle hover transforms for member and project images
+        document.querySelectorAll('.member-img, .project-img').forEach(img => {
+            img.addEventListener('mouseover', function() {
+                this.style.transform = 'scale(1.04)';
+            });
+            img.addEventListener('mouseout', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
     });
+
 </script>
 {% endblock %}

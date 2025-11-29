@@ -622,7 +622,6 @@
     /* CTA Section */
     .cta-section {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
-        background-image: url('https://images.unsplash.com/photo-1542744094-3a31f272c490?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');
         background-blend-mode: overlay;
         background-size: cover;
         background-position: center;
@@ -790,6 +789,10 @@
     @media (max-width: 576px) {
         .page-title {
             font-size: 2.2rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border-left: 6px solid var(--primary);
+}
         }
         
         .modal-body {
@@ -914,17 +917,6 @@
 </div>
 {% endfor %}
 
-<!-- CTA Section -->
-<section class="cta-section">
-    <div class="container">
-        <div class="cta-content">
-            <h2 class="cta-title">Like what you see?</h2>
-            <p class="cta-text">Let's work together on your next project!</p>
-            <a href="{% url 'contact' %}" class="btn btn-primary btn-lg">Get in Touch</a>
-        </div>
-    </div>
-</section>
-
 <!-- Team Section -->
 <section style="padding: 100px 0; background: #f8f9fa;">
     <div class="container">
@@ -976,7 +968,20 @@
         </div>
     </div>
 </section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2 class="cta-title">Like what you see?</h2>
+            <p class="cta-text">Let's work together on your next project!</p>
+            <a href="{% url 'contact' %}" class="btn btn-primary btn-lg">Get in Touch</a>
+        </div>
+    </div>
+</section>
+
 {% endblock %}
+
 
 {% block extra_js %}
 <script>

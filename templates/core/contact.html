@@ -1,0 +1,1734 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load project_tags %}
+
+{% block title %}Contact Us - Portfolio & Freelance Services{% endblock %}
+
+{% block extra_css %}
+<style>
+
+    /* Page Header */
+    .page-header {
+        background: linear-gradient(135deg, rgba(246, 246, 248, 0.9) 0%, rgba(0, 0, 0, 0.9) 100%), url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover;
+        color: white;
+        padding: 160px 0 100px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .page-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+        opacity: 0.3;
+        animation: patternMove 20s linear infinite;
+    }
+
+    @keyframes patternMove {
+        0% { background-position: 0 0; }
+        100% { background-position: 100px 100px; }
+    }
+
+    .page-title {
+        font-size: 4.5rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        /* Removed inline font-family to use base.html font-family */
+        text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        animation: fadeInUp 1s ease-out;
+    }
+
+    .page-title .highlight {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+    }
+
+    .page-subtitle {
+        font-size: 1.6rem;
+        font-weight: 300;
+        max-width: 600px;
+        margin: 0 auto;
+        opacity: 0.9;
+        animation: fadeInUp 1s ease-out 0.3s both;
+    }
+
+    /* Contact Section */
+    .contact-section {
+        padding: 100px 0;
+        background: #f8f9fa;
+        position: relative;
+    }
+
+    .contact-container {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 60px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .contact-info {
+        background: white;
+        padding: 50px 40px;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .contact-info::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: var(--gradient);
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        /* Removed inline font-family to use base.html font-family */
+        position: relative;
+        display: inline-block;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: var(--gradient);
+        border-radius: 2px;
+    }
+
+    .contact-description {
+        color: var(--gray);
+        font-size: 1.1rem;
+        line-height: 1.7;
+        margin-bottom: 40px;
+    }
+
+    .info-items {
+        margin-bottom: 40px;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 30px;
+        padding: 20px;
+        border-radius: var(--radius);
+        transition: var(--transition);
+        background: rgba(67, 97, 238, 0.03);
+    }
+
+    .info-item:hover {
+        background: rgba(67, 97, 238, 0.08);
+        transform: translateX(5px);
+    }
+
+    .info-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--gradient);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-right: 20px;
+        flex-shrink: 0;
+    }
+
+    .info-content h3 {
+        font-size: 1.3rem;
+        margin-bottom: 8px;
+        color: var(--dark);
+        font-weight: 600;
+    }
+
+    .info-text {
+        color: var(--gray);
+        margin-bottom: 5px;
+        line-height: 1.6;
+    }
+
+    .info-text a {
+        color: var(--primary);
+        text-decoration: none;
+        transition: var(--transition);
+        display: inline-block;
+    }
+
+    .info-text a:hover {
+        color: var(--secondary);
+        transform: translateY(-2px);
+    }
+
+    .whatsapp-link {
+        margin-left: 10px;
+        color: #25D366 !important;
+        font-size: 1.2rem;
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 40px;
+    }
+
+    .social-icons a {
+        width: 50px;
+        height: 50px;
+        background: white;
+        color: var(--primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        text-decoration: none;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .social-icons a::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background: var(--gradient);
+        transition: var(--transition);
+        z-index: -1;
+    }
+
+    .social-icons a:hover {
+        color: white;
+        transform: translateY(-5px);
+    }
+
+    .social-icons a:hover::before {
+        width: 100%;
+    }
+
+    .availability {
+        background: rgba(76, 201, 240, 0.1);
+        padding: 25px;
+        border-radius: var(--radius);
+        border-left: 4px solid var(--success);
+    }
+
+    .availability h3 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: var(--dark);
+    }
+
+    .availability p {
+        color: var(--gray);
+        line-height: 1.6;
+    }
+
+    /* Contact Form */
+    .contact-form-container {
+        background: white;
+        padding: 50px 40px;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+        position: relative;
+    }
+
+    .contact-form-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 5px;
+        height: 100%;
+        background: var(--gradient);
+    }
+
+    .message-container {
+        margin-bottom: 30px;
+    }
+
+    .alert {
+        padding: 15px 20px;
+        border-radius: var(--radius);
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+    }
+
+    .alert i {
+        margin-right: 10px;
+        font-size: 1.2rem;
+    }
+
+    .alert-success {
+        background: rgba(76, 201, 240, 0.1);
+        color: #10b981;
+        border-left: 4px solid #10b981;
+    }
+
+    .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .form-group {
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: var(--dark);
+        display: flex;
+        align-items: center;
+    }
+
+    .form-group label i {
+        margin-right: 10px;
+        color: var(--primary);
+    }
+
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form select {
+        width: 100%;
+        padding: 15px 20px;
+        border: 2px solid #e2e8f0;
+        border-radius: var(--radius);
+        font-size: 1rem;
+        transition: var(--transition);
+        background: white;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus,
+    .contact-form select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    }
+
+    .contact-form textarea {
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    .form-error {
+        color: #e74c3c;
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
+
+    .character-count {
+        text-align: right;
+        font-size: 0.9rem;
+        color: var(--gray);
+        margin-top: 5px;
+    }
+
+    .radio-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .radio-option {
+        display: flex;
+        align-items: center;
+    }
+
+    .radio-option input[type="radio"] {
+        display: none;
+    }
+
+    .radio-option label {
+        padding: 10px 20px;
+        background: #f8f9fa;
+        border: 2px solid #e2e8f0;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 500;
+        margin: 0;
+    }
+
+    .radio-option input[type="radio"]:checked + label {
+        background: var(--gradient);
+        color: white;
+        border-color: transparent;
+    }
+
+    .form-submit {
+        margin-top: 20px;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 18px 38px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: var(--transition);
+        cursor: pointer;
+        text-align: center;
+        border: none;
+        outline: none;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background: var(--gradient);
+        transition: var(--transition);
+        z-index: -1;
+    }
+
+    .btn-primary {
+        background: var(--gradient);
+        color: white;
+        box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .btn-outline {
+        background: transparent;
+        color: var(--primary);
+        border: 3px solid var(--primary);
+    }
+
+    .btn-outline::before {
+        background: var(--gradient);
+    }
+
+    .btn-outline:hover {
+        color: white;
+        border-color: transparent;
+    }
+
+    .btn-outline:hover::before {
+        width: 100%;
+    }
+
+    .btn-lg {
+        padding: 22px 50px;
+        font-size: 1.2rem;
+    }
+
+    /* Map Section */
+    .map-section {
+        padding: 80px 0;
+        background: white;
+    }
+
+    .map-container {
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        position: relative;
+    }
+
+    .map-placeholder {
+        height: 400px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        position: relative;
+    }
+
+    .map-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(26, 26, 46, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .map-content {
+        text-align: center;
+        color: white;
+        max-width: 500px;
+        padding: 0 20px;
+    }
+
+    .map-content h3 {
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+        /* Removed inline font-family to use base.html font-family */
+    }
+
+    .map-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+
+    /* Flatpickr Calendar Styles */
+    .flatpickr-calendar {
+        background: white;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        border: none;
+        /* Removed inline font-family to use base.html font-family */
+    }
+
+    .flatpickr-months {
+        background: var(--gradient);
+        color: white;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .flatpickr-month {
+        background: transparent;
+        color: white;
+    }
+
+    .flatpickr-current-month {
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    .flatpickr-weekdays {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .flatpickr-weekday {
+        color: white;
+        font-weight: 600;
+    }
+
+    .flatpickr-day {
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .flatpickr-day:hover {
+        background: var(--primary);
+        color: white;
+    }
+
+    .flatpickr-day.selected {
+        background: var(--gradient);
+        color: white;
+        border-color: var(--gradient);
+    }
+
+    .flatpickr-day.today {
+        background: rgba(76, 201, 240, 0.2);
+        color: var(--primary);
+        font-weight: 700;
+    }
+
+    .flatpickr-next-month, .flatpickr-prev-month {
+        color: white;
+    }
+
+    .flatpickr-next-month:hover, .flatpickr-prev-month:hover {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Meeting Modal */
+    .meeting-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(26, 26, 46, 0.9) 0%, rgba(67, 97, 238, 0.8) 100%);
+        backdrop-filter: blur(10px);
+        z-index: 10000;
+        overflow-y: auto;
+        padding: 40px 20px;
+        opacity: 0;
+        transition: all 0.4s ease;
+    }
+
+    .meeting-modal.active {
+        opacity: 1;
+        display: block;
+    }
+
+    .modal-content {
+        background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+        max-width: 900px;
+        margin: 50px auto;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        transform: scale(0.9) translateY(-20px);
+        transition: all 0.4s ease;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .meeting-modal.active .modal-content {
+        transform: scale(1) translateY(0);
+    }
+
+    .modal-header {
+        padding: 35px 45px;
+        background: linear-gradient(135deg, var(--gradient));
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .modal-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.3;
+    }
+
+    .modal-title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        position: relative;
+        z-index: 1;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-title .highlight {
+        background: linear-gradient(45deg, #ffffff, #e0e7ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .modal-close {
+        font-size: 2.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        position: relative;
+        z-index: 1;
+    }
+
+    .modal-close:hover {
+        transform: rotate(90deg) scale(1.1);
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .scheduler-container {
+        padding: 45px;
+        background: linear-gradient(145deg, #ffffff 0%, #fafbfc 100%);
+    }
+
+    .scheduler-container h4 {
+        font-size: 1.4rem;
+        margin-bottom: 25px;
+        color: var(--dark);
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+        position: relative;
+    }
+
+    .scheduler-container h4::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: var(--gradient);
+        border-radius: 2px;
+    }
+
+    .scheduler-container h4 i {
+        margin-right: 12px;
+        color: var(--primary);
+        font-size: 1.3rem;
+    }
+
+    .date-time-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 35px;
+        margin-bottom: 35px;
+    }
+
+    .date-picker-container,
+    .time-picker-container {
+        position: relative;
+        background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(67, 97, 238, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .date-picker-container:hover,
+    .time-picker-container:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(67, 97, 238, 0.2);
+    }
+
+    .date-picker-container::before,
+    .time-picker-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(67, 97, 238, 0.03) 0%, rgba(114, 9, 183, 0.03) 100%);
+        border-radius: 15px;
+        z-index: -1;
+    }
+
+    .calendar-icon,
+    .clock-icon {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary);
+        font-size: 1.3rem;
+        z-index: 2;
+        opacity: 0.7;
+        transition: all 0.3s ease;
+    }
+
+    .date-picker-container:hover .calendar-icon,
+    .time-picker-container:hover .clock-icon {
+        opacity: 1;
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .details-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+    .details-form .form-group:last-child {
+        grid-column: 1 / -1;
+    }
+
+    .details-form .form-group {
+        position: relative;
+    }
+
+    .details-form label {
+        display: block;
+        margin-bottom: 12px;
+        font-weight: 600;
+        color: var(--dark);
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .details-form label i {
+        margin-right: 8px;
+        color: var(--primary);
+        font-size: 1.1rem;
+    }
+
+    .details-form input,
+    .details-form textarea {
+        width: 100%;
+        padding: 18px 20px;
+        border: 2px solid rgba(67, 97, 238, 0.1);
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        outline: none;
+    }
+
+    .details-form input:focus,
+    .details-form textarea:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1), 0 8px 25px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .details-form textarea {
+        min-height: 120px;
+        resize: vertical;
+        line-height: 1.6;
+    }
+
+    .button-container {
+        padding: 35px 45px;
+        text-align: right;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        background: linear-gradient(145deg, #f8f9fa 0%, #ffffff 100%);
+        display: flex;
+        justify-content: flex-end;
+        gap: 20px;
+    }
+
+    .loading-spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+        margin-right: 10px;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .modal-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px 32px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        text-align: center;
+        border: none;
+        outline: none;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        min-width: 140px;
+    }
+
+    .modal-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background: var(--gradient);
+        transition: width 0.3s ease;
+        z-index: -1;
+    }
+
+    .modal-btn-primary {
+        background: var(--gradient);
+        color: white;
+        box-shadow: 0 8px 25px rgba(67, 97, 238, 0.3);
+    }
+
+    .modal-btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(67, 97, 238, 0.4);
+    }
+
+    .modal-btn-outline {
+        background: transparent;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+    }
+
+    .modal-btn-outline::before {
+        background: var(--gradient);
+    }
+
+    .modal-btn-outline:hover {
+        color: white;
+        border-color: transparent;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(67, 97, 238, 0.2);
+    }
+
+    .modal-btn-outline:hover::before {
+        width: 100%;
+    }
+
+    .modal-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Form Validation Styles */
+    .form-group.error input,
+    .form-group.error textarea,
+    .form-group.error select {
+        border-color: #e74c3c !important;
+        box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1) !important;
+    }
+
+    .form-error {
+        color: #e74c3c;
+        font-size: 0.9rem;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+    }
+
+    .form-error::before {
+        content: '⚠';
+        margin-right: 5px;
+        font-size: 1rem;
+    }
+
+    /* Success Message Styles */
+    .alert-success {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+    }
+
+    .alert-success i {
+        margin-right: 10px;
+        font-size: 1.2rem;
+    }
+
+    /* Loading State */
+    .btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none !important;
+    }
+
+    .fa-spinner {
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Enhanced Modal Styles */
+    .meeting-modal.active .modal-content {
+        animation: modalSlideIn 0.4s ease-out;
+    }
+
+    @keyframes modalSlideIn {
+        from {
+            opacity: 0;
+            transform: scale(0.9) translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .contact-container {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .date-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .time-slots {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .page-title {
+            font-size: 3.5rem;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .details-form {
+            grid-template-columns: 1fr;
+        }
+
+        .date-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .time-slots {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .contact-info,
+        .contact-form-container {
+            padding: 30px 25px;
+        }
+
+        .info-item {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .info-icon {
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
+
+        .social-icons {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .page-title {
+            font-size: 2.8rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+
+        .date-grid,
+        .time-slots {
+            grid-template-columns: 1fr;
+        }
+
+        .button-container {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Contact Hero Section -->
+<section style="height:600px;margin-top: 100px;" class="page-header">
+    <div class="container">
+        <h1 class="page-title">Get in <span class="highlight">Touch</span></h1>
+        <p class="page-subtitle">Reach out for inquiries, collaborations, or project discussions</p>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section section">
+    <div class="container">
+        <div class="contact-container">
+            <div class="contact-info">
+                {% if selected_member %}
+                <!-- Banner showing selected developer -->
+                <div style="background: linear-gradient(135deg, rgba(162, 193, 28, 0.15) 0%, rgba(76, 201, 240, 0.15) 100%); 
+                            border: 2px solid var(--primary); border-radius: var(--radius); 
+                            padding: 20px; margin-bottom: 30px; text-align: center;">
+                    <h3 style="color: var(--primary); margin-bottom: 5px; font-weight: 700;">
+                        <i class="fas fa-user-circle"></i> You are contacting
+                    </h3>
+                    <p style="color: var(--dark); font-weight: 600; font-size: 1.2rem; margin: 0;">{{ selected_member.name }}</p>
+                </div>
+                {% endif %}
+
+                <h2 style="color: var(--dark);" class="section-title">
+                    {% if selected_member %}
+                    {{ selected_member.name }}'s <span class="highlight">Contact</span>
+                    {% else %}
+                    Contact <span class="highlight">Information</span>
+                    {% endif %}
+                </h2>
+                <p class="contact-description">
+                    {% if selected_member %}
+                    Reach out directly to {{ selected_member.name }} through any of these channels:
+                    {% else %}
+                    Fill out the form or reach out directly through any of these channels:
+                    {% endif %}
+                </p>
+                
+                <div class="info-items">
+                    <!-- Email Section -->
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3 class="info-title">Email</h3>
+                            {% if selected_member and selected_member.email %}
+                                <p class="info-text"><a href="mailto:{{ selected_member.email }}">{{ selected_member.email }}</a></p>
+                            {% else %}
+                                <p class="info-text"><a href="mailto:akashcse018@gmail.com">akashcse018@gmail.com</a> (BUSINESS)</p>
+                                <p class="info-text"><a href="mailto:rbhargavi846@gmail.com">rbhargavi846@gmail.com</a> (PERSONAL)</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Phone & WhatsApp Section -->
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3 class="info-title">Phone & WhatsApp</h3>
+                            {% if selected_member and selected_member.phone %}
+                                <p class="info-text">
+                                    <a href="tel:{{ selected_member.phone }}">{{ selected_member.phone }}</a> 
+                                    <a href="https://wa.me/{{ selected_member.phone|clean_phone }}" class="whatsapp-link" target="_blank">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                </p>
+                            {% else %}
+                                <p class="info-text"><a href="tel:+919843464180">+91 98434 64180</a> <a href="https://wa.me/919843464180" class="whatsapp-link" target="_blank"><i class="fab fa-whatsapp"></i></a></p>
+                                <p class="info-text"><a href="tel:+918074101457">+91 80741 01457</a> <a href="https://wa.me/918074101457" class="whatsapp-link" target="_blank"><i class="fab fa-whatsapp"></i></a></p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Location Section -->
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3 class="info-title">Location</h3>
+                            {% if selected_member and selected_member.location %}
+                                <p class="info-text">
+                                    <a href="https://maps.google.com/?q={{ selected_member.location|urlencode }}" target="_blank">
+                                        {{ selected_member.location }} <i class="fas fa-external-link-alt fa-xs"></i>
+                                    </a>
+                                </p>
+                            {% else %}
+                                <p class="info-text">
+                                    <a href="https://maps.google.com/?q=Coimbatore,Tamil+Nadu,India" target="_blank">
+                                        Coimbatore, TN, India <i class="fas fa-external-link-alt fa-xs"></i>
+                                    </a>
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Business Hours Section -->
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3 class="info-title">Business Hours</h3>
+                            <p class="info-text">Monday - Friday: 9AM - 6PM IST</p>
+                            <p class="info-text">Weekend: By appointment</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="social-icons">
+                    <a href="https://linkedin.com/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://twitter.com/" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://github.com/" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://instagram.com/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://dribbble.com/" target="_blank" aria-label="Dribbble"><i class="fab fa-dribbble"></i></a>
+                </div>
+                
+                <div class="availability">
+                    <h3>Availability</h3>
+                    <p>Currently available for freelance work and new projects. Let's create something amazing together!</p>
+                </div>
+            </div>
+            
+            <div class="contact-form-container">
+                <h2 style="color: var(--dark);" class="section-title">Send a <span class="highlight">Message</span></h2>
+                
+                {% if messages %}
+                <div class="message-container">
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                            <i class="fas fa-check-circle"></i> {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <form class="contact-form" method="post" action="{% url 'contact' %}">
+                    {% csrf_token %}
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="{{ form.name.id_for_label }}"><i class="fas fa-user"></i> Your Name</label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                                <div class="form-error">{{ form.name.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.email.id_for_label }}"><i class="fas fa-envelope"></i> Your Email</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="form-error">{{ form.email.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="{{ form.subject.id_for_label }}"><i class="fas fa-heading"></i> Subject</label>
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                                <div class="form-error">{{ form.subject.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.inquiry_type.id_for_label }}"><i class="fas fa-tag"></i> Inquiry Type</label>
+                            {{ form.inquiry_type }}
+                            {% if form.inquiry_type.errors %}
+                                <div class="form-error">{{ form.inquiry_type.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.pricing_plan.id_for_label }}"><i class="fas fa-rupee-sign"></i> {{ form.pricing_plan.label }}</label>
+                        {{ form.pricing_plan }}
+                        {% if form.pricing_plan.errors %}
+                            <div class="form-error">{{ form.pricing_plan.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.message.id_for_label }}"><i class="fas fa-comment-alt"></i> Message</label>
+                        {{ form.message }}
+                        {% if form.message.errors %}
+                            <div class="form-error">{{ form.message.errors }}</div>
+                        {% endif %}
+                        <div class="character-count"><span id="messageCharCount">0</span>/500 characters</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-at"></i> {{ form.preferred_contact.label }}</label>
+                        <div class="radio-options">
+                            {% for radio in form.preferred_contact %}
+                                <div class="radio-option">
+                                    {{ radio.tag }}
+                                    <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.preferred_contact.errors %}
+                            <div class="form-error">{{ form.preferred_contact.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-submit">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send Message</button>
+                    </div>
+                </form>
+                
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Character counter for message field
+                        const messageField = document.getElementById('{{ form.message.id_for_label }}');
+                        const charCount = document.getElementById('messageCharCount');
+                        
+                        if (messageField && charCount) {
+                            messageField.addEventListener('input', function() {
+                                const currentLength = this.value.length;
+                                charCount.textContent = currentLength;
+                                
+                                if (currentLength > 450) {
+                                    charCount.style.color = '#e74c3c';
+                                } else if (currentLength > 0) {
+                                    charCount.style.color = '#4cc9f0';
+                                } else {
+                                    charCount.style.color = '';
+                                }
+                            });
+                        }
+                        
+                        // Add focus and blur events for form styling
+                        const formInputs = document.querySelectorAll('.contact-form input, .contact-form textarea, .contact-form select');
+                        formInputs.forEach(input => {
+                            input.addEventListener('focus', function() {
+                                this.parentElement.classList.add('focused');
+                            });
+                            
+                            input.addEventListener('blur', function() {
+                                if (!this.value) {
+                                    this.parentElement.classList.remove('focused');
+                                }
+                            });
+                            
+                            // Initialize with content
+                            if (input.value) {
+                                input.parentElement.classList.add('focused');
+                            }
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="map-section">
+    <div class="container">
+        <div class="map-container">
+            <div class="map-placeholder">
+                <div class="map-overlay">
+                    <div class="map-content">
+                        <h3>Let's Connect</h3>
+                        <p>Schedule a virtual meeting or in-person consultation</p>
+                        <a href="#" class="btn btn-outline" id="openScheduler"><i class="far fa-calendar-alt"></i> Book a Meeting</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Meeting Scheduler Modal -->
+<div style="color: var(--dark);" class="meeting-modal" id="meetingModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 style="color: var(--dark);" class="modal-title">Schedule a Meeting</h2>
+            <button type="button" class="modal-close" id="closeModal">&times;</button>
+        </div>
+
+        <div style="color: var(--dark);" class="scheduler-container">
+            <h4 ><i class="fas fa-calendar-alt"></i> Select Date & Time</h4>
+            <div class="date-time-section">
+                <div class="date-picker-container">
+                    <label for="meetingDatePicker"><i class="fas fa-calendar"></i> Choose Date</label>
+                    <input type="text" id="meetingDatePicker" placeholder="Click to select date" readonly>
+                    <i class="fas fa-calendar-alt calendar-icon"></i>
+                </div>
+
+                <div class="time-picker-container">
+                    <label for="meetingTimePicker"><i class="fas fa-clock"></i> Choose Time</label>
+                    <input type="time" id="meetingTimePicker">
+                    <i class="fas fa-clock clock-icon"></i>
+                </div>
+            </div>
+
+            <div class="details-form">
+                <div class="form-group">
+                    <label for="meetingName"><i class="fas fa-user"></i> Your Name</label>
+                    <input type="text" id="meetingName" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="meetingEmail"><i class="fas fa-envelope"></i> Your Email</label>
+                    <input type="email" id="meetingEmail" placeholder="your.email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="meetingTopic"><i class="fas fa-bookmark"></i> Meeting Topic</label>
+                    <input type="text" id="meetingTopic" placeholder="What would you like to discuss?">
+                </div>
+                <div class="form-group">
+                    <label for="meetingNotes"><i class="fas fa-sticky-note"></i> Additional Notes</label>
+                    <textarea id="meetingNotes" rows="3" placeholder="Any specific requirements or questions?"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button type="button" class="modal-btn modal-btn-outline" id="cancelMeeting"><i class="fas fa-times"></i> Cancel</button>
+            <button type="button" class="modal-btn modal-btn-primary" id="scheduleMeeting"><i class="fas fa-check"></i> Schedule Meeting</button>
+        </div>
+    </div>
+</div>
+
+<!-- Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('meetingModal');
+    const openBtn = document.getElementById('openScheduler');
+    const closeBtn = document.getElementById('closeModal');
+    const cancelBtn = document.getElementById('cancelMeeting');
+    const scheduleBtn = document.getElementById('scheduleMeeting');
+
+    // Form elements
+    const nameInput = document.getElementById('meetingName');
+    const emailInput = document.getElementById('meetingEmail');
+    const topicInput = document.getElementById('meetingTopic');
+    const notesInput = document.getElementById('meetingNotes');
+    const dateInput = document.getElementById('meetingDatePicker');
+    const timeInput = document.getElementById('meetingTimePicker');
+
+    let flatpickrInstance;
+
+    // Initialize Flatpickr
+    function initFlatpickr() {
+        flatpickrInstance = flatpickr(dateInput, {
+            dateFormat: "Y-m-d",
+            minDate: new Date(2025, 0, 1), // January 1, 2025
+            defaultDate: new Date().fp_incr(1), // Tomorrow by default
+            disable: [
+                function(date) {
+                    // Disable weekends (Saturday = 6, Sunday = 0)
+                    return (date.getDay() === 0 || date.getDay() === 6);
+                }
+            ],
+            locale: {
+                firstDayOfWeek: 1 // Monday
+            },
+            onReady: function(selectedDates, dateStr, instance) {
+                // Custom styling for the calendar
+                const calendar = instance.calendarContainer;
+                // Removed inline font-family to use base.html font-family
+            },
+            onMonthChange: function(selectedDates, dateStr, instance) {
+                // Allow infinite scrolling through months and years
+                const currentYear = instance.currentYear;
+                const currentMonth = instance.currentMonth;
+
+                // If we're in December, move to next year
+                if (currentMonth === 11) {
+                    instance.currentYear = currentYear + 1;
+                    instance.currentMonth = 0;
+                }
+                // If we're in January, move to previous year
+                else if (currentMonth === 0 && currentYear > 2025) {
+                    instance.currentYear = currentYear - 1;
+                    instance.currentMonth = 11;
+                }
+            }
+        });
+    }
+
+    // Open modal
+    openBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        clearForm();
+        clearErrors();
+        initFlatpickr();
+    });
+
+    // Close modal
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        clearErrors();
+        if (flatpickrInstance) {
+            flatpickrInstance.destroy();
+        }
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    // Click outside to close
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Clear form
+    function clearForm() {
+        nameInput.value = '';
+        emailInput.value = '';
+        topicInput.value = '';
+        notesInput.value = '';
+        dateInput.value = '';
+        timeInput.value = '';
+    }
+
+    // Clear errors
+    function clearErrors() {
+        document.querySelectorAll('.form-error').forEach(error => error.remove());
+        document.querySelectorAll('.form-group').forEach(group => {
+            group.classList.remove('error');
+        });
+    }
+
+    // Show error
+    function showError(element, message) {
+        clearErrors();
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'form-error';
+        errorDiv.textContent = message;
+        element.parentElement.appendChild(errorDiv);
+        element.parentElement.classList.add('error');
+        element.focus();
+    }
+
+    // Validate form
+    function validateForm() {
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const topic = topicInput.value.trim();
+        const date = dateInput.value;
+        const time = timeInput.value;
+
+        if (!name) {
+            showError(nameInput, 'Please enter your name');
+            return false;
+        }
+
+        if (!email) {
+            showError(emailInput, 'Please enter your email');
+            return false;
+        }
+
+        if (!isValidEmail(email)) {
+            showError(emailInput, 'Please enter a valid email address');
+            return false;
+        }
+
+        if (!topic) {
+            showError(topicInput, 'Please enter a meeting topic');
+            return false;
+        }
+
+        if (!date) {
+            showError(dateInput, 'Please select a date');
+            return false;
+        }
+
+        if (!time) {
+            showError(timeInput, 'Please select a time');
+            return false;
+        }
+
+        // Check if selected date is in the past
+        const selectedDateTime = new Date(`${date}T${time}`);
+        const now = new Date();
+        if (selectedDateTime <= now) {
+            showError(timeInput, 'Please select a future date and time');
+            return false;
+        }
+
+        return true;
+    }
+
+    // Email validation
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    // Show success message
+    function showSuccess(message) {
+        const successDiv = document.createElement('div');
+        successDiv.className = 'alert alert-success';
+        successDiv.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+        successDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10001;
+            max-width: 400px;
+            animation: slideIn 0.3s ease-out;
+        `;
+
+        document.body.appendChild(successDiv);
+
+        setTimeout(() => {
+            successDiv.style.animation = 'slideOut 0.3s ease-out';
+            setTimeout(() => successDiv.remove(), 300);
+        }, 5000);
+    }
+
+    // Add CSS animations
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        .form-group.error input,
+        .form-group.error textarea {
+            border-color: #e74c3c !important;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1) !important;
+        }
+        .form-error {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .form-error::before {
+            content: '⚠';
+            margin-right: 5px;
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Schedule meeting
+    scheduleBtn.addEventListener('click', function() {
+        if (!validateForm()) {
+            return;
+        }
+
+        // Show loading state
+        scheduleBtn.disabled = true;
+        scheduleBtn.innerHTML = '<span class="loading-spinner"></span> Scheduling...';
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const topic = topicInput.value.trim();
+        const notes = notesInput.value.trim();
+        const date = dateInput.value;
+        const time = timeInput.value;
+
+        // Prepare data for AJAX
+        const formData = {
+            name: name,
+            email: email,
+            topic: topic,
+            notes: notes,
+            date: date,
+            time: time
+        };
+
+        // Send AJAX request
+        fetch('{% url "schedule_meeting" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showSuccess(data.message);
+                setTimeout(() => {
+                    if (data.redirect_url) {
+                        window.location.href = data.redirect_url;
+                    } else {
+                        closeModal();
+                    }
+                }, 1000);
+            } else {
+                // Handle form errors
+                if (data.errors) {
+                    for (const [field, errors] of Object.entries(data.errors)) {
+                        const element = document.getElementById(`meeting${field.charAt(0).toUpperCase() + field.slice(1)}`);
+                        if (element) {
+                            showError(element, errors[0]);
+                        }
+                    }
+                } else {
+                    showError(nameInput, data.message || 'An error occurred');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showError(nameInput, 'Network error. Please try again.');
+        })
+        .finally(() => {
+            // Reset button
+            scheduleBtn.disabled = false;
+            scheduleBtn.innerHTML = '<i class="fas fa-check"></i> Schedule Meeting';
+        });
+    });
+
+    // Add keyboard support
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+});
+</script>
+{% endblock %}

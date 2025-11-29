@@ -1,0 +1,1062 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Services - Portfolio & Freelance Services{% endblock %}
+
+{% block content %}
+<style>
+    /* Services Page Specific Styles */
+
+           /* Enhanced Page Header */
+        .page-header {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.95) 0%, 
+                rgba(0, 0, 0, 0.9) 100%);
+            color: white;
+            padding: 160px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.4;
+            animation: patternMove 20s linear infinite;
+        }
+
+        @keyframes patternMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-size: 5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            /* Removed inline font-family to use base.html font-family */
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            line-height: 1.1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .page-title .highlight {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+        }
+
+        .page-title .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: left;
+            animation: underline 1.5s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes underline {
+            to { transform: scaleX(1); }
+        }
+
+        .page-subtitle {
+            font-size: 1.6rem;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+    /* Section Styling */
+    .section {
+        padding: 100px 0;
+        position: relative;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 80px;
+    }
+
+    .section-title {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+        /* Removed inline font-family to use base.html font-family */
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: var(--gradient);
+        border-radius: 2px;
+    }
+
+    .section-description {
+        font-size: 1.3rem;
+        color: var(--gray);
+        max-width: 700px;
+        margin: 2rem auto 0;
+        font-weight: 300;
+        line-height: 1.6;
+    }
+
+    .highlight {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+    }
+
+    /* Services Grid */
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 40px;
+        margin-bottom: 60px;
+    }
+
+    .service-card {
+        background: white;
+        padding: 50px 40px;
+        border-radius: var(--radius-lg);
+        text-align: center;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+        transform-style: preserve-3d;
+        perspective: 1000px;
+    }
+
+    .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: var(--gradient);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: var(--transition);
+    }
+
+    .service-card:hover {
+        transform: translateY(-15px) rotateX(5deg);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .service-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .service-icon {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--gradient);
+        color: white;
+        border-radius: 50%;
+        font-size: 2.5rem;
+        transition: var(--transition);
+    }
+
+    .service-card:hover .service-icon {
+        transform: scale(1.1) rotate(10deg);
+    }
+
+    .card-title {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        font-weight: 700;
+        position: relative;
+    }
+
+    .card-description {
+        color: var(--gray);
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 25px;
+    }
+
+    .service-features {
+        list-style: none;
+        text-align: left;
+        margin-top: 25px;
+    }
+
+    .service-features li {
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        color: var(--dark);
+        font-weight: 500;
+    }
+
+    .service-features i {
+        color: var(--primary);
+        margin-right: 12px;
+        background: rgba(67, 97, 238, 0.1);
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+
+    /* Process Section */
+    .process-section {
+        background: #f8f9fa;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .process-section::before {
+        content: '';
+        position: absolute;
+        top: -100px;
+        right: -100px;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(114, 9, 183, 0.1) 100%);
+        z-index: 1;
+    }
+
+    .process-steps {
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    .process-step {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 50px;
+        position: relative;
+    }
+
+    .process-step:last-child {
+        margin-bottom: 0;
+    }
+
+    .process-step::before {
+        content: '';
+        position: absolute;
+        left: 30px;
+        top: 60px;
+        bottom: -50px;
+        width: 2px;
+        background: var(--gradient);
+        opacity: 0.3;
+    }
+
+    .process-step:last-child::before {
+        display: none;
+    }
+
+    .step-number {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--gradient);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-right: 30px;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 2;
+    }
+
+    .step-content {
+        flex: 1;
+    }
+
+    .step-title {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+        font-weight: 700;
+        color: var(--dark);
+    }
+
+    .step-description {
+        color: var(--gray);
+        line-height: 1.7;
+        font-size: 1.1rem;
+    }
+
+    /* Pricing Section */
+    .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-bottom: 50px;
+    }
+
+    .pricing-card {
+        background: white;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        position: relative;
+    }
+
+    .pricing-card.featured {
+        transform: scale(1.05);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        z-index: 2;
+    }
+
+    .pricing-card.featured::before {
+        content: 'Popular';
+        position: absolute;
+        top: 20px;
+        right: -35px;
+        background: var(--accent);
+        color: white;
+        padding: 5px 40px;
+        font-weight: 600;
+        transform: rotate(45deg);
+        font-size: 0.9rem;
+        z-index: 3;
+    }
+
+    .pricing-header {
+        background: var(--gradient);
+        color: white;
+        padding: 40px 30px;
+        text-align: center;
+        position: relative;
+    }
+
+    .pricing-title {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        font-weight: 700;
+    }
+
+    .pricing-price {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .currency {
+        font-size: 1.5rem;
+        margin-right: 5px;
+        margin-top: 5px;
+    }
+
+    .amount {
+        font-size: 3.5rem;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .text {
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    .pricing-body {
+        padding: 30px;
+    }
+
+    .pricing-features {
+        list-style: none;
+        margin-bottom: 30px;
+    }
+
+    .pricing-features li {
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        color: var(--dark);
+    }
+
+    .pricing-features i {
+        color: var(--primary);
+        margin-right: 12px;
+    }
+
+    .pricing-footer {
+        padding: 0 30px 30px;
+        text-align: center;
+    }
+
+    .pricing-note {
+        text-align: center;
+        color: var(--gray);
+        font-style: italic;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* FAQ Section */
+    .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .faq-item {
+        background: white;
+        border-radius: var(--radius);
+        margin-bottom: 20px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        transition: var(--transition);
+    }
+
+    .faq-item.active {
+        box-shadow: var(--shadow-lg);
+    }
+
+    .faq-question {
+        padding: 25px 30px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        font-size: 1.2rem;
+        transition: var(--transition);
+    }
+
+    .faq-item.active .faq-question {
+        background: var(--gradient);
+        color: white;
+    }
+
+    .faq-icon {
+        transition: var(--transition);
+    }
+
+    .faq-item.active .faq-icon {
+        transform: rotate(45deg);
+    }
+
+    .faq-answer {
+        padding: 0 30px;
+        max-height: 0;
+        overflow: hidden;
+        transition: var(--transition);
+    }
+
+    .faq-item.active .faq-answer {
+        padding: 0 30px 30px;
+        max-height: 500px;
+    }
+
+    .faq-answer p {
+        color: var(--gray);
+        line-height: 1.7;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');
+        background-blend-mode: overlay;
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 100px 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+        opacity: 0.3;
+    }
+
+    .cta-content {
+        position: relative;
+        z-index: 2;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .cta-title {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        font-weight: 800;
+    }
+
+    .cta-text {
+        font-size: 1.3rem;
+        margin-bottom: 40px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        opacity: 0.9;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 18px 38px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: var(--transition);
+        cursor: pointer;
+        text-align: center;
+        border: none;
+        outline: none;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background: var(--gradient);
+        transition: var(--transition);
+        z-index: -1;
+    }
+
+    .btn-primary {
+        background: white;
+        color: var(--primary);
+        box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: var(--shadow-lg);
+        color: white;
+    }
+
+    .btn-primary:hover::before {
+        width: 100%;
+    }
+
+    .btn-outline {
+        background: transparent;
+        color: var(--primary);
+        border: 3px solid var(--primary);
+    }
+
+    .btn-outline::before {
+        background: var(--gradient);
+    }
+
+    .btn-outline:hover {
+        color: white;
+        border-color: transparent;
+    }
+
+    .btn-outline:hover::before {
+        width: 100%;
+    }
+
+    .btn-lg {
+        padding: 22px 50px;
+        font-size: 1.2rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .page-title {
+            font-size: 3rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+        }
+        
+        .pricing-card.featured {
+            transform: scale(1);
+        }
+        
+        .process-step::before {
+            left: 30px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .page-title {
+            font-size: 2.5rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.2rem;
+        }
+        
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+        }
+        
+        .services-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .process-step {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .step-number {
+            margin-right: 0;
+            margin-bottom: 20px;
+        }
+        
+        .process-step::before {
+            left: 50%;
+            top: 60px;
+            bottom: -50px;
+            transform: translateX(-50%);
+        }
+        
+        .pricing-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .page-title {
+            font-size: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+        }
+        
+        .service-card {
+            padding: 30px 25px;
+        }
+        
+        .faq-question {
+            padding: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 20px 20px;
+        }
+        
+        .cta-title {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<!-- Services Hero Section -->
+<section class="page-header">
+    <div style="height: 250px;margin-top: 170px;" class="container">
+        <h1 class="page-title">Our <span class="highlight">Services</span></h1>
+        <p class="page-subtitle">Professional solutions for your digital needs</p>
+    </div>
+</section>
+
+<!-- Services Overview -->
+<section style="color: var(--dark);" class="services-overview section">
+    <div class="container">
+        <div class="section-header">
+            <h2 style="color: var(--light);"class="section-title">What We <span class="highlight">Offer</span></h2>
+            <p class="section-description">Comprehensive digital solutions tailored to your needs</p>
+        </div>
+        
+        <div class="services-grid">
+            <!-- Web Development -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3 class="card-title">Web Development</h3>
+                <p class="card-description">Custom websites built with modern technologies that are fast, secure, and scalable.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Responsive Design</li>
+                    <li><i class="fas fa-check"></i> Frontend & Backend Development</li>
+                    <li><i class="fas fa-check"></i> E-commerce Solutions</li>
+                    <li><i class="fas fa-check"></i> CMS Integration</li>
+                </ul>
+            </div>
+            
+            <!-- UI/UX Design -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3 class="card-title">UI/UX Design</h3>
+                <p class="card-description">User-friendly interfaces with intuitive navigation and beautiful aesthetics.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> User Interface Design</li>
+                    <li><i class="fas fa-check"></i> User Experience Design</li>
+                    <li><i class="fas fa-check"></i> Wireframing & Prototyping</li>
+                    <li><i class="fas fa-check"></i> Usability Testing</li>
+                </ul>
+            </div>
+            
+            <!-- Mobile Solutions -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="card-title">Mobile Solutions</h3>
+                <p class="card-description">Mobile-friendly websites and applications for an optimal experience on all devices.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Responsive Web Design</li>
+                    <li><i class="fas fa-check"></i> Progressive Web Apps</li>
+                    <li><i class="fas fa-check"></i> Mobile-First Development</li>
+                    <li><i class="fas fa-check"></i> Cross-Browser Compatibility</li>
+                </ul>
+            </div>
+            
+            <!-- Digital Marketing -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="card-title">Digital Marketing</h3>
+                <p class="card-description">Strategies to boost your online presence and reach your target audience effectively.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> SEO Optimization</li>
+                    <li><i class="fas fa-check"></i> Content Marketing</li>
+                    <li><i class="fas fa-check"></i> Social Media Integration</li>
+                    <li><i class="fas fa-check"></i> Analytics & Reporting</li>
+                </ul>
+            </div>
+            
+            <!-- Branding -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h3 class="card-title">Branding</h3>
+                <p class="card-description">Creating and maintaining a strong, consistent brand identity across all platforms.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Logo Design</li>
+                    <li><i class="fas fa-check"></i> Brand Guidelines</li>
+                    <li><i class="fas fa-check"></i> Visual Identity</li>
+                    <li><i class="fas fa-check"></i> Brand Strategy</li>
+                </ul>
+            </div>
+            
+            <!-- Maintenance & Support -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3 class="card-title">Maintenance & Support</h3>
+                <p class="card-description">Ongoing support, updates, and improvements to keep your digital assets running smoothly.</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Regular Updates</li>
+                    <li><i class="fas fa-check"></i> Security Monitoring</li>
+                    <li><i class="fas fa-check"></i> Performance Optimization</li>
+                    <li><i class="fas fa-check"></i> Technical Support</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process Section -->
+<section class="process-section section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Our <span class="highlight">Process</span></h2>
+            <p class="section-description">How I approach each project to ensure success</p>
+        </div>
+        
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3 class="step-title">Discovery & Planning</h3>
+                    <p class="step-description">Understanding your goals, requirements, and target audience to develop a strategic plan for your project.</p>
+                </div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3 class="step-title">Design & Prototyping</h3>
+                    <p class="step-description">Creating wireframes, mockups, and prototypes to visualize the solution before development begins.</p>
+                </div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3 class="step-title">Development</h3>
+                    <p class="step-description">Building your solution with clean, efficient, and maintainable code following best practices.</p>
+                </div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3 class="step-title">Testing & Quality Assurance</h3>
+                    <p class="step-description">Rigorous testing across devices and browsers to ensure functionality, performance, and security.</p>
+                </div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3 class="step-title">Launch & Support</h3>
+                    <p class="step-description">Deploying your project and providing ongoing support and maintenance to ensure long-term success.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Section -->
+<section class="pricing-section section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Pricing <span class="highlight">Plans</span></h2>
+            <p class="section-description">Flexible options to suit different needs and budgets</p>
+        </div>
+        
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="pricing-title">Basic</h3>
+                    <div class="pricing-price">
+                        <span class="currency">₹</span>
+                        <span class="amount">5000</span>
+                    </div>
+                </div>
+                <div class="pricing-body">
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Simple Website (up to 5 pages)</li>
+                        <li><i class="fas fa-check"></i> Responsive Design</li>
+                        <li><i class="fas fa-check"></i> Basic SEO Setup</li>
+                        <li><i class="fas fa-check"></i> Contact Form</li>
+                        <li><i class="fas fa-check"></i> 1 Month Support</li>
+                    </ul>
+                </div>
+                <div class="pricing-footer">
+                    <a href="{% url 'contact' %}?plan=basic" class="btn btn-outline">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="pricing-card featured">
+                <div class="pricing-header">
+                    <div class="pricing-badge">Popular</div>
+                    <h3 class="pricing-title">Professional</h3>
+                    <div class="pricing-price">
+                        <span class="currency">₹</span>
+                        <span class="amount">8000</span>
+                    </div>
+                </div>
+                <div class="pricing-body">
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Custom Website (up to 10 pages)</li>
+                        <li><i class="fas fa-check"></i> Responsive Design</li>
+                        <li><i class="fas fa-check"></i> Advanced SEO Setup</li>
+                        <li><i class="fas fa-check"></i> Contact Form & Newsletter</li>
+                        <li><i class="fas fa-check"></i> CMS Integration</li>
+                        <li><i class="fas fa-check"></i> 3 Months Support</li>
+                    </ul>
+                </div>
+                <div class="pricing-footer">
+                    <a href="{% url 'contact' %}?plan=professional" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <div class="pricing-badge">Enterprise</div>
+                    <h3 class="pricing-title">Custom</h3>
+                    <div class="pricing-price">
+                        <span class="currency">₹</span>
+                        <span class="amount">9500-11000</span>
+                    </div>
+                </div>
+                <div class="pricing-body">
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Custom Web Application</li>
+                        <li><i class="fas fa-check"></i> E-commerce Functionality</li>
+                        <li><i class="fas fa-check"></i> Custom Features & Integrations</li>
+                        <li><i class="fas fa-check"></i> Advanced Analytics</li>
+                        <li><i class="fas fa-check"></i> Comprehensive SEO Strategy</li>
+                        <li><i class="fas fa-check"></i> 12 Months Support</li>
+                    </ul>
+                </div>
+                <div class="pricing-footer">
+                    <a href="{% url 'contact' %}?plan=custom" class="btn btn-outline">Contact for Quote</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pricing-note">
+            <p>All projects are unique. Contact Us for a custom quote tailored to your specific requirements.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section style="color: var(--dark);" class="faq-section section">
+    <div class="container">
+        <div class="section-header">
+            <h2 style="color:white;" class="section-title">Frequently Asked <span class="highlight">Questions</span></h2>
+            <p class="section-description">Common questions about my services</p>
+        </div>
+        
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>How long does it take to complete a website?</h3>
+                    <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>The timeline varies depending on the complexity of the project. A basic website typically takes 2-4 weeks, while more complex projects with custom functionality may take 5-6 weeks or more. During our initial consultation, I'll provide a more accurate timeline based on your specific requirements.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Do you provide hosting services?</h3>
+                    <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>I don't provide hosting directly, but I can recommend reliable hosting providers based on your needs and assist with the setup process to ensure your website is properly deployed and configured.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>What is your payment structure?</h3>
+                    <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>I typically require a 50% deposit to begin work, with the remaining balance due upon project completion. For larger projects, we can establish a milestone-based payment schedule. All payment terms will be clearly outlined in our contract.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Will my website be mobile-friendly?</h3>
+                    <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Absolutely! All websites I develop are fully responsive and mobile-friendly, ensuring an optimal viewing experience across all devices, from desktop computers to smartphones and tablets.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Can you help with existing websites?</h3>
+                    <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, I offer services for updating, redesigning, and improving existing websites. Whether you need minor updates or a complete overhaul, I can help enhance your current online presence.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to start your project?</h2>
+            <p class="cta-text">Let's discuss how I can help bring your vision to life!</p>
+            <a href="{% url 'contact' %}" class="btn btn-primary btn-lg">Contact Us</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // FAQ toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', function() {
+                const isActive = item.classList.contains('active');
+                
+                // Close all FAQ items
+                faqItems.forEach(faq => {
+                    faq.classList.remove('active');
+                });
+                
+                // If the clicked item wasn't active, open it
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

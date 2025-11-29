@@ -1,0 +1,315 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block extrahead %}
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Admin - Serendipity{% endblock %}
+
+{% block extrastyle %}
+<style>
+    :root {
+        --primary: #A2C11C;
+        --primary-dark: #8cae00;
+        --secondary: #A2C11C;
+        --accent: #a3b600;
+        --success: #4cc9f0;
+        --dark: #222831;
+        --dark-light: #2D3B4E;
+        --light: #f8f9fa;
+        --gray: #94A3B8;
+        --admin-bg: #222831;
+        --admin-text: #f8f9fa;
+        --admin-light: #2D3B4E;
+        --admin-border: #4A5568;
+        --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        --shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2);
+        --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4);
+        --radius: 16px;
+        --radius-lg: 24px;
+        --gradient: linear-gradient(135deg, var(--primary), var(--accent));
+        --gradient-light: linear-gradient(135deg, rgba(162, 193, 28, 0.1), rgba(163, 182, 0, 0.1));
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--admin-bg);
+        color: var(--admin-text);
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 20% 80%, rgba(162, 193, 28, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(76, 201, 240, 0.1) 0%, transparent 50%);
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    /* Custom navbar styling for admin */
+    .custom-admin-header {
+        background: var(--gradient);
+        color: white;
+        padding: 30px 20px;
+        margin-bottom: 20px;
+        border-radius: var(--radius);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+    }
+
+    .custom-admin-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+        animation: shine 3s infinite;
+        z-index: 1;
+    }
+
+    .header-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .custom-admin-header h1 {
+        margin: 0;
+        font-size: 2.5rem;
+        font-weight: 800;
+        font-family: 'Playfair Display', serif;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .custom-admin-header p {
+        margin: 10px 0 0 0;
+        opacity: 0.9;
+        font-size: 1.1rem;
+        font-weight: 400;
+    }
+
+    .header-decoration {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .sparkle {
+        font-size: 1.5rem;
+        animation: sparkle 2s ease-in-out infinite;
+    }
+
+    .sparkle:nth-child(1) { animation-delay: 0s; }
+    .sparkle:nth-child(2) { animation-delay: 0.5s; }
+    .sparkle:nth-child(3) { animation-delay: 1s; }
+
+    @keyframes shine {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    @keyframes sparkle {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.7; transform: scale(1.2); }
+    }
+
+    /* Override admin styles to match site theme */
+    .module h2, .module caption, .inline-group h2 {
+        background: var(--gradient);
+        color: white;
+        border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .module {
+        background: var(--admin-light);
+        color: var(--admin-text);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        border: 1px solid var(--admin-border);
+    }
+
+    .content {
+        background: var(--admin-bg);
+        color: var(--admin-text);
+    }
+
+    /* Ensure all text is visible */
+    .module p, .module li, .module td, .module th {
+        color: var(--admin-text);
+    }
+
+    .module a {
+        color: var(--primary);
+    }
+
+    .module a:hover {
+        color: var(--primary-dark);
+    }
+
+    /* Form elements */
+    input, textarea, select {
+        background: var(--admin-light);
+        color: var(--admin-text);
+        border: 1px solid var(--admin-border);
+        border-radius: var(--radius);
+    }
+
+    input:focus, textarea:focus, select:focus {
+        border-color: var(--primary);
+        outline: none;
+    }
+
+    /* Table styles */
+    table {
+        background: var(--admin-light);
+        color: var(--admin-text);
+    }
+
+    th {
+        background: var(--dark-light);
+        color: var(--light);
+    }
+
+    /* Error messages */
+    .errorlist li {
+        color: #ff6b6b;
+    }
+
+    /* Help text */
+    .help {
+        color: var(--gray);
+    }
+
+    .button, input[type=submit], input[type=button], .submit-row input, a.button {
+        background: var(--gradient);
+        border-color: var(--primary);
+        border-radius: 50px;
+        color: white;
+        transition: var(--transition);
+        border: none;
+        padding: 0.5rem 1.5rem;
+        font-weight: 600;
+    }
+
+    .button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover, a.button:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+    }
+
+    /* Nav global styling */
+    .nav-global {
+        background: var(--dark);
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-global ul {
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+        margin: 0;
+        padding: 0;
+        justify-content: center;
+    }
+
+    .nav-global a {
+        color: var(--light);
+        text-decoration: none;
+        font-weight: 500;
+        position: relative;
+        padding: 0.5rem 0;
+        transition: var(--transition);
+    }
+
+    .nav-global a:hover, .nav-global a.active {
+        color: var(--primary);
+    }
+
+    .nav-global a::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--gradient);
+        border-radius: 4px;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.5s ease;
+    }
+
+    .nav-global a:hover::before, .nav-global a.active::before {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+
+    /* Other overrides */
+    a {
+        color: var(--primary);
+    }
+
+    a:hover {
+        color: var(--primary-dark);
+    }
+
+    .breadcrumb {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--light);
+        border-radius: var(--radius);
+    }
+
+    .breadcrumb a {
+        color: var(--light);
+    }
+
+    .paginator {
+        background: black;
+        color: white;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+    }
+</style>
+{% endblock %}
+
+{% block branding %}
+<div class="custom-admin-header">
+    <div class="header-content">
+        <h1>Serendipity Admin</h1>
+        <p>Manage your portfolio and content</p>
+        <div class="header-decoration">
+            <span class="sparkle">✨</span>
+            <span class="sparkle">✨</span>
+            <span class="sparkle">✨</span>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block nav-global %}
+<div class="nav-global">
+    <ul>
+        <li><a href="{% url 'admin:index' %}">Home</a></li>
+        {% if request.user.is_staff %}
+        <li><a href="{% url 'meetings' %}" class="{% if section == 'meetings' %}active{% endif %}">Meetings</a></li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}

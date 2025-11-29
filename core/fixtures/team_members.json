@@ -1,0 +1,80 @@
+[
+    {
+        "model": "core.teammember",
+        "pk": 1,
+        "fields": {
+            "name": "Akash",
+            "email": "akashcse018@gmail.com",
+            "role": "Team Member",
+            "bio": "This is a dummy bio for Akash",
+            "education": "",
+            "experience": "",
+            "skills": ""
+        }
+    },
+    {
+        "model": "core.teammember",
+        "pk": 2,
+        "fields": {
+            "name": "Bhargavi",
+            "email": "rbhargavi846@gmail.com",
+            "role": "Team Member",
+            "bio": "This is a dummy bio for Bhargavi",
+            "education": "",
+            "experience": "",
+            "skills": ""
+        }
+    },
+    {
+        "model": "core.teammember",
+        "pk": 3,
+        "fields": {
+            "name": "Sheik Mathar",
+            "email": "sheik Mathar@example.com",
+            "role": "Team Member",
+            "bio": "This is a dummy bio for Sheik Mathar",
+            "education": "",
+            "experience": "",
+            "skills": ""
+        }
+    },
+    {
+        "model": "core.teammember",
+        "pk": 4,
+        "fields": {
+            "name": "Gnanajothi",
+            "email": "gnanajothi@example.com",
+            "role": "Team Member",
+            "bio": "This is a dummy bio for Gnanajothi",
+            "education": "",
+            "experience": "",
+            "skills": ""
+        }
+    },
+    {
+        "model": "core.teammember",
+        "pk": 5,
+        "fields": {
+            "name": "Praveen",
+            "email": "praveen@example.com",
+            "role": "Team Member",
+            "bio": "This is a dummy bio for Praveen",
+            "education": "",
+            "experience": "",
+            "skills": ""
+        }
+    },
+    {
+        "model": "core.teammember",
+        "pk": 6,
+        "fields": {
+            "name": "Sanjeev",
+            "email": "sanjeev@example.com",
+            "role": "Team Member",
+            "bio": "This is a dummy bio for Sanjeev",
+            "education": "",
+            "experience": "",
+            "skills": ""
+        }
+    }
+]

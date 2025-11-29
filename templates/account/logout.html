@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load account %}
+
+{% block title %}Logout - Serendipity Portfolio{% endblock %}
+
+{% block extra_css %}
+<style>
+    .logout-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
+        padding: 20px;
+        margin-top: 100px;
+    }
+
+    .logout-card {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 60px 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        max-width: 450px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .logout-header {
+        margin-bottom: 40px;
+    }
+
+    .logout-header h1 {
+        font-size: 2.2rem;
+        color: var(--dark);
+        margin-bottom: 15px;
+    }
+
+    .logout-icon {
+        font-size: 4rem;
+        color: #10b981;
+        margin-bottom: 20px;
+        display: block;
+    }
+
+    .logout-message {
+        color: var(--gray);
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+
+    .logout-action-button {
+        display: inline-block;
+        width: 100%;
+        padding: 16px 24px;
+        background: linear-gradient(135deg, var(--primary) 0%, #98c21f 100%);
+        border: none;
+        border-radius: var(--radius);
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        margin-bottom: 15px;
+        border: none;
+    }
+
+    .logout-action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 35px rgba(162, 193, 28, 0.4);
+    }
+
+    .back-button {
+        display: inline-block;
+        width: 100%;
+        padding: 12px 24px;
+        background: transparent;
+        border: 2px solid #e0e0e0;
+        border-radius: var(--radius);
+        color: var(--dark);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .back-button:hover {
+        border-color: #999;
+        background: #f5f5f5;
+    }
+
+    .logout-info {
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px solid #e0e0e0;
+        font-size: 0.95rem;
+        color: var(--gray);
+    }
+
+    .logout-info i {
+        color: #10b981;
+        margin-right: 5px;
+    }
+
+    @media (max-width: 576px) {
+        .logout-card {
+            padding: 40px 30px;
+        }
+
+        .logout-header h1 {
+            font-size: 1.8rem;
+        }
+
+        .logout-icon {
+            font-size: 3rem;
+        }
+
+        .logout-action-button,
+        .back-button {
+            font-size: 0.95rem;
+            padding: 14px 20px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="logout-container">
+    <div class="logout-card">
+        <div class="logout-header">
+            <i class="fas fa-sign-out-alt logout-icon"></i>
+            <h1><span style="color: var(--primary);">Seren</span>dipity</h1>
+        </div>
+
+        <p class="logout-message">
+            You have been successfully logged out from your account.
+        </p>
+
+        <p class="logout-message" style="font-size: 0.95rem; color: #888;">
+            Thank you for using Serendipity. We hope to see you again soon!
+        </p>
+
+        <form method="post" action="">
+            {% csrf_token %}
+            <button type="submit" class="logout-action-button">
+                <i class="fas fa-redo" style="margin-right: 10px;"></i>
+                Confirm Logout
+            </button>
+        </form>
+
+        <a href="{% url 'home' %}" class="back-button">
+            <i class="fas fa-home" style="margin-right: 8px;"></i>
+            Back to Home
+        </a>
+
+        <div class="logout-info">
+            <i class="fas fa-lock"></i>
+            Your session has been securely ended.
+        </div>
+    </div>
+</div>
+{% endblock %}

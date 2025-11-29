@@ -1,0 +1,232 @@
+<!-- Enhanced Floating Buttons - Mobile Optimized -->
+<style>
+/* Floating Buttons Container */
+.floating-buttons {
+    position: fixed;
+    right: clamp(15px, 4vw, 25px);
+    bottom: clamp(15px, 4vw, 25px);
+    z-index: 999; /* Lower than navbar (1000) */
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 2vw, 12px);
+}
+
+/* Base Button Styles */
+.floating-btn {
+    width: clamp(48px, 12vw, 56px);
+    height: clamp(48px, 12vw, 56px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: clamp(18px, 4vw, 20px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+    touch-action: manipulation;
+}
+
+.floating-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.floating-btn:active {
+    transform: translateY(-1px) scale(0.95);
+}
+
+/* WhatsApp Button */
+.whatsapp-btn {
+    background: linear-gradient(135deg, #25d366, #128c7e);
+}
+
+/* Back to Top Button */
+.back-to-top-btn {
+    background: linear-gradient(135deg, #A2C11C, #8cae00);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.back-to-top-btn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Call Button */
+.call-btn {
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+}
+
+/* Tooltip */
+.floating-btn::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    margin-right: 10px;
+}
+
+.floating-btn:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Pulse Animation for Call Button */
+.call-btn::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(76, 175, 80, 0.3);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.4);
+        opacity: 0;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .floating-buttons {
+        right: 12px;
+        bottom: 12px;
+        gap: 8px;
+    }
+    
+    .floating-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 16px;
+    }
+    
+    .floating-btn::before {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .floating-buttons {
+        right: 10px;
+        bottom: 10px;
+    }
+    
+    .floating-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .floating-btn {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .floating-btn {
+        border: 2px solid white;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .floating-btn {
+        transition: none;
+    }
+    
+    .call-btn::after {
+        animation: none;
+    }
+}
+</style>
+
+<div class="floating-buttons">
+    <!-- Back to Top -->
+    <a href="#" class="floating-btn back-to-top-btn" data-tooltip="Back to Top" aria-label="Back to top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Call Us -->
+    <a href="tel:+91 9843464180" class="floating-btn call-btn" data-tooltip="Call Us Now" aria-label="Call us">
+        <i class="fas fa-phone"></i>
+    </a>
+
+    <!-- WhatsApp -->
+    <a href="https://wa.me/+91 9843464180" class="floating-btn whatsapp-btn" data-tooltip="Chat on WhatsApp" aria-label="Chat on WhatsApp" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</div>
+
+<script>
+// Enhanced Floating Buttons Script
+document.addEventListener('DOMContentLoaded', function() {
+    const backToTopBtn = document.getElementById('back-to-top');
+
+    // Back to top functionality
+    if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Show/hide back to top button on scroll
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 500) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+    }
+
+    // Add click tracking for analytics
+    document.querySelectorAll('.floating-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            // You can add Google Analytics tracking here
+            console.log('Floating button clicked:', this.getAttribute('data-tooltip'));
+        });
+
+        // Add touch feedback for mobile
+        btn.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+        });
+
+        btn.addEventListener('touchend', function() {
+            this.style.transform = '';
+        });
+    });
+});
+</script>

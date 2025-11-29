@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+
+{% block title %}Sign In - Serendipity Portfolio{% endblock %}
+
+{% block extra_css %}
+<style>
+    .social-login-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
+        padding: 20px;
+        margin-top: 100px;
+    }
+
+    .social-login-card {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 60px 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .social-login-header {
+        margin-bottom: 40px;
+    }
+
+    .social-login-header h1 {
+        font-size: 2.2rem;
+        color: var(--dark);
+        margin-bottom: 15px;
+    }
+
+    .social-login-header p {
+        color: var(--gray);
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+
+    .provider-info {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 30px 0;
+        padding: 20px;
+        background: rgba(162, 193, 28, 0.05);
+        border-radius: var(--radius);
+        border: 2px solid rgba(162, 193, 28, 0.2);
+    }
+
+    .provider-info i {
+        font-size: 1.8rem;
+        color: #ea4335;
+    }
+
+    .provider-info span {
+        font-weight: 600;
+        color: var(--dark);
+        font-size: 1.1rem;
+    }
+
+    .continue-btn {
+        display: inline-block;
+        width: 100%;
+        padding: 16px 24px;
+        background: linear-gradient(135deg, var(--primary) 0%, #98c21f 100%);
+        border: none;
+        border-radius: var(--radius);
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        margin-bottom: 15px;
+    }
+
+    .continue-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 35px rgba(162, 193, 28, 0.4);
+    }
+
+    .cancel-btn {
+        display: inline-block;
+        width: 100%;
+        padding: 12px 24px;
+        background: transparent;
+        border: 2px solid #e0e0e0;
+        border-radius: var(--radius);
+        color: var(--dark);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .cancel-btn:hover {
+        border-color: #999;
+        background: #f5f5f5;
+    }
+
+    .security-note {
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px solid #e0e0e0;
+        font-size: 0.9rem;
+        color: var(--gray);
+    }
+
+    .security-note i {
+        color: #10b981;
+        margin-right: 5px;
+    }
+
+    @media (max-width: 576px) {
+        .social-login-card {
+            padding: 40px 30px;
+        }
+
+        .social-login-header h1 {
+            font-size: 1.8rem;
+        }
+
+        .provider-info {
+            margin: 25px 0;
+        }
+
+        .continue-btn,
+        .cancel-btn {
+            font-size: 0.95rem;
+            padding: 14px 20px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="social-login-container">
+    <div class="social-login-card">
+        <div class="social-login-header">
+            <h1><span style="color: var(--primary);">Seren</span>dipity</h1>
+            <p>Sign In to Your Portfolio</p>
+        </div>
+
+        <div class="provider-info">
+            <i class="fab fa-google"></i>
+            <span>Google Account</span>
+        </div>
+
+        <p style="color: var(--gray); margin-bottom: 30px; line-height: 1.6;">
+            You are about to sign in using your Google account. This will give you secure access to your portfolio.
+        </p>
+
+        <div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 15px; border-radius: 4px; margin-bottom: 25px;">
+            <p style="color: #065f46; font-size: 0.95rem; margin: 0; line-height: 1.5;">
+                <i class="fas fa-lock" style="margin-right: 8px; color: #10b981;"></i>
+                <strong>Your Credentials Are Safe</strong><br>
+                We don't save or store your Google password. All authentication is handled securely by Google.
+            </p>
+        </div>
+
+        <form method="post" action="">
+            {% csrf_token %}
+            <button type="submit" class="continue-btn">
+                <i class="fab fa-google" style="margin-right: 10px;"></i>
+                Continue with Google
+            </button>
+        </form>
+
+        <a href="{% url 'account_login' %}" class="cancel-btn">
+            Back to Login
+        </a>
+
+        <div class="security-note">
+            <i class="fas fa-shield-alt"></i>
+            Your data is secure. We never store your password.
+        </div>
+    </div>
+</div>
+{% endblock %}

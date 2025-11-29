@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+
+{% block title %}Login - Serendipity Portfolio{% endblock %}
+
+{% block extra_css %}
+<style>
+    .login-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
+        padding: 20px;
+        margin-top: 100px;
+    }
+
+    .login-card {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 60px 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        max-width: 450px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .login-header {
+        margin-bottom: 40px;
+    }
+
+    .login-header h1 {
+        font-size: 2.5rem;
+        color: var(--dark);
+        margin-bottom: 10px;
+    }
+
+    .login-header p {
+        color: var(--gray);
+        font-size: 1.1rem;
+    }
+
+    .divider {
+        display: flex;
+        align-items: center;
+        margin: 30px 0;
+        color: var(--gray);
+    }
+
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: #e0e0e0;
+    }
+
+    .divider span {
+        margin: 0 15px;
+        font-size: 0.9rem;
+    }
+
+    .google-login-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 16px 24px;
+        background: white;
+        border: 2px solid #e0e0e0;
+        border-radius: var(--radius);
+        color: var(--dark);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        margin-bottom: 15px;
+    }
+
+    .google-login-btn:hover {
+        border-color: var(--primary);
+        background: rgba(162, 193, 28, 0.05);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(162, 193, 28, 0.2);
+    }
+
+    .google-login-btn i {
+        font-size: 1.3rem;
+        margin-right: 12px;
+        color: #ea4335;
+    }
+
+    .login-footer {
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px solid #e0e0e0;
+        color: var(--gray);
+        font-size: 0.95rem;
+    }
+
+    .login-footer a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .login-footer a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 576px) {
+        .login-card {
+            padding: 40px 30px;
+        }
+
+        .login-header h1 {
+            font-size: 2rem;
+        }
+
+        .google-login-btn {
+            padding: 14px 20px;
+            font-size: 1rem;
+        }
+
+        .google-login-btn i {
+            margin-right: 10px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h1><span style="color: var(--primary);">Seren</span>dipity</h1>
+            <p>Welcome Back!</p>
+        </div>
+
+        {% if messages %}
+        <div style="margin-bottom: 20px;">
+            {% for message in messages %}
+            <div style="padding: 12px 15px; background: #f0f9ff; border-left: 4px solid #10b981; color: #065f46; border-radius: 4px;">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div>
+            <p style="color: var(--gray); margin-bottom: 25px;">
+                Sign in with your Google account to access your portfolio
+            </p>
+
+            <a href="{% provider_login_url 'google' %}" class="google-login-btn">
+                <i class="fab fa-google"></i>
+                Continue with Google
+            </a>
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <form method="post" action="{% url 'account_login' %}">
+                {% csrf_token %}
+                <div style="margin-bottom: 15px; text-align: left;">
+                    <label style="display: block; margin-bottom: 5px; color: var(--dark); font-weight: 600;">
+                        Email or Username
+                    </label>
+                    <input type="text" name="login" placeholder="your@email.com" required
+                           style="width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; transition: 0.3s;">
+                </div>
+
+                <div style="margin-bottom: 20px; text-align: left;">
+                    <label style="display: block; margin-bottom: 5px; color: var(--dark); font-weight: 600;">
+                        Password
+                    </label>
+                    <input type="password" name="password" placeholder="••••••••" required
+                           style="width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; transition: 0.3s;">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    Sign In
+                </button>
+            </form>
+        </div>
+
+        <div class="login-footer">
+            Don't have an account? <a href="{% url 'account_signup' %}">Sign up here</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

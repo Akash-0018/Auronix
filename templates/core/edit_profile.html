@@ -1,0 +1,395 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile - Serendipity Portfolio{% endblock %}
+
+{% block extra_css %}
+<style>
+    .edit-profile-container {
+        min-height: 100vh;
+        padding: 120px 0 60px;
+        background: linear-gradient(135deg, #0a0a14 0%, #1a1a2e 100%);
+    }
+
+    .edit-profile-card {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 40px;
+        box-shadow: var(--shadow-lg);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .profile-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .profile-header h1 {
+        font-size: 2.5rem;
+        color: var(--dark);
+        margin-bottom: 10px;
+    }
+
+    .profile-header p {
+        color: var(--gray);
+        font-size: 1.1rem;
+    }
+
+    .form-section {
+        margin-bottom: 40px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .form-section:last-child {
+        border-bottom: none;
+    }
+
+    .form-section h3 {
+        font-size: 1.5rem;
+        color: var(--dark);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-section h3 i {
+        color: var(--primary);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--dark);
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: var(--radius);
+        font-size: 1rem;
+        font-family: 'Inter', sans-serif;
+        transition: var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(162, 193, 28, 0.1);
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .profile-image-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        align-items: start;
+        margin-bottom: 30px;
+    }
+
+    .current-image {
+        text-align: center;
+    }
+
+    .current-image p {
+        color: var(--gray);
+        margin-bottom: 15px;
+        font-size: 0.95rem;
+    }
+
+    .current-image img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+    }
+
+    .no-image {
+        width: 200px;
+        height: 200px;
+        background: #f0f0f0;
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gray);
+        font-size: 3rem;
+        margin: 0 auto;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 40px;
+    }
+
+    .btn {
+        padding: 14px 30px;
+        border-radius: var(--radius);
+        font-weight: 600;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: white;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(162, 193, 28, 0.4);
+    }
+
+    .btn-secondary {
+        background: transparent;
+        border: 2px solid #e0e0e0;
+        color: var(--dark);
+    }
+
+    .btn-secondary:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+
+    .info-box {
+        background: rgba(162, 193, 28, 0.05);
+        border-left: 4px solid var(--primary);
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+
+    .info-box strong {
+        color: var(--dark);
+    }
+
+    .info-box p {
+        color: var(--gray);
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .help-text {
+        font-size: 0.85rem;
+        color: var(--gray);
+        margin-top: 5px;
+    }
+
+    .error-message {
+        background: #fee;
+        border-left: 4px solid #f44;
+        padding: 15px;
+        border-radius: 4px;
+        color: #c00;
+        margin-bottom: 20px;
+    }
+
+    .success-message {
+        background: #efe;
+        border-left: 4px solid #0a0;
+        padding: 15px;
+        border-radius: 4px;
+        color: #060;
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .edit-profile-card {
+            padding: 25px;
+        }
+
+        .profile-header h1 {
+            font-size: 1.8rem;
+        }
+
+        .profile-image-section {
+            grid-template-columns: 1fr;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="edit-profile-container">
+    <div class="container">
+        <div class="edit-profile-card">
+            <div class="profile-header">
+                <h1><span style="color: var(--primary);">Edit</span> Your Profile</h1>
+                <p>Update your professional information</p>
+            </div>
+
+            {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                <div class="error-message">
+                    <strong>Error:</strong> {{ message }}
+                </div>
+                {% elif message.tags == 'success' %}
+                <div class="success-message">
+                    <strong>Success:</strong> {{ message }}
+                </div>
+                {% endif %}
+            {% endfor %}
+            {% endif %}
+
+            <div class="info-box">
+                <strong>ℹ️ Admin Email (Unique Identifier)</strong>
+                <p>{{ request.user.email }}</p>
+            </div>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Profile Image Section -->
+                <div class="form-section">
+                    <h3><i class="fas fa-image"></i> Profile Picture</h3>
+                    <div class="profile-image-section">
+                        <div class="current-image">
+                            <p>Current Profile Picture</p>
+                            {% if team_member.image %}
+                            <img src="{{ team_member.image.url }}" alt="{{ team_member.name }}" loading="lazy">
+                            {% else %}
+                            <div class="no-image">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_image">
+                                <i class="fas fa-upload"></i> Upload New Picture
+                            </label>
+                            {{ form.image }}
+                            <div class="help-text">Supported formats: JPG, PNG, GIF. Max size: 5MB</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Information -->
+                <div class="form-section">
+                    <h3><i class="fas fa-user"></i> Basic Information</h3>
+                    
+                    <div class="form-group">
+                        <label for="id_name">Full Name</label>
+                        {{ form.name }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_email">Email Address</label>
+                        {{ form.email }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_phone">Phone Number</label>
+                        {{ form.phone }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_location">Location</label>
+                        {{ form.location }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_role">Your Role</label>
+                        {{ form.role }}
+                    </div>
+                </div>
+
+                <!-- About You -->
+                <div class="form-section">
+                    <h3><i class="fas fa-pen-fancy"></i> About You</h3>
+                    
+                    <div class="form-group">
+                        <label for="id_bio">Bio</label>
+                        {{ form.bio }}
+                        <div class="help-text">Write a brief bio about yourself</div>
+                    </div>
+                </div>
+
+                <!-- Professional Information -->
+                <div class="form-section">
+                    <h3><i class="fas fa-briefcase"></i> Professional Information</h3>
+                    
+                    <div class="form-group">
+                        <label for="id_education">Education</label>
+                        {{ form.education }}
+                        <div class="help-text">Enter each qualification on a new line</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_experience">Experience</label>
+                        {{ form.experience }}
+                        <div class="help-text">Enter each experience on a new line</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_skills">Skills</label>
+                        {{ form.skills }}
+                        <div class="help-text">Enter skills separated by commas (e.g., Python, JavaScript, React)</div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                    <a href="{% url 'home' %}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Add some interactivity to the form
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const inputs = form.querySelectorAll('input, textarea');
+        
+        inputs.forEach(input => {
+            input.addEventListener('change', function() {
+                // Visual feedback when form changes
+                form.style.opacity = '0.9';
+            });
+        });
+    });
+</script>
+{% endblock %}

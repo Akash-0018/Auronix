@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Team - Professionals Behind The Work{% endblock %}
+
+{% block extra_css %}
+<style>
+
+:root {
+    --primary: #A2C11C;
+    --primary-dark: #8cae00;
+    --dark: #222831;
+    --gray: #6c757d;
+    --light: #f8f9fa;
+    --radius: 16px;
+    --shadow: 0 8px 25px rgba(0,0,0,0.06);
+    --shadow-lg: 0 15px 45px rgba(0,0,0,0.12);
+    --transition: all .35s ease;
+}
+
+/* Header */
+.team-header {
+    background: linear-gradient(135deg, rgba(162,193,28,0.15), rgba(255,255,255,0.3));
+    text-align: center;
+    padding: 110px 20px 90px;
+    position: relative;
+    overflow: hidden;
+}
+
+.team-header::after {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    background: rgba(162,193,28,0.12);
+    top: -60px;
+    right: -60px;
+    border-radius: 50%;
+}
+
+.team-header-title {
+    font-size: 3.2rem;
+    font-weight: 800;
+    color: var(--dark);
+}
+
+.team-header-title span {
+    color: var(--primary);
+}
+
+.team-header-sub {
+    color: var(--gray);
+    font-size: 1.3rem;
+    margin-top: 10px;
+}
+
+/* Team Section */
+.team-section {
+    padding: 80px 0;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+}
+
+/* Team Card */
+.team-card {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    background: white;
+    padding: 25px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border-left: 6px solid var(--primary);
+}
+
+.team-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Photo */
+.team-photo img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 0 25px rgba(162,193,28,0.35);
+    transition: var(--transition);
+}
+
+.team-card:hover .team-photo img {
+    transform: scale(1.04);
+}
+
+/* Text */
+.team-info h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.team-info p {
+    margin: 5px 0 0;
+    font-size: 1rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* Profile Button */
+.view-profile {
+    margin-top: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .9rem;
+    color: var(--primary-dark);
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.view-profile:hover {
+    color: var(--primary);
+    transform: translateX(3px);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<section class="team-header">
+    <h1 class="team-header-title">Meet Our <span>Team</span></h1>
+    <p class="team-header-sub">Professionals dedicated to delivering excellence</p>
+</section>
+
+
+<section class="team-section">
+    <div class="container">
+
+        <div class="team-grid">
+            {% for member in team_members %}
+            <div class="team-card">
+                
+                <!-- Photo -->
+                <div class="team-photo">
+                    {% if member.image and member.image.url %}
+                    <img src="{{ member.image.url }}" alt="{{ member.name }}"
+                         onerror="this.src='{% static 'images/default-user.jpg' %}'">
+                    {% else %}
+                    <img src="{% static 'images/default-user.jpg' %}" alt="{{ member.name }}">
+                    {% endif %}
+                </div>
+
+                <!-- Text -->
+                <div class="team-info">
+                    <h3>{{ member.name }}</h3>
+                    <p>{{ member.role }}</p>
+
+                    <!-- Profile Page -->
+                    <a href="{% url 'team_member_portfolio' member_name=member.name|lower|slugify %}" 
+                       class="view-profile">
+                       View Profile <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

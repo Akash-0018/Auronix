@@ -4,7 +4,7 @@
     {
       "src": "portfolio/wsgi.py",
       "use": "@vercel/python",
-      "config": { "runtime": "python3.11" }
+      "config": { "runtime": "python3.12" }
     },
     {
       "src": "build_files.sh",
@@ -14,6 +14,6 @@
   ],
   "routes": [
     { "src": "/static/(.*)", "dest": "/static/$1" },
-    { "src": "/(.*)", "dest": "PROJECT_NAME/wsgi.py" }
+    { "src": "/(.*)", "dest": "portfolio/wsgi.py" }
   ]
 }

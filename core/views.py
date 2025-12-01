@@ -102,12 +102,15 @@ def portfolio(request):
     db_team_members = TeamMember.objects.all()
     team_members = []
     for member in db_team_members:
+        # Use member image if available, otherwise use default
+        member_image = member.image.url if member.image else '/static/images/default-user.jpg'
         team_members.append({
             'name': member.name,
+            'slug': member.slug,
             'email': member.email,
             'role': member.role,
             'bio': member.bio,
-            'image': member.image.url if member.image else '',
+            'image': member_image,
         })
     
     return render(request, 'core/portfolio.html', {

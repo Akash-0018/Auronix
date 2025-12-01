@@ -165,8 +165,8 @@
                 
                 <!-- Photo -->
                 <div class="team-photo">
-                    {% if member.image and member.image.url %}
-                    <img src="{{ member.image.url }}" alt="{{ member.name }}" class="team-member-avatar" data-fallback="{% static 'images/default-user.jpg' %}">
+                    {% if member.image %}
+                    <img src="{{ member.image }}" alt="{{ member.name }}" class="team-member-avatar" data-fallback="{% static 'images/default-user.jpg' %}">
                     {% else %}
                     <img src="{% static 'images/default-user.jpg' %}" alt="{{ member.name }}" class="team-member-avatar">
                     {% endif %}

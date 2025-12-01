@@ -60,10 +60,16 @@ def team_member_portfolio(request, member_name):
         elif not isinstance(technologies, list):
             technologies = []
 
+        # Get proper image URLs
+        main_image_url = project.image.url if project.image else ''
+        fallback_image_url = project.fallback_image.url if project.fallback_image else ''
+
         project_data = {
             'title': project.title,
             'description': project.description,
-            'image': project.image,
+            'image': main_image_url,
+            'fallback_image': fallback_image_url,
+            'image_obj': project.image,
             'category': project.category,
             'get_category_display': project.get_category_display(),
             'client': project.client,
@@ -73,7 +79,9 @@ def team_member_portfolio(request, member_name):
         }
         processed_projects.append(project_data)
     
-    # Prepare member data
+    # Prepare member data - ensure image URL is properly set
+    member_image_url = member.image.url if member.image else ''
+    
     member_data = {
         'name': member.name,
         'slug': member.slug,
@@ -81,7 +89,8 @@ def team_member_portfolio(request, member_name):
         'admin_email': member.admin_email,
         'role': member.role,
         'bio': member.bio,
-        'image': member.image,
+        'image': member_image_url,
+        'image_obj': member.image,
         'location': member.location,
         'phone': member.phone,
         'education': member.education.split('\n') if member.education else [],
@@ -128,7 +137,7 @@ def developer_contact(request, member_slug):
         'slug': member.slug,
         'email': member.email,
         'role': member.role,
-        'image': member.image,
+        'image': member.image.url if member.image else '',
         'location': member.location,
         'phone': member.phone,
     }

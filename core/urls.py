@@ -16,6 +16,7 @@ urlpatterns = [
     path('edit-profile/', views.edit_profile, name='edit_profile'),
     path('team/', team, name='team'),
     path('team/<str:member_name>/', team_member_portfolio, name='team_member_portfolio'),
+    path('<str:member_name>/', team_member_portfolio, name='team_member_portfolio_direct'),
 ]
 
 # Serve media files during development

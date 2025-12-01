@@ -51,15 +51,21 @@ class ContactForm(forms.ModelForm):
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['title', 'description', 'image', 'category', 'client', 'completion_date', 'technologies', 'website']
+        fields = ['title', 'description', 'image', 'fallback_image', 'category', 'client', 'completion_date', 'technologies', 'website']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Project Title'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Project Description'}),
+            'image': forms.FileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
+            'fallback_image': forms.FileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
             'category': forms.Select(attrs={'class': 'form-select'}),
-            'client': forms.TextInput(attrs={'class': 'form-control'}),
+            'client': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Client Name'}),
             'completion_date': SelectDateWidget(years=range(2000, 2031), attrs={'class': 'form-select d-inline w-auto'}),
-            'technologies': forms.TextInput(attrs={'class': 'form-control'}),
-            'website': forms.URLInput(attrs={'class': 'form-control'}),
+            'technologies': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'E.g., React, Django, PostgreSQL (comma-separated)'}),
+            'website': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Project URL'}),
+        }
+        help_texts = {
+            'image': 'Main project image (shown in modal/detail view) - Recommended: 1200x800px',
+            'fallback_image': 'Card preview image (shown on portfolio page) - Recommended: 400x300px',
         }
 
 class TeamMemberForm(forms.ModelForm):

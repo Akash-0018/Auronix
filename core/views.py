@@ -28,9 +28,9 @@ def get_portfolio_projects():
     project_list = []
     for project in projects:
         # Get main image URL (full-size for modal)
-        main_image_url = project.image.url if project.image else ''
+        main_image_url = project.image.url if project.image else 'https://via.placeholder.com/1200x800/7f8c8d/ffffff?text=Project+Image'
         # Get fallback image URL (for card preview)
-        fallback_image_url = project.fallback_image.url if project.fallback_image else 'https://via.placeholder.com/800x500/7f8c8d/ffffff?text=Project+Placeholder'
+        fallback_image_url = project.fallback_image.url if project.fallback_image else 'https://via.placeholder.com/400x300/7f8c8d/ffffff?text=Project+Placeholder'
         
         project_list.append({
             'title': project.title,
@@ -55,7 +55,7 @@ def about(request):
             'name': member.name,
             'role': member.role,
             'bio': member.bio,
-            'image': member.image.url if member.image else 'images/profile.jpg',
+            'image': member.image.url if member.image else '',
             'education': member.education.split('\n') if member.education else [],
             'experience': member.experience.split('\n') if member.experience else [],
             'skills': [skill.strip() for skill in member.skills.split(',')] if member.skills else []
@@ -107,7 +107,7 @@ def portfolio(request):
             'email': member.email,
             'role': member.role,
             'bio': member.bio,
-            'image': member.image,
+            'image': member.image.url if member.image else '',
         })
     
     return render(request, 'core/portfolio.html', {

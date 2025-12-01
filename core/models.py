@@ -10,8 +10,8 @@ class Project(models.Model):
 
     title = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField(upload_to='projects/', blank=True, null=True)
-    fallback_image = models.ImageField(upload_to='projects/', blank=True, null=True)
+    image = models.ImageField(upload_to='projects/project_images/', blank=True, null=True, help_text="Main project image for modal/detail view")
+    fallback_image = models.ImageField(upload_to='projects/project_fallback_images/', blank=True, null=True, help_text="Fallback image for project card preview")
     external_image = models.BooleanField(default=True)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     client = models.CharField(max_length=200)

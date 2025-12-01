@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
-from .views_team import team, team_member_portfolio
+from .views_team import team, team_member_portfolio, developer_contact
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -10,11 +10,13 @@ urlpatterns = [
     path('services/', views.services, name='services'),
     path('portfolio/', views.portfolio, name='portfolio'),
     path('contact/', views.contact, name='contact'),
+    path('contact/<str:member_slug>/', developer_contact, name='developer_contact'),
     path('schedule-meeting/', views.schedule_meeting, name='schedule_meeting'),
     path('meetings/', views.meetings, name='meetings'),
     path('edit-profile/', views.edit_profile, name='edit_profile'),
     path('team/', team, name='team'),
     path('team/<str:member_name>/', team_member_portfolio, name='team_member_portfolio'),
+    path('<str:member_name>/', team_member_portfolio, name='team_member_portfolio_direct'),
 ]
 
 # Serve media files during development

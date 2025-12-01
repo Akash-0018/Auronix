@@ -465,10 +465,10 @@
     <div class="container">
         <div class="hero-content">
             <div class="hero-image">
-                {% if member_data.image and member_data.image.url %}
-                    <img src="{{ member_data.image.url }}" alt="{{ member_data.name }}">
+                {% if member_data.image %}
+                    <img src="{{ member_data.image }}" alt="{{ member_data.name }}" data-fallback="{% static 'images/default-user.jpg' %}">
                 {% else %}
-                    <img src="{% static 'images/profile.jpg' %}" alt="{{ member_data.name }}">
+                    <img src="{% static 'images/default-user.jpg' %}" alt="{{ member_data.name }}">
                 {% endif %}
             </div>
             <div class="hero-text">
@@ -487,10 +487,10 @@
             <div class="member-info-card">
                 <div class="member-header">
                     <div class="member-header-image">
-                        {% if member_data.image and member_data.image.url %}
-                            <img src="{{ member_data.image.url }}" alt="{{ member_data.name }}">
+                        {% if member_data.image %}
+                            <img src="{{ member_data.image }}" alt="{{ member_data.name }}" data-fallback="{% static 'images/default-user.jpg' %}">
                         {% else %}
-                            <img src="{% static 'images/profile.jpg' %}" alt="{{ member_data.name }}">
+                            <img src="{% static 'images/default-user.jpg' %}" alt="{{ member_data.name }}">
                         {% endif %}
                     </div>
                     <div class="member-header-text">

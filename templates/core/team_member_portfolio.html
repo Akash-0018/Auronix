@@ -764,10 +764,10 @@
         <div class="member-profile">
             <div class="profile-content">
                 <div class="member-image">
-                    {% if member.image and member.image.url %}
-                    <img src="{{ member.image.url }}" alt="{{ member.name }}" class="member-img" data-fallback="{% static 'images/profile.jpg' %}">
+                    {% if member.image %}
+                    <img src="{{ member.image }}" alt="{{ member.name }}" class="member-img" data-fallback="{% static 'images/default-user.jpg' %}">
                     {% else %}
-                    <img src="{% static 'images/profile.jpg' %}" alt="{{ member.name }}" class="member-img">
+                    <img src="{% static 'images/default-user.jpg' %}" alt="{{ member.name }}" class="member-img">
                     {% endif %}
                 </div>
                 <div class="member-intro">
@@ -899,8 +899,8 @@
             {% for project in member.projects %}
                 <div class="project-card">
                     <div class="project-image">
-                        {% if project.image and project.image.url %}
-                            <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-img" data-fallback="{% static 'images/project1.jpg' %}">
+                        {% if project.image %}
+                            <img src="{{ project.image }}" alt="{{ project.title }}" class="project-img" data-fallback="{% static 'images/project1.jpg' %}">
                         {% else %}
                             <img src="{% static 'images/project1.jpg' %}" alt="{{ project.title }}" class="project-img">
                         {% endif %}
@@ -987,24 +987,23 @@
                 behavior: 'smooth'
             });
         });
+    });
 
-        // Handle image fallbacks
-        document.querySelectorAll('img[data-fallback]').forEach(img => {
-            img.addEventListener('error', function() {
-                this.src = this.getAttribute('data-fallback');
-            });
-        });
-
-        // Handle hover transforms for member and project images
-        document.querySelectorAll('.member-img, .project-img').forEach(img => {
-            img.addEventListener('mouseover', function() {
-                this.style.transform = 'scale(1.04)';
-            });
-            img.addEventListener('mouseout', function() {
-                this.style.transform = 'scale(1)';
-            });
+    // Handle image fallbacks
+    document.querySelectorAll('img[data-fallback]').forEach(img => {
+        img.addEventListener('error', function() {
+            this.src = this.getAttribute('data-fallback');
         });
     });
 
+    // Handle hover transforms for member and project images
+    document.querySelectorAll('.member-img, .project-img').forEach(img => {
+        img.addEventListener('mouseover', function() {
+            this.style.transform = 'scale(1.04)';
+        });
+        img.addEventListener('mouseout', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
 </script>
 {% endblock %}

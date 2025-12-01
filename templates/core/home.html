@@ -1088,9 +1088,8 @@
         </div>
         <div class="projects-grid">
             {% for project in featured_projects %}
-            {% with image_url=project.external_image|default:project.image|default:'images/project1.jpg' %}
             <div class="project-card">
-                <div class="project-image" style="background-image: url('{% static image_url %}'); background-size: cover; background-position: center;">
+                <div class="project-image" style="background-image: url('{{ project.fallback_image }}'); background-size: cover; background-position: center;">
                     <div class="project-overlay">
                         <a href="#project-featured-{{ forloop.counter }}" class="overlay-link project-modal-trigger">
                             <span class="overlay-icon"><i class="fas fa-eye"></i></span>
@@ -1103,7 +1102,6 @@
                     <p class="project-category">{{ project.category }}</p>
                 </div>
             </div>
-            {% endwith %}
             {% endfor %}
         </div>
         <div class="section-footer">
@@ -1114,7 +1112,6 @@
 
 <!-- Project Modals for Featured Projects -->
 {% for project in featured_projects %}
-{% with modal_image_url=project.external_image|default:project.image|default:'images/project1.jpg' %}
 <div id="project-featured-{{ forloop.counter }}" class="project-modal">
     <div class="modal-content" style="display: flex; flex-direction: column; max-width: 1000px; margin: 50px auto; border-radius: 25px; overflow: hidden; position: relative; transform: scale(0.9); transition: transform 0.5s ease;">
         <div class="modal-header" style="padding: 35px 45px; background: var(--gradient); color: white; display: flex; justify-content: space-between; align-items: center;">
@@ -1123,7 +1120,7 @@
         </div>
         <div class="modal-body" style="padding: 45px; display: flex; gap: 45px; flex-wrap: wrap;">
             <div class="modal-image" style="flex: 1 1 400px; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);">
-                <img src="{% static modal_image_url %}" alt="{{ project.title }}" loading="lazy" style="width: 100%; height: auto; display: block; transition: all 0.5s ease;">
+                <img src="{{ project.image }}" alt="{{ project.title }}" loading="lazy" style="width: 100%; height: auto; display: block; transition: all 0.5s ease;" data-fallback="{% static 'images/project1.jpg' %}">
             </div>
             <div class="modal-details" style="flex: 1 1 400px; display: flex; flex-direction: column; gap: 30px;">
                 <div class="detail-item">
@@ -1157,7 +1154,6 @@
         </div>
     </div>
 </div>
-{% endwith %}
 {% endfor %}
 
 <!-- Stats Section -->
@@ -1198,10 +1194,7 @@
                     <div class="testimonial-content">
                         <div class="testimonial-image">
                             {% if testimonial.image %}
-                                <img src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}" class="testimonial-person-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                                <div class="testimonial-placeholder" style="display: none;">
-                                    <i class="fas fa-user"></i>
-                                </div>
+                                <img src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}" class="testimonial-person-image" data-fallback="{% static 'images/default-user.jpg' %}">
                             {% else %}
                                 <div class="testimonial-placeholder">
                                     <i class="fas fa-user"></i>

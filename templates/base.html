@@ -1120,6 +1120,17 @@
             
             createParticles();
 
+            // Global image fallback handler for all pages
+            function setupImageFallbacks() {
+                document.querySelectorAll('img[data-fallback]').forEach(img => {
+                    img.addEventListener('error', function() {
+                        this.src = this.getAttribute('data-fallback');
+                    });
+                });
+            }
+            
+            setupImageFallbacks();
+
             // Animate elements on scroll
             function animateOnScroll() {
                 const elements = document.querySelectorAll('.animate-fadeInUp');

@@ -1,96 +1,425 @@
 {% extends 'base.html' %}
 {% load socialaccount %}
 
-{% block title %}Sign In - Serendipity Portfolio{% endblock %}
+{% block title %}Sign In - Auronix Portfolio{% endblock %}
 
 {% block extra_css %}
 <style>
-    .social-login-container {
+    :root {
+        --primary: #a2c11c;
+        --primary-dark: #8ba916;
+        --primary-light: rgba(162, 193, 28, 0.1);
+        --dark: #0f172a;
+        --dark-light: #1e293b;
+        --gray: #64748b;
+        --gray-light: #e2e8f0;
+        --success: #10b981;
+        --google-red: #ea4335;
+        --google-blue: #4285f4;
+        --google-yellow: #fbbc05;
+        --google-green: #34a853;
+        --radius: 12px;
+        --radius-lg: 24px;
+        --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 20px 80px rgba(0, 0, 0, 0.2);
+    }
+
+    .social-login-wrapper {
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
-        padding: 20px;
-        margin-top: 100px;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        padding: 40px 20px;
+        position: relative;
+        overflow: hidden;
     }
 
-    .social-login-card {
+    .social-login-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(circle at 30% 30%, rgba(162, 193, 28, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 70% 70%, rgba(162, 193, 28, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    .social-login-container {
+        max-width: 900px;
+        width: 100%;
         background: white;
         border-radius: var(--radius-lg);
-        padding: 60px 40px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        max-width: 500px;
-        width: 100%;
-        text-align: center;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+        position: relative;
+        z-index: 1;
+        display: flex;
+        min-height: 600px;
     }
 
-    .social-login-header {
+    .login-left {
+        flex: 1;
+        background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
+        padding: 80px 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .login-left::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a2c11c' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.3;
+    }
+
+    .brand-section {
+        position: relative;
+        z-index: 2;
+    }
+
+    .brand-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
         margin-bottom: 40px;
     }
 
-    .social-login-header h1 {
-        font-size: 2.2rem;
-        color: var(--dark);
-        margin-bottom: 15px;
-    }
-
-    .social-login-header p {
-        color: var(--gray);
-        font-size: 1.1rem;
-        margin-bottom: 10px;
-    }
-
-    .provider-info {
+    .brand-logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--primary);
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
-        margin: 30px 0;
-        padding: 20px;
-        background: rgba(162, 193, 28, 0.05);
-        border-radius: var(--radius);
-        border: 2px solid rgba(162, 193, 28, 0.2);
-    }
-
-    .provider-info i {
-        font-size: 1.8rem;
-        color: #ea4335;
-    }
-
-    .provider-info span {
-        font-weight: 600;
         color: var(--dark);
+        font-weight: 800;
+        font-size: 1.8rem;
+        box-shadow: 0 8px 20px rgba(162, 193, 28, 0.3);
+    }
+
+    .brand-logo-text {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: white;
+        letter-spacing: 0.5px;
+    }
+
+    .brand-logo-text span {
+        color: var(--primary);
+    }
+
+    .welcome-text {
+        color: white;
+        font-size: 2.5rem;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    .welcome-text span {
+        color: var(--primary);
+        position: relative;
+    }
+
+    .welcome-text span::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 2px;
+    }
+
+    .subtitle {
+        color: var(--gray-light);
+        font-size: 1.1rem;
+        line-height: 1.6;
+        max-width: 400px;
+    }
+
+    .features {
+        margin-top: 60px;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .feature {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .feature-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(162, 193, 28, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary);
+        font-size: 1.2rem;
+    }
+
+    .feature-text {
+        color: white;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    .login-right {
+        flex: 1;
+        padding: 80px 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: white;
+        text-align: center;
+    }
+
+    .login-header {
+        margin-bottom: 40px;
+    }
+
+    .login-header h2 {
+        font-size: 2rem;
+        color: var(--dark);
+        margin-bottom: 10px;
+    }
+
+    .login-header p {
+        color: var(--gray);
         font-size: 1.1rem;
     }
 
-    .continue-btn {
-        display: inline-block;
+    .provider-container {
+        position: relative;
+        margin: 40px 0;
+    }
+
+    .google-icon-animation {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 30px;
+    }
+
+    .google-icon-circle {
         width: 100%;
-        padding: 16px 24px;
-        background: linear-gradient(135deg, var(--primary) 0%, #98c21f 100%);
-        border: none;
+        height: 100%;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3.5rem;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 2;
+        border: 2px solid var(--gray-light);
+        animation: pulse 2s infinite;
+    }
+
+    .google-icon-circle::before {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: -8px;
+        right: -8px;
+        bottom: -8px;
+        background: conic-gradient(
+            var(--google-red) 0deg 90deg,
+            var(--google-yellow) 90deg 180deg,
+            var(--google-green) 180deg 270deg,
+            var(--google-blue) 270deg 360deg
+        );
+        border-radius: 50%;
+        z-index: -1;
+        opacity: 0.3;
+        animation: rotate 10s linear infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .provider-info {
+        background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+        border: 2px solid var(--gray-light);
         border-radius: var(--radius);
-        color: white;
+        padding: 25px;
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .provider-info::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--google-red), var(--google-blue), var(--google-green), var(--google-yellow));
+    }
+
+    .provider-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+
+    .provider-title i {
+        font-size: 1.8rem;
+        color: var(--google-red);
+    }
+
+    .provider-title span {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--dark);
+    }
+
+    .provider-description {
+        color: var(--gray);
+        line-height: 1.6;
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+    }
+
+    .security-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(16, 185, 129, 0.1);
+        color: #065f46;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 30px;
+    }
+
+    .security-badge i {
+        color: var(--success);
+    }
+
+    .permissions-list {
+        background: #f8fafc;
+        border-radius: var(--radius);
+        padding: 20px;
+        margin: 30px 0;
+        text-align: left;
+        border: 1px solid var(--gray-light);
+    }
+
+    .permissions-title {
+        font-size: 1rem;
+        color: var(--dark);
+        margin-bottom: 15px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .permissions-title i {
+        color: var(--primary);
+    }
+
+    .permission-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+        color: var(--gray);
+        font-size: 0.9rem;
+    }
+
+    .permission-item i {
+        color: var(--success);
+        font-size: 0.8rem;
+    }
+
+    .permission-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .login-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .google-login-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 20px 24px;
+        background: white;
+        border: 2px solid var(--gray-light);
+        border-radius: var(--radius);
+        color: var(--dark);
         text-decoration: none;
         font-weight: 700;
         font-size: 1.1rem;
         transition: all 0.3s ease;
         cursor: pointer;
-        margin-bottom: 15px;
+        position: relative;
+        overflow: hidden;
     }
 
-    .continue-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 15px 35px rgba(162, 193, 28, 0.4);
+    .google-login-btn:hover {
+        border-color: var(--google-red);
+        background: rgba(234, 67, 53, 0.05);
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(234, 67, 53, 0.15);
+    }
+
+    .google-login-btn i {
+        font-size: 1.3rem;
+        margin-right: 12px;
+        color: var(--google-red);
+        transition: transform 0.3s ease;
+    }
+
+    .google-login-btn:hover i {
+        transform: scale(1.2);
     }
 
     .cancel-btn {
-        display: inline-block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
-        padding: 12px 24px;
-        background: transparent;
-        border: 2px solid #e0e0e0;
+        padding: 16px 24px;
+        background: white;
+        border: 2px solid var(--gray-light);
         border-radius: var(--radius);
         color: var(--dark);
         text-decoration: none;
@@ -101,86 +430,362 @@
     }
 
     .cancel-btn:hover {
-        border-color: #999;
-        background: #f5f5f5;
+        border-color: var(--primary);
+        background: var(--primary-light);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+    }
+
+    .cancel-btn i {
+        margin-right: 10px;
     }
 
     .security-note {
         margin-top: 30px;
-        padding-top: 30px;
-        border-top: 1px solid #e0e0e0;
-        font-size: 0.9rem;
+        padding-top: 25px;
+        border-top: 1px solid var(--gray-light);
         color: var(--gray);
+        font-size: 0.9rem;
+        line-height: 1.6;
     }
 
-    .security-note i {
-        color: #10b981;
-        margin-right: 5px;
+    .security-note strong {
+        color: var(--dark);
+    }
+
+    .floating-shapes {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .shape {
+        position: absolute;
+        border-radius: 50%;
+    }
+
+    .shape-1 {
+        width: 80px;
+        height: 80px;
+        background: var(--google-red);
+        opacity: 0.1;
+        top: 15%;
+        right: 10%;
+        animation: float 25s infinite ease-in-out;
+    }
+
+    .shape-2 {
+        width: 60px;
+        height: 60px;
+        background: var(--google-blue);
+        opacity: 0.1;
+        bottom: 20%;
+        left: 12%;
+        animation: float 20s infinite ease-in-out reverse;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+    }
+
+    .loading-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .loading-content {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 40px;
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .loading-spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid var(--gray-light);
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        margin: 0 auto 25px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+        color: var(--dark);
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .loading-subtext {
+        color: var(--gray);
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 992px) {
+        .social-login-container {
+            flex-direction: column;
+            max-width: 600px;
+        }
+
+        .login-left {
+            padding: 60px 40px;
+        }
+
+        .login-right {
+            padding: 60px 40px;
+        }
+
+        .welcome-text {
+            font-size: 2rem;
+        }
     }
 
     @media (max-width: 576px) {
-        .social-login-card {
+        .login-left, .login-right {
             padding: 40px 30px;
         }
 
-        .social-login-header h1 {
+        .brand-logo-text {
             font-size: 1.8rem;
         }
 
-        .provider-info {
-            margin: 25px 0;
+        .welcome-text {
+            font-size: 1.8rem;
         }
 
-        .continue-btn,
-        .cancel-btn {
-            font-size: 0.95rem;
-            padding: 14px 20px;
+        .google-icon-animation {
+            width: 100px;
+            height: 100px;
+        }
+
+        .google-icon-circle {
+            font-size: 2.8rem;
+        }
+
+        .google-login-btn, .cancel-btn {
+            padding: 16px 20px;
+            font-size: 1rem;
         }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="social-login-container">
-    <div class="social-login-card">
-        <div class="social-login-header">
-            <h1><span style="color: var(--primary);">Seren</span>dipity</h1>
-            <p>Sign In to Your Portfolio</p>
+<div class="social-login-wrapper">
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </div>
+    
+    <div class="social-login-container">
+        <!-- Left side: Brand & Benefits -->
+        <div class="login-left">
+            <div class="brand-section">
+                <div class="brand-logo">
+                    <div class="brand-logo-icon">A</div>
+                    <div class="brand-logo-text"><span>Auron</span>ix</div>
+                </div>
+                
+                <h1 class="welcome-text">Secure <span>Sign In</span></h1>
+                <p class="subtitle">
+                    Access your professional portfolio securely with Google authentication.
+                </p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="feature-text">Enterprise-grade security with Google OAuth</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="feature-text">One-click authentication, no passwords to remember</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div class="feature-text">Automatic session management and renewal</div>
+                    </div>
+                </div>
+            </div>
         </div>
+        
+        <!-- Right side: Google Authentication -->
+        <div class="login-right">
+            <div class="login-header">
+                <h2>Continue with Google</h2>
+                <p>Authenticate securely using your Google account</p>
+            </div>
 
-        <div class="provider-info">
-            <i class="fab fa-google"></i>
-            <span>Google Account</span>
+            <div class="provider-info">
+                <div class="provider-title">
+                    <i class="fab fa-google"></i>
+                    <span>Google Authentication</span>
+                </div>
+                <p class="provider-description">
+                    You're about to sign in to Auronix using your Google account. 
+                    This provides secure, passwordless authentication.
+                </p>
+                
+                <div class="security-badge">
+                    <i class="fas fa-lock"></i>
+                    Secure OAuth 2.0 Authentication
+                </div>
+            </div>
+
+            <div class="login-actions">
+                <form method="post" action="{% provider_login_url 'google' %}" id="googleLoginForm">
+                    {% csrf_token %}
+                    <button type="submit" class="google-login-btn" id="googleLoginBtn">
+                        <i class="fab fa-google"></i>
+                        Continue with Google
+                    </button>
+                </form>
+                
+                <a href="{% url 'account_login' %}" class="cancel-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Login Options
+                </a>
+            </div>
+
+            <div class="security-note">
+                <strong>Your privacy is protected:</strong> We only access basic information needed for your account. 
+                We <strong>never</strong> access your Google password or have permission to modify your Google account.
+                <a href="#" style="color: var(--primary); text-decoration: none; font-weight: 600; margin-left: 5px;">Learn more</a>
+            </div>
         </div>
+    </div>
 
-        <p style="color: var(--gray); margin-bottom: 30px; line-height: 1.6;">
-            You are about to sign in using your Google account. This will give you secure access to your portfolio.
-        </p>
-
-        <div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 15px; border-radius: 4px; margin-bottom: 25px;">
-            <p style="color: #065f46; font-size: 0.95rem; margin: 0; line-height: 1.5;">
-                <i class="fas fa-lock" style="margin-right: 8px; color: #10b981;"></i>
-                <strong>Your Credentials Are Safe</strong><br>
-                We don't save or store your Google password. All authentication is handled securely by Google.
-            </p>
-        </div>
-
-        <form method="post" action="">
-            {% csrf_token %}
-            <button type="submit" class="continue-btn">
-                <i class="fab fa-google" style="margin-right: 10px;"></i>
-                Continue with Google
-            </button>
-        </form>
-
-        <a href="{% url 'account_login' %}" class="cancel-btn">
-            Back to Login
-        </a>
-
-        <div class="security-note">
-            <i class="fas fa-shield-alt"></i>
-            Your data is secure. We never store your password.
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Connecting to Google</div>
+            <div class="loading-subtext">
+                Please wait while we securely authenticate your account...
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    // Google login button animation
+    const googleLoginBtn = document.getElementById('googleLoginBtn');
+    const googleLoginForm = document.getElementById('googleLoginForm');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    
+    googleLoginBtn.addEventListener('click', function(e) {
+        // Show loading overlay
+        loadingOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Add loading state to button
+        const originalText = googleLoginBtn.innerHTML;
+        googleLoginBtn.innerHTML = '<i class="fab fa-google fa-spin"></i> Connecting...';
+        googleLoginBtn.disabled = true;
+        
+        // Submit form after a brief delay for UX
+        setTimeout(() => {
+            googleLoginForm.submit();
+        }, 1500);
+        
+        // Prevent double submission
+        e.preventDefault();
+    });
+    
+    // Animate Google icon on hover
+    googleLoginBtn.addEventListener('mouseenter', function() {
+        const icon = this.querySelector('i');
+        if (!icon.classList.contains('fa-spin')) {
+            icon.style.transform = 'scale(1.2) rotate(5deg)';
+        }
+    });
+    
+    googleLoginBtn.addEventListener('mouseleave', function() {
+        const icon = this.querySelector('i');
+        if (!icon.classList.contains('fa-spin')) {
+            icon.style.transform = 'scale(1) rotate(0deg)';
+        }
+    });
+    
+    // Add floating shapes animation
+    const shapes = document.querySelectorAll('.shape');
+    shapes.forEach((shape, index) => {
+        shape.style.animationDelay = `${index * 2}s`;
+    });
+    
+    // Add smooth transitions to elements
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    // Observe elements for animation
+    document.querySelectorAll('.login-left, .login-right').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+    
+    // Handle page visibility for better UX
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') {
+            // User returned to the tab
+            const shapes = document.querySelectorAll('.shape');
+            shapes.forEach(shape => {
+                shape.style.animationPlayState = 'running';
+            });
+        } else {
+            // User switched tabs
+            const shapes = document.querySelectorAll('.shape');
+            shapes.forEach(shape => {
+                shape.style.animationPlayState = 'paused';
+            });
+        }
+    });
+</script>
 {% endblock %}

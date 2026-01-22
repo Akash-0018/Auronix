@@ -10,8 +10,8 @@ class Project(models.Model):
 
     title = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField(upload_to='projects/project_images/', blank=True, null=True, help_text="Main project image for modal/detail view")
-    fallback_image = models.ImageField(upload_to='projects/project_fallback_images/', blank=True, null=True, help_text="Fallback image for project card preview")
+    image = models.ImageField(upload_to='projects/', blank=True, null=True)
+    fallback_image = models.ImageField(upload_to='projects/', blank=True, null=True)
     external_image = models.BooleanField(default=True)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     client = models.CharField(max_length=200)
@@ -93,23 +93,4 @@ class ContactMessage(models.Model):
     def __str__(self):
         return f"{self.name} - {self.subject}"
 
-class Meeting(models.Model):
-    STATUS_CHOICES = [
-        ('pending', 'Pending - Awaiting Confirmation'),
-        ('confirmed', 'Confirmed - Meet Link Sent'),
-        ('completed', 'Completed'),
-        ('cancelled', 'Cancelled'),
-    ]
-    
-    name = models.CharField(max_length=100)
-    email = models.EmailField()
-    topic = models.CharField(max_length=200)
-    notes = models.TextField(default='', blank=True)
-    date = models.DateField()
-    time = models.TimeField()
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-    google_meet_url = models.URLField(blank=True, null=True, help_text="Google Meet link for this meeting")
-    created_at = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
-        return f"Meeting with {self.name} on {self.date} at {self.time}"

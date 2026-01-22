@@ -1,39 +1,12 @@
 from django import forms
 from django.forms.widgets import SelectDateWidget
-from .models import ContactMessage, Project, TeamMember, Meeting
+from .models import ContactMessage, Project, TeamMember
 
 class ContactForm(forms.ModelForm):
-    TEAM_CHOICES = [
-        ('web', 'Web Development'),
-        ('data', 'Data Analytics'),
-        ('mobile', 'Mobile App Development'),
-        ('social', 'Social Media'),
-    ]
-
-    team_member = forms.ChoiceField(
-        choices=[
-            ('Akash', 'Akash (Web Developer)'),
-            ('Bhargavi', 'Bhargavi (Web Developer)'),
-            ('Sheik Mathar', 'Sheik Mathar (Data Analyst)'),
-            ('Gnanajyothi', 'Gnanajyothi (Mobile App Developer)'),
-            ('Praveen', 'Praveen (Social Media Manager)'),
-            ('Sanjeev', 'Sanjeev (Social Media Specialist)'),           
-            
-        ],
-        required=False,
-        widget=forms.Select(attrs={'class': 'form-select'}),
-        label='Contact Team Member (optional)'
-    )
-
-    department = forms.ChoiceField(
-        choices=TEAM_CHOICES,
-        required=False,
-        widget=forms.Select(attrs={'class': 'form-select'}),
-        label='Department (optional)'
-    )
+    """Contact form - all emails go to admin inbox"""
     class Meta:
         model = ContactMessage
-        fields = ['name', 'email', 'subject', 'message', 'inquiry_type', 'pricing_plan', 'preferred_contact']
+        fields = ['name', 'email', 'subject', 'message', 'inquiry_type', 'pricing_plan']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Your Name'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Your Email'}),
@@ -41,31 +14,23 @@ class ContactForm(forms.ModelForm):
             'message': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Your Message', 'rows': 5}),
             'inquiry_type': forms.Select(attrs={'class': 'form-select'}),
             'pricing_plan': forms.Select(attrs={'class': 'form-select'}),
-            'preferred_contact': forms.RadioSelect(attrs={'class': 'form-check-input'}),
         }
         labels = {
-            'preferred_contact': 'Which email would you like me to respond to?',
             'pricing_plan': 'Selected Pricing Plan'
         }
 
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['title', 'description', 'image', 'fallback_image', 'category', 'client', 'completion_date', 'technologies', 'website']
+        fields = ['title', 'description', 'image', 'category', 'client', 'completion_date', 'technologies', 'website']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Project Title'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Project Description'}),
-            'image': forms.FileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
-            'fallback_image': forms.FileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
             'category': forms.Select(attrs={'class': 'form-select'}),
-            'client': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Client Name'}),
+            'client': forms.TextInput(attrs={'class': 'form-control'}),
             'completion_date': SelectDateWidget(years=range(2000, 2031), attrs={'class': 'form-select d-inline w-auto'}),
-            'technologies': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'E.g., React, Django, PostgreSQL (comma-separated)'}),
-            'website': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Project URL'}),
-        }
-        help_texts = {
-            'image': 'Main project image (shown in modal/detail view) - Recommended: 1200x800px',
-            'fallback_image': 'Card preview image (shown on portfolio page) - Recommended: 400x300px',
+            'technologies': forms.TextInput(attrs={'class': 'form-control'}),
+            'website': forms.URLInput(attrs={'class': 'form-control'}),
         }
 
 class TeamMemberForm(forms.ModelForm):
@@ -98,15 +63,3 @@ class TeamMemberEditForm(forms.ModelForm):
             'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Location'}),
         }
 
-class MeetingForm(forms.ModelForm):
-    class Meta:
-        model = Meeting
-        fields = ['name', 'email', 'topic', 'notes', 'date', 'time']
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Your Name'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Your Email'}),
-            'topic': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Meeting Topic'}),
-            'notes': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Additional Notes', 'rows': 3}),
-            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'text', 'id': 'meetingDatePicker', 'autocomplete': 'off'}),
-            'time': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
-        }

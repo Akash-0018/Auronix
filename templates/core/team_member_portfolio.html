@@ -2,59 +2,108 @@
 {% load static %}
 {% load project_tags %}
 
-{% block title %}{{ member.name }} - Portfolio{% endblock %}
+{% block title %}{{ member.name }} - Portfolio | Professional Profile{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/team.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/team_member_portfolio.css' %}">
 <style>
 :root {
-            --primary: #A2C11C;
-            --primary-dark: #8cae00;
-            --secondary: #A2C11C;
-            --accent: #a3b600;
-    --dark: #2D2B3A;
-    --light: #FFFFFF;
-    --gray: #F5F5F5;
-    --text: #333333;
-    --text-light: #777777;
-    --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-    --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, #FF9A8B 100%);
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.15);
-    --radius: 12px;
-    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --primary: #A2C11C;
+    --primary-dark: #8cae00;
+    --primary-light: #e8f5c8;
+    --secondary: #222831;
+    --secondary-light: #2d3748;
+    --dark: #222831;
+    --light: #ffffff;
+    --gray-light: #f8f9fa;
+    --gray: #6c757d;
+    --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    --gradient-dark: linear-gradient(135deg, var(--secondary) 0%, #1a202c 100%);
+    --gradient-light: linear-gradient(135deg, var(--light) 0%, #f8f9fa 100%);
+    --gradient-yellow: linear-gradient(135deg, var(--primary) 0%, #C5E867 100%);
+    --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.15);
+    --shadow-dark: 0 15px 45px rgba(0, 0, 0, 0.25);
+    --radius: 20px;
+    --radius-lg: 30px;
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Hero Section - Creative Design */
+/* Enhanced Hero Section */
 .member-hero {
-    background: var(--gradient-primary);
-    padding: 100px 0 80px;
+    background: var(--gradient-dark);
+    padding: 140px 0 100px;
     position: relative;
     overflow: hidden;
     color: white;
 }
 
-.member-hero::before {
-    content: '';
+.hero-background {
     position: absolute;
-    top: -100px;
-    right: -100px;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.15;
+    z-index: 1;
 }
 
-.member-hero::after {
-    content: '';
+.hero-pattern {
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(162, 193, 28, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(162, 193, 28, 0.08) 0%, transparent 50%);
+}
+
+.floating-shapes {
     position: absolute;
-    bottom: -50px;
-    left: -50px;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.floating-shape {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--primary);
+    opacity: 0.08;
+    filter: blur(20px);
+    animation: shapeFloat 20s infinite linear;
+}
+
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+}
+
+.shape-2 {
     width: 200px;
     height: 200px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--primary-light);
+    top: 60%;
+    right: 10%;
+    animation-delay: -5s;
+}
+
+.shape-3 {
+    width: 150px;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.3);
+    bottom: 20%;
+    left: 15%;
+    animation-delay: -10s;
+}
+
+@keyframes shapeFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
 }
 
 .member-profile {
@@ -65,40 +114,75 @@
 .profile-content {
     display: flex;
     align-items: center;
-    gap: 50px;
+    gap: 60px;
     flex-wrap: wrap;
 }
 
 .member-image {
-    flex: 0 0 280px;
+    flex: 0 0 320px;
     position: relative;
+}
+
+.member-image-inner {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 6px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-dark);
+    transition: var(--transition);
+}
+
+.member-image-inner:hover {
+    transform: scale(1.02);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.member-image-inner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-yellow);
+    opacity: 0.1;
+    z-index: 1;
 }
 
 .member-image img {
     width: 100%;
-    height: 280px;
+    height: 100%;
     object-fit: cover;
-    border-radius: 50%;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    box-shadow: var(--shadow);
-    transition: var(--transition);
+    transition: transform 0.6s ease;
 }
 
-.member-image::after {
-    content: '';
+.member-image-inner:hover img {
+    transform: scale(1.05);
+}
+
+.image-badge {
     position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
+    bottom: 20px;
+    right: 20px;
+    width: 70px;
+    height: 70px;
+    background: var(--gradient-yellow);
     border-radius: 50%;
-    border: 2px dashed rgba(255, 255, 255, 0.5);
-    animation: rotate 20s linear infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary);
+    font-size: 1.8rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+    animation: pulse 2s infinite;
 }
 
-@keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
 }
 
 .member-intro {
@@ -107,31 +191,49 @@
 }
 
 .intro-header h1.member-name {
-    font-size: 3rem;
-    margin-bottom: 10px;
+    font-size: 3.5rem;
+    margin-bottom: 15px;
     font-weight: 800;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #ffffff 0%, var(--primary-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
 }
 
 .intro-header h2.member-role {
     font-size: 1.5rem;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     font-weight: 500;
     opacity: 0.9;
+    position: relative;
+    display: inline-block;
+    padding-left: 40px;
+}
+
+.intro-header h2.member-role::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 3px;
+    background: var(--gradient-yellow);
+    border-radius: 2px;
 }
 
 .intro-header p.member-tagline {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    margin-bottom: 30px;
+    font-size: 1.3rem;
+    line-height: 1.7;
+    margin-bottom: 40px;
     opacity: 0.9;
-    max-width: 600px;
+    max-width: 700px;
 }
 
 .member-stats {
     display: flex;
     gap: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     flex-wrap: wrap;
 }
 
@@ -140,56 +242,71 @@
     flex-direction: column;
     align-items: center;
     background: rgba(255, 255, 255, 0.1);
-    padding: 15px 20px;
+    padding: 25px 30px;
     border-radius: var(--radius);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    min-width: 120px;
+    min-width: 140px;
+    transition: var(--transition);
+}
+
+.stat-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-5px);
+    border-color: var(--primary);
 }
 
 .stat-item i {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+    color: var(--primary-light);
 }
 
 .stat-value {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 5px;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: white;
 }
 
 .stat-label {
-    font-size: 0.9rem;
+    font-size: 1rem;
     opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .member-social {
     display: flex;
     gap: 15px;
+    margin-bottom: 40px;
 }
 
 .social-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
     color: white;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     transition: var(--transition);
+    font-size: 1.2rem;
 }
 
 .social-link:hover {
-    transform: translateY(-3px);
-    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px) scale(1.1);
+    background: var(--gradient-yellow);
+    color: var(--secondary);
+    border-color: transparent;
 }
 
 .cta-container {
-    margin-top: 40px;
     width: 100%;
+    margin-top: 50px;
 }
 
 .action-buttons {
@@ -201,241 +318,337 @@
 .btn {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    padding: 15px 30px;
+    justify-content: center;
+    gap: 12px;
+    padding: 18px 40px;
     border-radius: 50px;
     font-weight: 600;
     text-decoration: none;
     transition: var(--transition);
-    border: 2px solid transparent;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: var(--gradient-yellow);
+    transition: var(--transition);
+    z-index: -1;
 }
 
 .btn-primary {
-    background: var(--light);
-    color: var(--primary);
-    box-shadow: var(--shadow);
+    background: var(--gradient-yellow);
+    color: var(--secondary);
+    box-shadow: 0 10px 30px rgba(162, 193, 28, 0.3);
 }
 
 .btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-hover);
-    background: white;
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(162, 193, 28, 0.4);
 }
 
 .btn-outline {
     background: transparent;
     color: white;
-    border-color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
 }
 
 .btn-outline:hover {
-    background: white;
-    color: var(--primary);
-    transform: translateY(-3px);
+    color: var(--secondary);
+    border-color: transparent;
+}
+
+.btn-outline:hover::before {
+    width: 100%;
+}
+
+.btn-lg {
+    padding: 20px 45px;
+    font-size: 1.1rem;
 }
 
 /* About Section */
 .member-about {
-    padding: 100px 0;
-    background: var(--gray);
+    padding: 120px 0;
+    background: var(--gray-light);
     position: relative;
+    overflow: hidden;
 }
 
 .section-title {
-    font-size: 2.5rem;
-    margin-bottom: 50px;
+    font-size: 3rem;
+    margin-bottom: 60px;
     text-align: center;
     position: relative;
     color: var(--dark);
 }
 
 .section-title .highlight {
-    color: var(--primary);
+    background: var(--gradient-yellow);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     position: relative;
+    display: inline-block;
 }
 
-.section-title .highlight::after {
+.section-title::after {
     content: '';
     position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100%;
-    height: 8px;
-    background: var(--gradient-primary);
-    opacity: 0.4;
-    border-radius: 4px;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: var(--gradient-yellow);
+    border-radius: 2px;
 }
 
 .about-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 50px;
+    gap: 60px;
+    position: relative;
+    z-index: 2;
 }
 
 .about-content {
-    padding-right: 30px;
+    padding-right: 40px;
 }
 
 .bio-text {
+    font-size: 1.2rem;
     line-height: 1.8;
-    color: var(--text);
-    margin-bottom: 40px;
-    font-size: 1.1rem;
+    color: var(--secondary-light);
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.bio-text::first-letter {
+    font-size: 3rem;
+    color: var(--primary);
+    float: left;
+    line-height: 1;
+    margin-right: 10px;
+    margin-top: 5px;
+    font-weight: 800;
 }
 
 .experience-timeline {
     position: relative;
-    padding-left: 40px;
+    padding-left: 50px;
 }
 
 .experience-timeline::before {
     content: '';
     position: absolute;
-    left: 0;
-    top: 10px;
-    bottom: 10px;
-    width: 3px;
-    background: var(--gradient-primary);
-    border-radius: 3px;
+    left: 15px;
+    top: 20px;
+    bottom: 20px;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--primary), var(--primary-light));
+    border-radius: 4px;
 }
 
 .experience-timeline h3 {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
     color: var(--dark);
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.experience-timeline h3 i {
+    color: var(--primary);
+    background: rgba(162, 193, 28, 0.1);
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
 }
 
 .timeline-item {
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .timeline-marker {
     position: absolute;
-    left: -46px;
+    left: -40px;
     top: 5px;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: var(--light);
-    border: 3px solid var(--primary);
-    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+    border: 4px solid var(--primary);
+    box-shadow: 0 0 0 4px rgba(162, 193, 28, 0.2);
     z-index: 2;
 }
 
-.timeline-content h4 {
-    margin: 0;
-    color: var(--dark);
-    font-weight: 600;
-    font-size: 1.1rem;
-    padding: 10px 15px;
+.timeline-content {
     background: white;
+    padding: 25px 30px;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    border-left: 4px solid var(--primary);
+    border-left: 6px solid var(--primary);
+    transition: var(--transition);
+}
+
+.timeline-content:hover {
+    transform: translateX(10px);
+    box-shadow: var(--shadow-lg);
+}
+
+.timeline-content h4 {
+    margin: 0 0 10px 0;
+    color: var(--dark);
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+.timeline-content p {
+    margin: 0;
+    color: var(--gray);
+    line-height: 1.6;
 }
 
 .about-sidebar > div {
-    margin-bottom: 30px;
-    padding: 25px;
+    margin-bottom: 40px;
     background: white;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     transition: var(--transition);
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .about-sidebar > div:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
 }
 
 .about-sidebar h3 {
+    margin: 0;
+    padding: 25px 30px;
+    background: var(--gradient-yellow);
+    color: var(--secondary);
+    font-size: 1.4rem;
+    font-weight: 700;
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 20px;
-    color: var(--dark);
-    font-size: 1.3rem;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--gray);
 }
 
-.about-sidebar h3 i {
-    color: var(--primary);
-}
-
-.expertise-list {
+.expertise-box .expertise-list {
+    padding: 25px 30px;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
 }
 
 .expertise-tag {
-    padding: 8px 15px;
-    background: var(--gradient-primary);
-    color: white;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 500;
+    padding: 10px 20px;
+    background: var(--gradient-yellow);
+    color: var(--secondary);
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: var(--transition);
+    border: 2px solid transparent;
 }
 
-.education-item {
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid var(--gray);
+.expertise-tag:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(162, 193, 28, 0.3);
+    border-color: var(--primary);
 }
 
-.education-item:last-child {
-    margin-bottom: 0;
-    padding-bottom: 0;
+.education-box .education-item {
+    padding: 20px 30px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: var(--transition);
+}
+
+.education-box .education-item:last-child {
     border-bottom: none;
 }
 
-.education-item h4 {
-    margin: 0;
-    color: var(--text);
-    font-weight: 600;
+.education-box .education-item:hover {
+    background: rgba(162, 193, 28, 0.05);
 }
 
-.certifications-list {
-    list-style: none;
-    padding: 0;
+.education-item h4 {
+    margin: 0 0 8px 0;
+    color: var(--dark);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.education-item p {
+    margin: 0;
+    color: var(--gray);
+    font-size: 0.95rem;
+}
+
+.certifications-box .certifications-list {
+    padding: 25px 30px;
     margin: 0;
 }
 
 .certifications-list li {
-    padding: 10px 0;
-    border-bottom: 1px solid var(--gray);
-    color: var(--text);
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    color: var(--secondary-light);
     position: relative;
-    padding-left: 20px;
-}
-
-.certifications-list li::before {
-    content: '•';
-    position: absolute;
-    left: 0;
-    color: var(--primary);
-    font-size: 1.2rem;
+    padding-left: 30px;
+    list-style: none;
 }
 
 .certifications-list li:last-child {
     border-bottom: none;
 }
 
+.certifications-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
 /* Portfolio Section */
 .member-portfolio {
-    padding: 100px 0;
-    background: white;
+    padding: 120px 0;
+    background: var(--light);
+    position: relative;
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 1.3rem;
+    color: var(--gray);
+    max-width: 700px;
+    margin: 0 auto 60px;
+    line-height: 1.6;
 }
 
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 30px;
+    gap: 40px;
 }
 
 .project-card {
@@ -445,6 +658,12 @@
     box-shadow: var(--shadow);
     transition: var(--transition);
     position: relative;
+    transform-style: preserve-3d;
+}
+
+.project-card:hover {
+    transform: translateY(-15px) rotateX(5deg);
+    box-shadow: var(--shadow-dark);
 }
 
 .project-card::before {
@@ -452,19 +671,23 @@
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    height: 5px;
-    background: var(--gradient-primary);
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        rgba(162, 193, 28, 0.1) 0%, 
+        rgba(34, 40, 49, 0.1) 100%);
+    opacity: 0;
+    transition: var(--transition);
+    z-index: 1;
 }
 
-.project-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-hover);
+.project-card:hover::before {
+    opacity: 1;
 }
 
 .project-image {
     position: relative;
-    height: 220px;
+    height: 240px;
     overflow: hidden;
 }
 
@@ -472,7 +695,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .project-card:hover .project-image img {
@@ -481,58 +704,71 @@
 
 .project-overlay {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2;
 }
 
 .category-badge {
-    padding: 6px 15px;
-    background: var(--gradient-primary);
-    color: white;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
+    padding: 8px 20px;
+    background: var(--gradient-yellow);
+    color: var(--secondary);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .project-content {
-    padding: 25px;
+    padding: 30px;
+    position: relative;
+    z-index: 2;
 }
 
 .project-title {
-    font-size: 1.4rem;
-    margin-bottom: 12px;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
     color: var(--dark);
+    font-weight: 800;
+    line-height: 1.3;
 }
 
 .project-client {
     display: flex;
     align-items: center;
-    gap: 8px;
-    color: var(--text-light);
+    gap: 10px;
+    color: var(--primary);
     margin-bottom: 15px;
-    font-size: 0.9rem;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.project-client i {
+    font-size: 1.1rem;
 }
 
 .project-description {
-    color: var(--text);
+    color: var(--secondary-light);
     line-height: 1.6;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    font-size: 1rem;
 }
 
 .project-tech {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 20px;
+    gap: 10px;
+    margin-bottom: 25px;
 }
 
 .tech-tag {
-    padding: 5px 12px;
-    background: var(--gray);
+    padding: 6px 15px;
+    background: rgba(162, 193, 28, 0.1);
+    color: var(--primary-dark);
     border-radius: 20px;
-    font-size: 0.8rem;
-    color: var(--text);
+    font-size: 0.9rem;
     font-weight: 500;
+    border: 1px solid rgba(162, 193, 28, 0.2);
 }
 
 .project-footer {
@@ -540,70 +776,95 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 15px;
 }
 
 .completion-date {
     display: flex;
     align-items: center;
-    gap: 5px;
-    color: var(--text-light);
-    font-size: 0.9rem;
+    gap: 8px;
+    color: var(--gray);
+    font-size: 0.95rem;
 }
 
 .btn-sm {
-    padding: 8px 16px;
-    font-size: 0.9rem;
-    border-radius: 20px;
+    padding: 10px 25px;
+    font-size: 0.95rem;
+    border-radius: 50px;
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+}
+
+.btn-outline:hover {
+    color: var(--secondary);
 }
 
 /* Testimonials Section */
 .member-testimonials {
-    padding: 100px 0;
-    background: var(--gray);
+    padding: 120px 0;
+    background: var(--gray-light);
     position: relative;
 }
 
 .testimonials-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 40px;
 }
 
 .testimonial-card {
     background: white;
     border-radius: var(--radius);
-    padding: 30px;
+    padding: 40px;
     box-shadow: var(--shadow);
     position: relative;
     transition: var(--transition);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .testimonial-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
 }
 
 .quote-icon {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 3rem;
-    color: rgba(108, 99, 255, 0.1);
+    top: 25px;
+    right: 25px;
+    font-size: 3.5rem;
+    color: var(--primary-light);
+    opacity: 0.5;
 }
 
 .testimonial-content {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     position: relative;
     z-index: 1;
 }
 
 .testimonial-content p {
     font-style: italic;
-    line-height: 1.7;
-    color: var(--text);
+    line-height: 1.8;
+    color: var(--secondary-light);
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    position: relative;
+    padding-left: 30px;
+}
+
+.testimonial-content p::before {
+    content: '"';
+    position: absolute;
+    left: 0;
+    top: -10px;
+    color: var(--primary);
+    font-size: 3rem;
+    opacity: 0.5;
+    font-family: Georgia, serif;
 }
 
 .testimonial-author {
@@ -614,92 +875,121 @@
 .author-info h4 {
     margin: 0 0 5px 0;
     color: var(--dark);
-    font-weight: 700;
+    font-weight: 800;
+    font-size: 1.2rem;
 }
 
 .author-info p {
     margin: 0;
-    color: var(--text-light);
-    font-size: 0.9rem;
+    color: var(--gray);
+    font-size: 1rem;
 }
 
 /* Contact CTA Section */
 .contact-cta {
-    padding: 100px 0;
-    background: var(--gradient-primary);
+    padding: 120px 0;
+    background: var(--gradient-dark);
     color: white;
     text-align: center;
     position: relative;
     overflow: hidden;
 }
 
-.contact-cta::before {
-    content: '';
+.cta-background {
     position: absolute;
-    top: -50px;
-    right: -50px;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+}
+
+.cta-pattern {
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 30% 30%, rgba(162, 193, 28, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(162, 193, 28, 0.15) 0%, transparent 50%);
+}
+
+.cta-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .cta-content h2 {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-    position: relative;
-    z-index: 2;
+    font-size: 3.2rem;
+    margin-bottom: 20px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffffff 0%, var(--primary-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
 }
 
 .cta-content p {
-    font-size: 1.2rem;
-    margin-bottom: 40px;
+    font-size: 1.4rem;
+    margin-bottom: 50px;
     opacity: 0.9;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
-    position: relative;
-    z-index: 2;
+    line-height: 1.7;
 }
 
 .cta-buttons {
     display: flex;
-    justify-content: center;
     gap: 20px;
+    justify-content: center;
     flex-wrap: wrap;
-    position: relative;
-    z-index: 2;
-}
-
-.btn-lg {
-    padding: 15px 35px;
-    font-size: 1.1rem;
-}
-
-.schedule-meeting {
-    background: transparent;
-    color: white;
-    border-color: white;
-}
-
-.schedule-meeting:hover {
-    background: white;
-    color: var(--primary);
 }
 
 /* Responsive Design */
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
     .about-grid {
         grid-template-columns: 1fr;
+        gap: 50px;
     }
     
     .about-content {
         padding-right: 0;
     }
+}
+
+@media (max-width: 992px) {
+    .member-hero {
+        padding: 100px 0 80px;
+    }
     
     .profile-content {
         justify-content: center;
         text-align: center;
+        gap: 40px;
+    }
+    
+    .member-image {
+        flex: 0 0 280px;
+    }
+    
+    .member-image-inner {
+        width: 280px;
+        height: 280px;
+    }
+    
+    .intro-header h1.member-name {
+        font-size: 2.8rem;
+    }
+    
+    .section-title {
+        font-size: 2.5rem;
+    }
+    
+    .projects-grid,
+    .testimonials-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
     }
 }
 
@@ -712,45 +1002,74 @@
         font-size: 2.2rem;
     }
     
+    .intro-header h2.member-role {
+        font-size: 1.3rem;
+    }
+    
     .member-stats {
         justify-content: center;
     }
     
-    .projects-grid {
-        grid-template-columns: 1fr;
+    .stat-item {
+        min-width: 120px;
+        padding: 20px;
     }
     
-    .testimonials-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .action-buttons, .cta-buttons {
+    .action-buttons,
+    .cta-buttons {
         flex-direction: column;
         align-items: center;
     }
     
     .btn {
         width: 100%;
-        justify-content: center;
-    }
-}
-
-@media (max-width: 576px) {
-    .member-hero, .member-about, .member-portfolio, 
-    .member-testimonials, .contact-cta {
-        padding: 60px 0;
-    }
-    
-    .member-image {
-        flex: 0 0 220px;
-    }
-    
-    .member-image img {
-        height: 220px;
+        max-width: 300px;
     }
     
     .section-title {
         font-size: 2rem;
+    }
+    
+    .cta-content h2 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .member-hero,
+    .member-about,
+    .member-portfolio,
+    .member-testimonials,
+    .contact-cta {
+        padding: 80px 0;
+    }
+    
+    .member-image {
+        flex: 0 0 240px;
+    }
+    
+    .member-image-inner {
+        width: 240px;
+        height: 240px;
+    }
+    
+    .image-badge {
+        width: 50px;
+        height: 50px;
+        font-size: 1.4rem;
+    }
+    
+    .projects-grid,
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta-content h2 {
+        font-size: 2rem;
+    }
+    
+    .cta-content p {
+        font-size: 1.2rem;
     }
 }
 </style>
@@ -760,16 +1079,33 @@
 
 <!-- Hero Section -->
 <section class="member-hero">
+    <div class="hero-background">
+        <div class="hero-pattern"></div>
+    </div>
+    
+    <div class="floating-shapes">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+    </div>
+    
     <div class="container">
         <div class="member-profile">
             <div class="profile-content">
                 <div class="member-image">
-                    {% if member.image %}
-                    <img src="{{ member.image }}" alt="{{ member.name }}" class="member-img" data-fallback="{% static 'images/default-user.jpg' %}">
-                    {% else %}
-                    <img src="{% static 'images/default-user.jpg' %}" alt="{{ member.name }}" class="member-img">
-                    {% endif %}
+                    <div class="member-image-inner">
+                        {% if member.image and member.image.url %}
+                            <img src="{{ member.image.url }}" alt="{{ member.name }}" 
+                                 onerror="this.src='{% static 'images/default-user.jpg' %}'">
+                        {% else %}
+                            <img src="{% static 'images/default-user.jpg' %}" alt="{{ member.name }}">
+                        {% endif %}
+                        <div class="image-badge">
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="member-intro">
                     <div class="intro-header">
                         <h1 class="member-name">{{ member.name }}</h1>
@@ -791,24 +1127,34 @@
                         <div class="stat-item">
                             <i class="fas fa-star"></i>
                             <span class="stat-value">{{ member.skills|length }}</span>
-                            <span class="stat-label">Skills</span>
+                            <span class="stat-label">Expertise</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-award"></i>
+                            <span class="stat-value">{{ member.certifications|length }}</span>
+                            <span class="stat-label">Certifications</span>
                         </div>
                     </div>
 
                     <div class="member-social">
                         {% if member.linkedin %}
-                            <a href="{{ member.linkedin }}" target="_blank" class="social-link linkedin">
-                                <i class="fab fa-linkedin"></i>
+                            <a href="{{ member.linkedin }}" target="_blank" class="social-link" title="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
                             </a>
                         {% endif %}
                         {% if member.github %}
-                            <a href="{{ member.github }}" target="_blank" class="social-link github">
+                            <a href="{{ member.github }}" target="_blank" class="social-link" title="GitHub">
                                 <i class="fab fa-github"></i>
                             </a>
                         {% endif %}
                         {% if member.twitter %}
-                            <a href="{{ member.twitter }}" target="_blank" class="social-link twitter">
+                            <a href="{{ member.twitter }}" target="_blank" class="social-link" title="Twitter">
                                 <i class="fab fa-twitter"></i>
+                            </a>
+                        {% endif %}
+                        {% if member.website %}
+                            <a href="{{ member.website }}" target="_blank" class="social-link" title="Website">
+                                <i class="fas fa-globe"></i>
                             </a>
                         {% endif %}
                     </div>
@@ -817,16 +1163,18 @@
             
             <div class="cta-container">
                 <div class="action-buttons">
-                    <a href="{% url 'developer_contact' member.slug|default:member.name|slugify %}" class="btn btn-primary">
+                    <a href="{% url 'contact' %}?team_member={{ member.name|urlencode }}" class="btn btn-primary">
                         <i class="fas fa-handshake"></i> Work with Me
                     </a>
                     <a href="#portfolio" class="btn btn-outline scroll-link">
                         <i class="fas fa-project-diagram"></i> View Projects
                     </a>
-                    {% if request.user.is_authenticated and request.user.is_staff and request.user.email == member.admin_email %}
-                    <a href="{% url 'edit_profile' %}" class="btn btn-outline" style="border-color: #FFD700; color: #FFD700;">
-                        <i class="fas fa-edit"></i> Edit Profile
-                    </a>
+                    {% if request.user.is_authenticated and request.user.is_staff %}
+                        {% if request.user.email == member.admin_email or not member.admin_email %}
+                            <a href="{% url 'edit_profile' %}" class="btn btn-outline" style="border-color: #FFD700; color: #FFD700;">
+                                <i class="fas fa-edit"></i> Edit Profile
+                            </a>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
@@ -834,12 +1182,31 @@
     </div>
 </section>
 
-<!-- About Section -->
-<section class="member-about section">
+<!-- Navigation Tabs Section -->
+<section class="profile-tabs-section" style="background: linear-gradient(135deg, #0a0a14 0%, #1a1a2e 100%); padding: 20px 0; position: sticky; top: 70px; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
     <div class="container">
+        <div style="display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; border-bottom: 2px solid rgba(162, 193, 28, 0.2); padding-bottom: 15px;">
+            <a href="#about" class="profile-tab-link scroll-link" style="color: var(--primary); font-weight: 600; text-decoration: none; padding: 10px 20px; border-radius: var(--radius); transition: all 0.3s ease; position: relative;">
+                <i class="fas fa-user"></i> Profile
+                <span style="position: absolute; bottom: -15px; left: 0; right: 0; height: 3px; background: var(--primary); border-radius: 2px; display: none;"></span>
+            </a>
+            <a href="#portfolio" class="profile-tab-link scroll-link" style="color: rgba(255,255,255,0.7); font-weight: 600; text-decoration: none; padding: 10px 20px; border-radius: var(--radius); transition: all 0.3s ease;">
+                <i class="fas fa-project-diagram"></i> Projects
+            </a>
+            <a href="#testimonials" class="profile-tab-link scroll-link" style="color: rgba(255,255,255,0.7); font-weight: 600; text-decoration: none; padding: 10px 20px; border-radius: var(--radius); transition: all 0.3s ease;">
+                <i class="fas fa-comments"></i> Testimonials
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="member-about">
+    <div class="container">
+        <h2 class="section-title">About <span class="highlight">Me</span></h2>
+        
         <div class="about-grid">
             <div class="about-content">
-                <h2 class="section-title">About <span class="highlight">Me</span></h2>
                 <div class="bio-text">
                     {{ member.bio|linebreaks }}
                 </div>
@@ -850,7 +1217,8 @@
                         <div class="timeline-item">
                             <div class="timeline-marker"></div>
                             <div class="timeline-content">
-                                <h4>{{ exp }}</h4>
+                                <h4>{{ exp.position }} at {{ exp.company }}</h4>
+                                <p>{{ exp.duration }} • {{ exp.description }}</p>
                             </div>
                         </div>
                     {% endfor %}
@@ -871,20 +1239,21 @@
                     <h3><i class="fas fa-graduation-cap"></i> Education</h3>
                     {% for edu in member.education %}
                         <div class="education-item">
-                            <h4>{{ edu }}</h4>
+                            <h4>{{ edu.degree }}</h4>
+                            <p>{{ edu.institution }} • {{ edu.year }}</p>
                         </div>
                     {% endfor %}
                 </div>
                 
                 {% if member.certifications %}
-                <div class="certifications-box">
-                    <h3><i class="fas fa-certificate"></i> Certifications</h3>
-                    <ul class="certifications-list">
-                        {% for cert in member.certifications %}
-                            <li>{{ cert }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                    <div class="certifications-box">
+                        <h3><i class="fas fa-certificate"></i> Certifications</h3>
+                        <ul class="certifications-list">
+                            {% for cert in member.certifications %}
+                                <li>{{ cert.name }} ({{ cert.issuer }})</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 {% endif %}
             </div>
         </div>
@@ -892,43 +1261,56 @@
 </section>
 
 <!-- Portfolio Section -->
-<section id="portfolio" class="member-portfolio section">
+<section id="portfolio" class="member-portfolio">
     <div class="container">
         <h2 class="section-title">Featured <span class="highlight">Projects</span></h2>
+        <p class="section-subtitle">A showcase of my recent work demonstrating creativity, technical expertise, and innovative solutions</p>
+        
         <div class="projects-grid">
             {% for project in member.projects %}
                 <div class="project-card">
                     <div class="project-image">
-                        {% if project.image %}
-                            <img src="{{ project.image }}" alt="{{ project.title }}" class="project-img" data-fallback="{% static 'images/project1.jpg' %}">
+                        {% if project.image and project.image.url %}
+                            <img src="{{ project.image.url }}" alt="{{ project.title }}" 
+                                 onerror="this.src='{% static 'images/project-placeholder.jpg' %}'">
                         {% else %}
-                            <img src="{% static 'images/project1.jpg' %}" alt="{{ project.title }}" class="project-img">
+                            <img src="{% static 'images/project-placeholder.jpg' %}" alt="{{ project.title }}">
                         {% endif %}
                         <div class="project-overlay">
                             <span class="category-badge">{{ project.get_category_display }}</span>
                         </div>
                     </div>
+                    
                     <div class="project-content">
                         <h3 class="project-title">{{ project.title }}</h3>
-                        <p class="project-client"><i class="fas fa-building"></i> {{ project.client }}</p>
-                        <p class="project-description">{{ project.description }}</p>
+                        <p class="project-client">
+                            <i class="fas fa-building"></i> {{ project.client }}
+                        </p>
+                        <p class="project-description">{{ project.description|truncatewords:30 }}</p>
+                        
                         <div class="project-tech">
                             {% for tech in project.technologies %}
                                 <span class="tech-tag">{{ tech }}</span>
                             {% endfor %}
                         </div>
+                        
                         <div class="project-footer">
                             <span class="completion-date">
                                 <i class="far fa-calendar-check"></i> 
                                 {{ project.completion_date|date:"F Y" }}
                             </span>
+                            
                             {% if project.website %}
                                 <a href="{{ project.website }}" target="_blank" class="btn btn-outline btn-sm">
-                                    <i class="fas fa-external-link-alt"></i> View Project
+                                    <i class="fas fa-external-link-alt"></i> View Live
                                 </a>
                             {% endif %}
                         </div>
                     </div>
+                </div>
+            {% empty %}
+                <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+                    <p style="font-size: 1.2rem; color: var(--gray); opacity: 0.8;">Projects will be displayed here soon!</p>
                 </div>
             {% endfor %}
         </div>
@@ -936,9 +1318,11 @@
 </section>
 
 <!-- Testimonials Section -->
-<section class="member-testimonials section">
+<section id="testimonials" class="member-testimonials">
     <div class="container">
         <h2 class="section-title">Client <span class="highlight">Testimonials</span></h2>
+        <p class="section-subtitle">What clients say about working with me</p>
+        
         <div class="testimonials-grid">
             {% for testimonial in member.testimonials %}
                 <div class="testimonial-card">
@@ -953,23 +1337,38 @@
                         </div>
                     </div>
                 </div>
+            {% empty %}
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <i class="fas fa-quote-left quote-icon"></i>
+                        <p>"Working with {{ member.name }} was an absolute pleasure. The attention to detail and commitment to excellence resulted in a product that exceeded our expectations."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>CEO, Tech Solutions Inc.</p>
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
         </div>
     </div>
 </section>
 
 <!-- Contact CTA -->
-<section class="contact-cta section">
+<section class="contact-cta">
+    <div class="cta-background">
+        <div class="cta-pattern"></div>
+    </div>
+    
     <div class="container">
         <div class="cta-content">
-            <h2>Ready to Start Your Project?</h2>
-            <p>Let's collaborate and bring your ideas to life!</p>
+            <h2>Ready to Collaborate?</h2>
+            <p>Let's work together to bring your ideas to life and create something extraordinary</p>
+            
             <div class="cta-buttons">
                 <a href="{% url 'contact' %}?team_member={{ member.name|urlencode }}" class="btn btn-primary btn-lg">
-                    <i class="fas fa-paper-plane"></i> Get in Touch
-                </a>
-                <a href="#" class="btn btn-outline btn-lg schedule-meeting">
-                    <i class="far fa-calendar-alt"></i> Schedule a Call
+                    <i class="fas fa-paper-plane"></i> Start a Project
                 </a>
             </div>
         </div>
@@ -979,31 +1378,83 @@
 
 {% block extra_js %}
 <script>
+document.addEventListener('DOMContentLoaded', function() {
     // Smooth scroll for anchor links
     document.querySelectorAll('.scroll-link').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+        anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            }
         });
     });
-
-    // Handle image fallbacks
-    document.querySelectorAll('img[data-fallback]').forEach(img => {
-        img.addEventListener('error', function() {
-            this.src = this.getAttribute('data-fallback');
+    
+    // Animate elements on scroll
+    const animateOnScroll = () => {
+        const elements = document.querySelectorAll('.timeline-item, .project-card, .testimonial-card, .stat-item');
+        
+        elements.forEach(element => {
+            const elementPos = element.getBoundingClientRect().top;
+            const screenPos = window.innerHeight / 1.2;
+            
+            if (elementPos < screenPos) {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }
         });
+    };
+    
+    // Initialize animation states
+    document.querySelectorAll('.timeline-item, .project-card, .testimonial-card, .stat-item').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
     });
-
-    // Handle hover transforms for member and project images
-    document.querySelectorAll('.member-img, .project-img').forEach(img => {
-        img.addEventListener('mouseover', function() {
-            this.style.transform = 'scale(1.04)';
+    
+    // Profile tabs highlighting
+    const updateActiveTab = () => {
+        const tabs = document.querySelectorAll('.profile-tab-link');
+        const sections = {
+            '#about': document.getElementById('about'),
+            '#portfolio': document.getElementById('portfolio'),
+            '#testimonials': document.getElementById('testimonials')
+        };
+        
+        tabs.forEach(tab => {
+            tab.style.color = 'rgba(255,255,255,0.7)';
+            const underline = tab.querySelector('span');
+            if (underline) underline.style.display = 'none';
         });
-        img.addEventListener('mouseout', function() {
-            this.style.transform = 'scale(1)';
-        });
+        
+        // Check which section is in view
+        for (const [selector, element] of Object.entries(sections)) {
+            if (element) {
+                const rect = element.getBoundingClientRect();
+                if (rect.top >= -100 && rect.top <= window.innerHeight / 2) {
+                    const activeTab = document.querySelector(`.profile-tab-link[href="${selector}"]`);
+                    if (activeTab) {
+                        activeTab.style.color = 'var(--primary)';
+                        const underline = activeTab.querySelector('span');
+                        if (underline) underline.style.display = 'block';
+                    }
+                    break;
+                }
+            }
+        }
+    };
+    
+    window.addEventListener('scroll', () => {
+        animateOnScroll();
+        updateActiveTab();
     });
+    animateOnScroll(); // Initial check
+    updateActiveTab(); // Initial tab highlighting
+});
 </script>
 {% endblock %}

@@ -1,63 +1,244 @@
 {% extends 'base.html' %}
 {% load socialaccount %}
 
-{% block title %}Sign Up - Serendipity Portfolio{% endblock %}
+{% block title %}Sign Up - Auronix Portfolio{% endblock %}
 
 {% block extra_css %}
 <style>
-    .signup-container {
+    :root {
+        --primary: #a2c11c;
+        --primary-dark: #8ba916;
+        --primary-light: rgba(162, 193, 28, 0.1);
+        --dark: #0f172a;
+        --dark-light: #1e293b;
+        --gray: #64748b;
+        --gray-light: #e2e8f0;
+        --success: #10b981;
+        --error: #ef4444;
+        --radius: 12px;
+        --radius-lg: 24px;
+        --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 20px 80px rgba(0, 0, 0, 0.2);
+    }
+
+    .signup-wrapper {
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
-        padding: 20px;
-        margin-top: 100px;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        padding: 40px 20px;
+        position: relative;
+        overflow: hidden;
     }
 
-    .signup-card {
+    .signup-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(circle at 20% 20%, rgba(162, 193, 28, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(162, 193, 28, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    .signup-container {
+        display: flex;
+        max-width: 1200px;
+        width: 100%;
         background: white;
         border-radius: var(--radius-lg);
-        padding: 60px 40px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        max-width: 450px;
-        width: 100%;
-        text-align: center;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+        position: relative;
+        z-index: 1;
     }
 
-    .signup-header {
+    .signup-left {
+        flex: 1;
+        background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
+        padding: 80px 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .signup-left::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a2c11c' fill-opacity='0.05'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.4;
+    }
+
+    .brand-section {
+        position: relative;
+        z-index: 2;
+    }
+
+    .brand-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
         margin-bottom: 40px;
     }
 
-    .signup-header h1 {
-        font-size: 2.5rem;
+    .brand-logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--primary);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         color: var(--dark);
-        margin-bottom: 10px;
+        font-weight: 800;
+        font-size: 1.8rem;
+        box-shadow: 0 8px 20px rgba(162, 193, 28, 0.3);
+    }
+
+    .brand-logo-text {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: white;
+        letter-spacing: 0.5px;
+    }
+
+    .brand-logo-text span {
+        color: var(--primary);
+    }
+
+    .welcome-text {
+        color: white;
+        font-size: 2.8rem;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    .welcome-text span {
+        color: var(--primary);
+        position: relative;
+    }
+
+    .welcome-text span::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 2px;
+    }
+
+    .subtitle {
+        color: var(--gray-light);
+        font-size: 1.1rem;
+        line-height: 1.6;
+        max-width: 400px;
+        margin-bottom: 30px;
+    }
+
+    .benefits {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .benefit {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .benefit-icon {
+        width: 24px;
+        height: 24px;
+        background: var(--primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--dark);
+        font-size: 0.8rem;
+        flex-shrink: 0;
+        margin-top: 3px;
+    }
+
+    .benefit-text {
+        color: white;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .signup-right {
+        flex: 1.2;
+        padding: 80px 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: white;
+        overflow-y: auto;
+        max-height: 90vh;
+    }
+
+    .signup-header {
+        margin-bottom: 30px;
+    }
+
+    .signup-header h2 {
+        font-size: 2rem;
+        color: var(--dark);
+        margin-bottom: 8px;
     }
 
     .signup-header p {
         color: var(--gray);
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 
-    .divider {
+    .messages-container {
+        margin-bottom: 25px;
+    }
+
+    .message {
+        padding: 15px 20px;
+        background: #f0f9ff;
+        border-left: 4px solid var(--success);
+        color: #065f46;
+        border-radius: var(--radius);
         display: flex;
         align-items: center;
-        margin: 30px 0;
-        color: var(--gray);
+        gap: 12px;
+        font-weight: 500;
+        margin-bottom: 10px;
     }
 
-    .divider::before,
-    .divider::after {
-        content: '';
-        flex: 1;
-        height: 1px;
-        background: #e0e0e0;
+    .message.error {
+        background: #fef2f2;
+        border-left-color: var(--error);
+        color: #7f1d1d;
     }
 
-    .divider span {
-        margin: 0 15px;
-        font-size: 0.9rem;
+    .message i {
+        font-size: 1.2rem;
+    }
+
+    .social-signup {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 30px;
     }
 
     .google-signup-btn {
@@ -67,22 +248,23 @@
         width: 100%;
         padding: 16px 24px;
         background: white;
-        border: 2px solid #e0e0e0;
+        border: 2px solid var(--gray-light);
         border-radius: var(--radius);
         color: var(--dark);
         text-decoration: none;
         font-weight: 600;
-        font-size: 1.1rem;
+        font-size: 1rem;
         transition: all 0.3s ease;
         cursor: pointer;
-        margin-bottom: 15px;
+        position: relative;
+        overflow: hidden;
     }
 
     .google-signup-btn:hover {
         border-color: var(--primary);
-        background: rgba(162, 193, 28, 0.05);
+        background: var(--primary-light);
         transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(162, 193, 28, 0.2);
+        box-shadow: var(--shadow);
     }
 
     .google-signup-btn i {
@@ -91,44 +273,208 @@
         color: #ea4335;
     }
 
-    .form-group {
-        margin-bottom: 15px;
-        text-align: left;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        color: var(--dark);
-        font-weight: 600;
+    .divider {
+        display: flex;
+        align-items: center;
+        margin: 25px 0;
+        color: var(--gray);
         font-size: 0.9rem;
     }
 
-    .form-group input {
-        width: 100%;
-        padding: 12px 15px;
-        border: 2px solid #e0e0e0;
-        border-radius: 8px;
-        font-size: 1rem;
-        transition: 0.3s;
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--gray-light);
     }
 
-    .form-group input:focus {
+    .divider span {
+        margin: 0 15px;
+        font-weight: 500;
+    }
+
+    .signup-form {
+        margin-bottom: 25px;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 5px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .form-group.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--dark);
+        font-weight: 600;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .form-label .required {
+        color: var(--error);
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 16px 20px;
+        border: 2px solid var(--gray-light);
+        border-radius: var(--radius);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+    .form-input:focus {
         outline: none;
         border-color: var(--primary);
-        background: rgba(162, 193, 28, 0.02);
+        box-shadow: 0 0 0 3px var(--primary-light);
+    }
+
+    .form-input.error {
+        border-color: var(--error);
+        background: #fef2f2;
+    }
+
+    .form-input.success {
+        border-color: var(--success);
+        background: #f0f9ff;
+    }
+
+    .form-input::placeholder {
+        color: #94a3b8;
     }
 
     .form-error {
-        color: #dc2626;
+        color: var(--error);
         font-size: 0.85rem;
-        margin-top: 5px;
+        margin-top: 6px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .form-error i {
+        font-size: 0.9rem;
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: 15px;
+        top: 42px;
+        background: none;
+        border: none;
+        color: var(--gray);
+        cursor: pointer;
+        font-size: 1.2rem;
+        z-index: 2;
+    }
+
+    .password-strength {
+        margin-top: 8px;
+        height: 4px;
+        background: var(--gray-light);
+        border-radius: 2px;
+        overflow: hidden;
+    }
+
+    .password-strength-bar {
+        height: 100%;
+        width: 0;
+        background: var(--error);
+        border-radius: 2px;
+        transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    .password-strength-text {
+        font-size: 0.8rem;
+        color: var(--gray);
+        margin-top: 4px;
+        text-align: right;
+    }
+
+    .terms-agreement {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin: 25px 0;
+        padding: 15px;
+        background: #f8fafc;
+        border-radius: var(--radius);
+    }
+
+    .terms-checkbox {
+        margin-top: 3px;
+    }
+
+    .terms-text {
+        font-size: 0.9rem;
+        color: var(--gray);
+        line-height: 1.5;
+    }
+
+    .terms-text a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .terms-text a:hover {
+        text-decoration: underline;
+    }
+
+    .signup-btn {
+        width: 100%;
+        padding: 18px 24px;
+        background: var(--primary);
+        color: var(--dark);
+        border: none;
+        border-radius: var(--radius);
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .signup-btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(162, 193, 28, 0.3);
+    }
+
+    .signup-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
     }
 
     .signup-footer {
         margin-top: 30px;
-        padding-top: 30px;
-        border-top: 1px solid #e0e0e0;
+        padding-top: 25px;
+        border-top: 1px solid var(--gray-light);
+        text-align: center;
         color: var(--gray);
         font-size: 0.95rem;
     }
@@ -137,105 +483,485 @@
         color: var(--primary);
         text-decoration: none;
         font-weight: 600;
+        margin-left: 5px;
+        transition: color 0.2s ease;
     }
 
     .signup-footer a:hover {
+        color: var(--primary-dark);
         text-decoration: underline;
     }
 
+    .progress-steps {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+    .progress-steps::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 20px;
+        right: 20px;
+        height: 2px;
+        background: var(--gray-light);
+        transform: translateY(-50%);
+        z-index: 1;
+    }
+
+    .step {
+        width: 40px;
+        height: 40px;
+        background: white;
+        border: 2px solid var(--gray-light);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        color: var(--gray);
+        position: relative;
+        z-index: 2;
+        transition: all 0.3s ease;
+    }
+
+    .step.active {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .step.completed {
+        background: var(--success);
+        border-color: var(--success);
+        color: white;
+    }
+
+    .step-label {
+        position: absolute;
+        top: 45px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.8rem;
+        color: var(--gray);
+        white-space: nowrap;
+        font-weight: 500;
+    }
+
+    .floating-shapes {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .shape {
+        position: absolute;
+        background: var(--primary);
+        opacity: 0.1;
+        border-radius: 50%;
+    }
+
+    .shape-1 {
+        width: 100px;
+        height: 100px;
+        top: 15%;
+        right: 8%;
+        animation: float 25s infinite ease-in-out;
+    }
+
+    .shape-2 {
+        width: 60px;
+        height: 60px;
+        bottom: 20%;
+        left: 10%;
+        animation: float 20s infinite ease-in-out reverse;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    @media (max-width: 992px) {
+        .signup-container {
+            flex-direction: column;
+            max-width: 700px;
+        }
+
+        .signup-left {
+            padding: 60px 40px;
+        }
+
+        .signup-right {
+            padding: 60px 40px;
+        }
+
+        .welcome-text {
+            font-size: 2.2rem;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+    }
+
     @media (max-width: 576px) {
-        .signup-card {
+        .signup-left, .signup-right {
             padding: 40px 30px;
         }
 
-        .signup-header h1 {
-            font-size: 2rem;
+        .brand-logo-text {
+            font-size: 1.8rem;
         }
 
-        .google-signup-btn {
-            padding: 14px 20px;
-            font-size: 1rem;
+        .welcome-text {
+            font-size: 1.8rem;
+        }
+
+        .progress-steps {
+            margin-bottom: 30px;
+        }
+
+        .step-label {
+            font-size: 0.7rem;
+        }
+
+        .google-signup-btn, .signup-btn {
+            padding: 15px 20px;
         }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="signup-container">
-    <div class="signup-card">
-        <div class="signup-header">
-            <h1><span style="color: var(--primary);">Seren</span>dipity</h1>
-            <p>Create Your Account</p>
-        </div>
-
-        {% if messages %}
-        <div style="margin-bottom: 20px;">
-            {% for message in messages %}
-            <div style="padding: 12px 15px; background: #f0f9ff; border-left: 4px solid #10b981; color: #065f46; border-radius: 4px;">
-                {{ message }}
+<div class="signup-wrapper">
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </div>
+    
+    <div class="signup-container">
+        <!-- Left side: Brand & Benefits -->
+        <div class="signup-left">
+            <div class="brand-section">
+                <div class="brand-logo">
+                    <div class="brand-logo-icon">A</div>
+                    <div class="brand-logo-text"><span>Auron</span>ix</div>
+                </div>
+                
+                <h1 class="welcome-text">Join <span>Auronix</span></h1>
+                <p class="subtitle">
+                    Create your professional portfolio and showcase your work to the world. 
+                    Start your journey with us today.
+                </p>
+                
+                <div class="benefits">
+                    <div class="benefit">
+                        <div class="benefit-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <strong>Launch Your Career</strong> - Build a professional portfolio in minutes
+                        </div>
+                    </div>
+                    <div class="benefit">
+                        <div class="benefit-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <strong>Secure & Private</strong> - Your data is encrypted and protected
+                        </div>
+                    </div>
+                    <div class="benefit">
+                        <div class="benefit-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <strong>Global Reach</strong> - Showcase your work to clients worldwide
+                        </div>
+                    </div>
+                    <div class="benefit">
+                        <div class="benefit-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <strong>Grow Your Network</strong> - Connect with professionals and opportunities
+                        </div>
+                    </div>
+                </div>
             </div>
-            {% endfor %}
         </div>
-        {% endif %}
+        
+        <!-- Right side: Signup Form -->
+        <div class="signup-right">
+            <!-- Progress Steps -->
+            <div class="progress-steps">
+                <div class="step active">
+                    1
+                    <div class="step-label">Account</div>
+                </div>
+                <div class="step">
+                    2
+                    <div class="step-label">Profile</div>
+                </div>
+                <div class="step">
+                    3
+                    <div class="step-label">Portfolio</div>
+                </div>
+            </div>
 
-        <div>
-            <p style="color: var(--gray); margin-bottom: 25px;">
-                Create an account to get started
-            </p>
+            <div class="signup-header">
+                <h2>Create Your Account</h2>
+                <p>Fill in your details to get started</p>
+            </div>
 
-            <a href="{% provider_login_url 'google' %}" class="google-signup-btn">
-                <i class="fab fa-google"></i>
-                Sign Up with Google
-            </a>
+            {% if messages %}
+            <div class="messages-container">
+                {% for message in messages %}
+                <div class="message {% if message.tags == 'error' %}error{% endif %}">
+                    <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="social-signup">
+                <a href="{% provider_login_url 'google' %}" class="google-signup-btn">
+                    <i class="fab fa-google"></i>
+                    Sign Up with Google
+                </a>
+            </div>
 
             <div class="divider">
-                <span>OR</span>
+                <span>Or sign up with email</span>
             </div>
 
-            <form method="post" action="{% url 'account_signup' %}">
+            <form method="post" action="{% url 'account_signup' %}" class="signup-form" id="signupForm">
                 {% csrf_token %}
 
-                {% if form.email.errors %}
-                <div class="form-error">{{ form.email.errors }}</div>
-                {% endif %}
-                <div class="form-group">
-                    <label for="{{ form.email.id_for_label }}">Email Address</label>
-                    {{ form.email }}
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.email.id_for_label }}" class="form-label">
+                            Email Address
+                            <span class="required">*</span>
+                        </label>
+                        <input type="email" id="{{ form.email.id_for_label }}" 
+                               name="{{ form.email.name }}" 
+                               class="form-input {% if form.email.errors %}error{% endif %}" 
+                               placeholder="your.email@example.com" 
+                               value="{{ form.email.value|default:'' }}"
+                               required>
+                        {% if form.email.errors %}
+                        <div class="form-error">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.email.errors|first }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.username.id_for_label }}" class="form-label">
+                            Username
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" id="{{ form.username.id_for_label }}" 
+                               name="{{ form.username.name }}" 
+                               class="form-input {% if form.username.errors %}error{% endif %}" 
+                               placeholder="yourusername" 
+                               value="{{ form.username.value|default:'' }}"
+                               required>
+                        {% if form.username.errors %}
+                        <div class="form-error">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.username.errors|first }}
+                        </div>
+                        {% endif %}
+                    </div>
                 </div>
 
-                {% if form.username.errors %}
-                <div class="form-error">{{ form.username.errors }}</div>
-                {% endif %}
                 <div class="form-group">
-                    <label for="{{ form.username.id_for_label }}">Username</label>
-                    {{ form.username }}
+                    <label for="{{ form.password1.id_for_label }}" class="form-label">
+                        Password
+                        <span class="required">*</span>
+                    </label>
+                    <input type="password" id="{{ form.password1.id_for_label }}" 
+                           name="{{ form.password1.name }}" 
+                           class="form-input {% if form.password1.errors %}error{% endif %}" 
+                           placeholder="Create a strong password" 
+                           required>
+                    <button type="button" class="password-toggle" id="togglePassword1">
+                        <i class="far fa-eye"></i>
+                    </button>
+                    
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="passwordStrengthBar"></div>
+                    </div>
+                    <div class="password-strength-text" id="passwordStrengthText">Strength: Weak</div>
+                    
+                    {% if form.password1.errors %}
+                    <div class="form-error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ form.password1.errors|first }}
+                    </div>
+                    {% endif %}
                 </div>
 
-                {% if form.password1.errors %}
-                <div class="form-error">{{ form.password1.errors }}</div>
-                {% endif %}
                 <div class="form-group">
-                    <label for="{{ form.password1.id_for_label }}">Password</label>
-                    {{ form.password1 }}
+                    <label for="{{ form.password2.id_for_label }}" class="form-label">
+                        Confirm Password
+                        <span class="required">*</span>
+                    </label>
+                    <input type="password" id="{{ form.password2.id_for_label }}" 
+                           name="{{ form.password2.name }}" 
+                           class="form-input {% if form.password2.errors %}error{% endif %}" 
+                           placeholder="Confirm your password" 
+                           required>
+                    <button type="button" class="password-toggle" id="togglePassword2">
+                        <i class="far fa-eye"></i>
+                    </button>
+                    
+                    {% if form.password2.errors %}
+                    <div class="form-error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ form.password2.errors|first }}
+                    </div>
+                    {% endif %}
                 </div>
 
-                {% if form.password2.errors %}
-                <div class="form-error">{{ form.password2.errors }}</div>
-                {% endif %}
-                <div class="form-group">
-                    <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
-                    {{ form.password2 }}
+                <div class="terms-agreement">
+                    <input type="checkbox" id="terms" name="terms" class="terms-checkbox" required>
+                    <label for="terms" class="terms-text">
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. 
+                        I understand that my data will be processed in accordance with Auronix's policies.
+                    </label>
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+                <button type="submit" class="signup-btn" id="submitBtn">
+                    <i class="fas fa-user-plus"></i>
                     Create Account
                 </button>
             </form>
-        </div>
 
-        <div class="signup-footer">
-            Already have an account? <a href="{% url 'account_login' %}">Sign in here</a>
+            <div class="signup-footer">
+                Already have an account?
+                <a href="{% url 'account_login' %}">Sign in here</a>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    // Password toggle functionality
+    document.getElementById('togglePassword1').addEventListener('click', function() {
+        const passwordInput = document.getElementById('{{ form.password1.id_for_label }}');
+        const icon = this.querySelector('i');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+    
+    document.getElementById('togglePassword2').addEventListener('click', function() {
+        const passwordInput = document.getElementById('{{ form.password2.id_for_label }}');
+        const icon = this.querySelector('i');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+    
+    // Password strength indicator
+    document.getElementById('{{ form.password1.id_for_label }}').addEventListener('input', function() {
+        const password = this.value;
+        const strengthBar = document.getElementById('passwordStrengthBar');
+        const strengthText = document.getElementById('passwordStrengthText');
+        
+        let strength = 0;
+        let text = 'Weak';
+        let color = '#ef4444';
+        
+        // Check password strength
+        if (password.length >= 8) strength += 25;
+        if (/[A-Z]/.test(password)) strength += 25;
+        if (/[0-9]/.test(password)) strength += 25;
+        if (/[^A-Za-z0-9]/.test(password)) strength += 25;
+        
+        // Determine strength level
+        if (strength >= 75) {
+            text = 'Strong';
+            color = '#10b981';
+        } else if (strength >= 50) {
+            text = 'Good';
+            color = '#f59e0b';
+        } else if (strength >= 25) {
+            text = 'Fair';
+            color = '#f97316';
+        }
+        
+        // Update UI
+        strengthBar.style.width = strength + '%';
+        strengthBar.style.backgroundColor = color;
+        strengthText.textContent = `Strength: ${text}`;
+        strengthText.style.color = color;
+    });
+    
+    // Form validation
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+        const password1 = document.getElementById('{{ form.password1.id_for_label }}').value;
+        const password2 = document.getElementById('{{ form.password2.id_for_label }}').value;
+        const terms = document.getElementById('terms');
+        
+        // Check if passwords match
+        if (password1 !== password2) {
+            e.preventDefault();
+            alert('Passwords do not match. Please try again.');
+            return;
+        }
+        
+        // Check if terms are accepted
+        if (!terms.checked) {
+            e.preventDefault();
+            alert('Please accept the Terms of Service and Privacy Policy.');
+            return;
+        }
+        
+        // Disable button and show loading state
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+    });
+    
+    // Add focus effects to form inputs
+    document.querySelectorAll('.form-input').forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', function() {
+            this.parentElement.classList.remove('focused');
+        });
+    });
+</script>
 {% endblock %}

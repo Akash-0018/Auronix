@@ -46,8 +46,8 @@
     .page-title .highlight {
         background: var(--gradient);
         -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
         background-clip: text;
+        -webkit-text-fill-color: transparent;
         position: relative;
     }
 
@@ -76,6 +76,7 @@
     }
 
     .contact-info {
+        display: block;
         background: white;
         padding: 50px 40px;
         border-radius: var(--radius-lg);
@@ -577,27 +578,7 @@
         color: rgba(255, 255, 255, 0.8);
     }
 
-    /* Meeting Modal */
-    .meeting-modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(26, 26, 46, 0.9) 0%, rgba(67, 97, 238, 0.8) 100%);
-        backdrop-filter: blur(10px);
-        z-index: 10000;
-        overflow-y: auto;
-        padding: 40px 20px;
-        opacity: 0;
-        transition: all 0.4s ease;
-    }
-
-    .meeting-modal.active {
-        opacity: 1;
-        display: block;
-    }
+    /* Meeting Modal - REMOVED */
 
     .modal-content {
         background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
@@ -1037,7 +1018,6 @@
             grid-template-columns: repeat(2, 1fr);
         }
 
-        .contact-info,
         .contact-form-container {
             padding: 30px 25px;
         }
@@ -1087,13 +1067,6 @@
 {% endblock %}
 
 {% block content %}
-<!-- Contact Hero Section -->
-<section style="height:600px;margin-top: 100px;" class="page-header">
-    <div class="container">
-        <h1 class="page-title">Get in <span class="highlight">Touch</span></h1>
-        <p class="page-subtitle">Reach out for inquiries, collaborations, or project discussions</p>
-    </div>
-</section>
 
 <!-- Contact Section -->
 <section class="contact-section section">
@@ -1128,43 +1101,6 @@
                 </p>
                 
                 <div class="info-items">
-                    <!-- Email Section -->
-                    <div class="info-item">
-                        <div class="info-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="info-content">
-                            <h3 class="info-title">Email</h3>
-                            {% if selected_member and selected_member.email %}
-                                <p class="info-text"><a href="mailto:{{ selected_member.email }}">{{ selected_member.email }}</a></p>
-                            {% else %}
-                                <p class="info-text"><a href="mailto:akashcse018@gmail.com">akashcse018@gmail.com</a> (BUSINESS)</p>
-                                <p class="info-text"><a href="mailto:rbhargavi846@gmail.com">rbhargavi846@gmail.com</a> (PERSONAL)</p>
-                            {% endif %}
-                        </div>
-                    </div>
-                    
-                    <!-- Phone & WhatsApp Section -->
-                    <div class="info-item">
-                        <div class="info-icon">
-                            <i class="fas fa-phone-alt"></i>
-                        </div>
-                        <div class="info-content">
-                            <h3 class="info-title">Phone & WhatsApp</h3>
-                            {% if selected_member and selected_member.phone %}
-                                <p class="info-text">
-                                    <a href="tel:{{ selected_member.phone }}">{{ selected_member.phone }}</a> 
-                                    <a href="https://wa.me/{{ selected_member.phone|clean_phone }}" class="whatsapp-link" target="_blank">
-                                        <i class="fab fa-whatsapp"></i>
-                                    </a>
-                                </p>
-                            {% else %}
-                                <p class="info-text"><a href="tel:+919843464180">+91 98434 64180</a> <a href="https://wa.me/919843464180" class="whatsapp-link" target="_blank"><i class="fab fa-whatsapp"></i></a></p>
-                                <p class="info-text"><a href="tel:+918074101457">+91 80741 01457</a> <a href="https://wa.me/918074101457" class="whatsapp-link" target="_blank"><i class="fab fa-whatsapp"></i></a></p>
-                            {% endif %}
-                        </div>
-                    </div>
-                    
                     <!-- Location Section -->
                     <div class="info-item">
                         <div class="info-icon">
@@ -1284,21 +1220,6 @@
                         <div class="character-count"><span id="messageCharCount">0</span>/500 characters</div>
                     </div>
                     
-                    <div class="form-group">
-                        <label class="form-label"><i class="fas fa-at"></i> {{ form.preferred_contact.label }}</label>
-                        <div class="radio-options">
-                            {% for radio in form.preferred_contact %}
-                                <div class="radio-option">
-                                    {{ radio.tag }}
-                                    <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        {% if form.preferred_contact.errors %}
-                            <div class="form-error">{{ form.preferred_contact.errors }}</div>
-                        {% endif %}
-                    </div>
-                    
                     <div class="form-submit">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send Message</button>
                     </div>
@@ -1350,386 +1271,4 @@
     </div>
 </section>
 
-<!-- Map Section -->
-<section class="map-section">
-    <div class="container">
-        <div class="map-container">
-            <div class="map-placeholder">
-                <div class="map-overlay">
-                    <div class="map-content">
-                        <h3>Let's Connect</h3>
-                        <p>Schedule a virtual meeting or in-person consultation</p>
-                        <a href="#" class="btn btn-outline" id="openScheduler"><i class="far fa-calendar-alt"></i> Book a Meeting</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Meeting Scheduler Modal -->
-<div style="color: var(--dark);" class="meeting-modal" id="meetingModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 style="color: var(--dark);" class="modal-title">Schedule a Meeting</h2>
-            <button type="button" class="modal-close" id="closeModal">&times;</button>
-        </div>
-
-        <div style="color: var(--dark);" class="scheduler-container">
-            <h4 ><i class="fas fa-calendar-alt"></i> Select Date & Time</h4>
-            <div class="date-time-section">
-                <div class="date-picker-container">
-                    <label for="meetingDatePicker"><i class="fas fa-calendar"></i> Choose Date</label>
-                    <input type="text" id="meetingDatePicker" placeholder="Click to select date" readonly>
-                    <i class="fas fa-calendar-alt calendar-icon"></i>
-                </div>
-
-                <div class="time-picker-container">
-                    <label for="meetingTimePicker"><i class="fas fa-clock"></i> Choose Time</label>
-                    <input type="time" id="meetingTimePicker">
-                    <i class="fas fa-clock clock-icon"></i>
-                </div>
-            </div>
-
-            <div class="details-form">
-                <div class="form-group">
-                    <label for="meetingName"><i class="fas fa-user"></i> Your Name</label>
-                    <input type="text" id="meetingName" placeholder="Enter your full name">
-                </div>
-                <div class="form-group">
-                    <label for="meetingEmail"><i class="fas fa-envelope"></i> Your Email</label>
-                    <input type="email" id="meetingEmail" placeholder="your.email@example.com">
-                </div>
-                <div class="form-group">
-                    <label for="meetingTopic"><i class="fas fa-bookmark"></i> Meeting Topic</label>
-                    <input type="text" id="meetingTopic" placeholder="What would you like to discuss?">
-                </div>
-                <div class="form-group">
-                    <label for="meetingNotes"><i class="fas fa-sticky-note"></i> Additional Notes</label>
-                    <textarea id="meetingNotes" rows="3" placeholder="Any specific requirements or questions?"></textarea>
-                </div>
-            </div>
-        </div>
-
-        <div class="button-container">
-            <button type="button" class="modal-btn modal-btn-outline" id="cancelMeeting"><i class="fas fa-times"></i> Cancel</button>
-            <button type="button" class="modal-btn modal-btn-primary" id="scheduleMeeting"><i class="fas fa-check"></i> Schedule Meeting</button>
-        </div>
-    </div>
-</div>
-
-<!-- Flatpickr CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
-<!-- Flatpickr JS -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('meetingModal');
-    const openBtn = document.getElementById('openScheduler');
-    const closeBtn = document.getElementById('closeModal');
-    const cancelBtn = document.getElementById('cancelMeeting');
-    const scheduleBtn = document.getElementById('scheduleMeeting');
-
-    // Form elements
-    const nameInput = document.getElementById('meetingName');
-    const emailInput = document.getElementById('meetingEmail');
-    const topicInput = document.getElementById('meetingTopic');
-    const notesInput = document.getElementById('meetingNotes');
-    const dateInput = document.getElementById('meetingDatePicker');
-    const timeInput = document.getElementById('meetingTimePicker');
-
-    let flatpickrInstance;
-
-    // Initialize Flatpickr
-    function initFlatpickr() {
-        flatpickrInstance = flatpickr(dateInput, {
-            dateFormat: "Y-m-d",
-            minDate: new Date(2025, 0, 1), // January 1, 2025
-            defaultDate: new Date().fp_incr(1), // Tomorrow by default
-            disable: [
-                function(date) {
-                    // Disable weekends (Saturday = 6, Sunday = 0)
-                    return (date.getDay() === 0 || date.getDay() === 6);
-                }
-            ],
-            locale: {
-                firstDayOfWeek: 1 // Monday
-            },
-            onReady: function(selectedDates, dateStr, instance) {
-                // Custom styling for the calendar
-                const calendar = instance.calendarContainer;
-                // Removed inline font-family to use base.html font-family
-            },
-            onMonthChange: function(selectedDates, dateStr, instance) {
-                // Allow infinite scrolling through months and years
-                const currentYear = instance.currentYear;
-                const currentMonth = instance.currentMonth;
-
-                // If we're in December, move to next year
-                if (currentMonth === 11) {
-                    instance.currentYear = currentYear + 1;
-                    instance.currentMonth = 0;
-                }
-                // If we're in January, move to previous year
-                else if (currentMonth === 0 && currentYear > 2025) {
-                    instance.currentYear = currentYear - 1;
-                    instance.currentMonth = 11;
-                }
-            }
-        });
-    }
-
-    // Open modal
-    openBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        clearForm();
-        clearErrors();
-        initFlatpickr();
-    });
-
-    // Close modal
-    function closeModal() {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-        clearErrors();
-        if (flatpickrInstance) {
-            flatpickrInstance.destroy();
-        }
-    }
-
-    closeBtn.addEventListener('click', closeModal);
-    cancelBtn.addEventListener('click', closeModal);
-
-    // Click outside to close
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
-
-    // Clear form
-    function clearForm() {
-        nameInput.value = '';
-        emailInput.value = '';
-        topicInput.value = '';
-        notesInput.value = '';
-        dateInput.value = '';
-        timeInput.value = '';
-    }
-
-    // Clear errors
-    function clearErrors() {
-        document.querySelectorAll('.form-error').forEach(error => error.remove());
-        document.querySelectorAll('.form-group').forEach(group => {
-            group.classList.remove('error');
-        });
-    }
-
-    // Show error
-    function showError(element, message) {
-        clearErrors();
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'form-error';
-        errorDiv.textContent = message;
-        element.parentElement.appendChild(errorDiv);
-        element.parentElement.classList.add('error');
-        element.focus();
-    }
-
-    // Validate form
-    function validateForm() {
-        const name = nameInput.value.trim();
-        const email = emailInput.value.trim();
-        const topic = topicInput.value.trim();
-        const date = dateInput.value;
-        const time = timeInput.value;
-
-        if (!name) {
-            showError(nameInput, 'Please enter your name');
-            return false;
-        }
-
-        if (!email) {
-            showError(emailInput, 'Please enter your email');
-            return false;
-        }
-
-        if (!isValidEmail(email)) {
-            showError(emailInput, 'Please enter a valid email address');
-            return false;
-        }
-
-        if (!topic) {
-            showError(topicInput, 'Please enter a meeting topic');
-            return false;
-        }
-
-        if (!date) {
-            showError(dateInput, 'Please select a date');
-            return false;
-        }
-
-        if (!time) {
-            showError(timeInput, 'Please select a time');
-            return false;
-        }
-
-        // Check if selected date is in the past
-        const selectedDateTime = new Date(`${date}T${time}`);
-        const now = new Date();
-        if (selectedDateTime <= now) {
-            showError(timeInput, 'Please select a future date and time');
-            return false;
-        }
-
-        return true;
-    }
-
-    // Email validation
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    // Show success message
-    function showSuccess(message) {
-        const successDiv = document.createElement('div');
-        successDiv.className = 'alert alert-success';
-        successDiv.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
-        successDiv.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #10b981;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 10001;
-            max-width: 400px;
-            animation: slideIn 0.3s ease-out;
-        `;
-
-        document.body.appendChild(successDiv);
-
-        setTimeout(() => {
-            successDiv.style.animation = 'slideOut 0.3s ease-out';
-            setTimeout(() => successDiv.remove(), 300);
-        }, 5000);
-    }
-
-    // Add CSS animations
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-        .form-group.error input,
-        .form-group.error textarea {
-            border-color: #e74c3c !important;
-            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1) !important;
-        }
-        .form-error {
-            color: #e74c3c;
-            font-size: 0.9rem;
-            margin-top: 5px;
-            display: flex;
-            align-items: center;
-        }
-        .form-error::before {
-            content: '⚠';
-            margin-right: 5px;
-        }
-    `;
-    document.head.appendChild(style);
-
-    // Schedule meeting
-    scheduleBtn.addEventListener('click', function() {
-        if (!validateForm()) {
-            return;
-        }
-
-        // Show loading state
-        scheduleBtn.disabled = true;
-        scheduleBtn.innerHTML = '<span class="loading-spinner"></span> Scheduling...';
-
-        const name = nameInput.value.trim();
-        const email = emailInput.value.trim();
-        const topic = topicInput.value.trim();
-        const notes = notesInput.value.trim();
-        const date = dateInput.value;
-        const time = timeInput.value;
-
-        // Prepare data for AJAX
-        const formData = {
-            name: name,
-            email: email,
-            topic: topic,
-            notes: notes,
-            date: date,
-            time: time
-        };
-
-        // Send AJAX request
-        fetch('{% url "schedule_meeting" %}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                showSuccess(data.message);
-                setTimeout(() => {
-                    if (data.redirect_url) {
-                        window.location.href = data.redirect_url;
-                    } else {
-                        closeModal();
-                    }
-                }, 1000);
-            } else {
-                // Handle form errors
-                if (data.errors) {
-                    for (const [field, errors] of Object.entries(data.errors)) {
-                        const element = document.getElementById(`meeting${field.charAt(0).toUpperCase() + field.slice(1)}`);
-                        if (element) {
-                            showError(element, errors[0]);
-                        }
-                    }
-                } else {
-                    showError(nameInput, data.message || 'An error occurred');
-                }
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showError(nameInput, 'Network error. Please try again.');
-        })
-        .finally(() => {
-            // Reset button
-            scheduleBtn.disabled = false;
-            scheduleBtn.innerHTML = '<i class="fas fa-check"></i> Schedule Meeting';
-        });
-    });
-
-    // Add keyboard support
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
-            closeModal();
-        }
-    });
-});
-</script>
 {% endblock %}

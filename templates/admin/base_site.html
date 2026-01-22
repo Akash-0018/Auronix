@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 {% endblock %}
 
-{% block title %}Admin - Serendipity{% endblock %}
+{% block title %}Admin - Auronix {% endblock %}
 
 {% block extrastyle %}
 <style>
@@ -292,7 +292,7 @@
 {% block branding %}
 <div class="custom-admin-header">
     <div class="header-content">
-        <h1>Serendipity Admin</h1>
+        <h1>Auronix Admin</h1>
         <p>Manage your portfolio and content</p>
         <div class="header-decoration">
             <span class="sparkle">✨</span>
@@ -307,9 +307,6 @@
 <div class="nav-global">
     <ul>
         <li><a href="{% url 'admin:index' %}">Home</a></li>
-        {% if request.user.is_staff %}
-        <li><a href="{% url 'meetings' %}" class="{% if section == 'meetings' %}active{% endif %}">Meetings</a></li>
-        {% endif %}
     </ul>
 </div>
 {% endblock %}

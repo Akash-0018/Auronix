@@ -5,211 +5,776 @@
 
 {% block extra_css %}
 <style>
-
 :root {
     --primary: #A2C11C;
     --primary-dark: #8cae00;
+    --primary-light: #e8f5c8;
     --dark: #222831;
+    --dark-light: #2d3748;
     --gray: #6c757d;
     --light: #f8f9fa;
-    --radius: 16px;
-    --shadow: 0 8px 25px rgba(0,0,0,0.06);
-    --shadow-lg: 0 15px 45px rgba(0,0,0,0.12);
-    --transition: all .35s ease;
+    --gradient: linear-gradient(135deg, #A2C11C 0%, #8BC34A 100%);
+    --gradient-dark: linear-gradient(135deg, #222831 0%, #1a202c 100%);
+    --radius: 20px;
+    --radius-lg: 30px;
+    --shadow: 0 10px 40px rgba(0,0,0,0.08);
+    --shadow-lg: 0 25px 60px rgba(0,0,0,0.15);
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Header */
+/* Animated Header */
 .team-header {
-    background: linear-gradient(135deg, rgba(162,193,28,0.15), rgba(255,255,255,0.3));
+    background: var(--gradient-dark);
     text-align: center;
-    padding: 110px 20px 90px;
+    padding: 140px 20px 100px;
     position: relative;
     overflow: hidden;
+    color: white;
 }
 
-.team-header::after {
-    content: "";
+.header-background {
     position: absolute;
-    width: 220px;
-    height: 220px;
-    background: rgba(162,193,28,0.12);
-    top: -60px;
-    right: -60px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.3;
+}
+
+.geometric-pattern {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(162, 193, 28, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(162, 193, 28, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(162, 193, 28, 0.08) 0%, transparent 50%);
+}
+
+.floating-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.floating-element {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: var(--gradient);
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    opacity: 0.3;
+    animation: floatElement 20s infinite linear;
+}
+
+@keyframes floatElement {
+    0% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-30px) rotate(90deg); }
+    50% { transform: translateY(0) rotate(180deg); }
+    75% { transform: translateY(30px) rotate(270deg); }
+    100% { transform: translateY(0) rotate(360deg); }
+}
+
+.team-header-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .team-header-title {
-    font-size: 3.2rem;
+    font-size: 4rem;
     font-weight: 800;
-    color: var(--dark);
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #fff 0%, var(--primary-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    display: inline-block;
 }
 
 .team-header-title span {
-    color: var(--primary);
+    position: relative;
+}
+
+.team-header-title span::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: rgba(162, 193, 28, 0.3);
+    z-index: -1;
+    border-radius: 4px;
 }
 
 .team-header-sub {
-    color: var(--gray);
-    font-size: 1.3rem;
-    margin-top: 10px;
+    font-size: 1.4rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+.header-stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 /* Team Section */
 .team-section {
-    padding: 80px 0;
+    padding: 120px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
+    position: relative;
 }
 
+.section-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 80px;
+}
+
+.section-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--gradient);
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.3rem;
+    color: var(--gray);
+    line-height: 1.6;
+}
+
+/* Team Grid */
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 35px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
 }
 
-/* Team Card */
+/* Team Card - Modern Design */
 .team-card {
-    display: flex;
-    align-items: center;
-    gap: 25px;
     background: white;
-    padding: 25px;
-    border-radius: var(--radius);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
     box-shadow: var(--shadow);
     transition: var(--transition);
-    border-left: 6px solid var(--primary);
+    position: relative;
+    transform-style: preserve-3d;
 }
 
 .team-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-15px) rotateX(5deg);
     box-shadow: var(--shadow-lg);
 }
 
-/* Photo */
+.team-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(162, 193, 28, 0.1) 0%, transparent 50%);
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.team-card:hover::before {
+    opacity: 1;
+}
+
+.card-header {
+    height: 180px;
+    background: var(--gradient);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-header::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: white;
+    border-radius: 50% 50% 0 0;
+}
+
+.team-photo {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
 .team-photo img {
-    width: 110px;
-    height: 110px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid white;
-    box-shadow: 0 0 25px rgba(162,193,28,0.35);
+    border: 6px solid white;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
     transition: var(--transition);
 }
 
 .team-card:hover .team-photo img {
-    transform: scale(1.04);
+    transform: scale(1.05);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
 }
 
-/* Text */
+.card-body {
+    padding: 100px 30px 30px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
 .team-info h3 {
     margin: 0;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: var(--dark);
 }
 
-.team-info p {
-    margin: 5px 0 0;
-    font-size: 1rem;
+.team-info .role {
     color: var(--primary);
     font-weight: 600;
+    font-size: 1.1rem;
+    margin: 10px 0 15px;
+    display: block;
 }
 
-/* Profile Button */
+.team-description {
+    color: var(--gray);
+    line-height: 1.6;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+}
+
+.team-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.skill-tag {
+    padding: 6px 15px;
+    background: rgba(162, 193, 28, 0.1);
+    color: var(--primary-dark);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
 .view-profile {
-    margin-top: 12px;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    font-size: .9rem;
-    color: var(--primary-dark);
-    font-weight: 600;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 30px;
+    background: var(--gradient);
+    color: white;
+    border-radius: 50px;
     text-decoration: none;
+    font-weight: 600;
     transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.view-profile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: var(--dark);
+    transition: var(--transition);
+    z-index: -1;
 }
 
 .view-profile:hover {
-    color: var(--primary);
-    transform: translateX(3px);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(162, 193, 28, 0.3);
 }
 
-/* Responsive */
-@media (max-width: 992px) {
+.view-profile:hover::before {
+    width: 100%;
+}
+
+.view-profile i {
+    transition: var(--transition);
+}
+
+.view-profile:hover i {
+    transform: translateX(5px);
+}
+
+/* Team Values Section */
+.values-section {
+    padding: 100px 0;
+    background: var(--gradient-dark);
+    color: white;
+    position: relative;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.value-card {
+    text-align: center;
+    padding: 40px 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius);
+    backdrop-filter: blur(10px);
+    transition: var(--transition);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.value-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-10px);
+    border-color: var(--primary);
+}
+
+.value-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px;
+    font-size: 2rem;
+}
+
+.value-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.value-card p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+}
+
+/* CTA Section */
+.cta-section {
+    padding: 120px 0;
+    text-align: center;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.cta-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 20px;
+}
+
+.cta-subtitle {
+    font-size: 1.3rem;
+    color: var(--gray);
+    max-width: 600px;
+    margin: 0 auto 50px;
+    line-height: 1.6;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-primary {
+    background: var(--gradient);
+    color: white;
+    box-shadow: 0 15px 40px rgba(162, 193, 28, 0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(162, 193, 28, 0.3);
+    color: white;
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--dark);
+    border: 2px solid var(--primary);
+}
+
+.btn-outline:hover {
+    background: var(--gradient);
+    color: white;
+    border-color: transparent;
+    transform: translateY(-5px);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
     .team-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
+    .team-header-title {
+        font-size: 3.2rem;
+    }
+    
     .team-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+    
+    .values-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
+@media (max-width: 768px) {
+    .team-header {
+        padding: 100px 20px 60px;
+    }
+    
+    .team-header-title {
+        font-size: 2.5rem;
+    }
+    
+    .team-header-sub {
+        font-size: 1.2rem;
+    }
+    
+    .header-stats {
+        gap: 40px;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta-title {
+        font-size: 2.2rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .team-header-title {
+        font-size: 2rem;
+    }
+    
+    .team-header-sub {
+        font-size: 1.1rem;
+    }
+    
+    .header-stats {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+}
 </style>
 {% endblock %}
 
-
 {% block content %}
 
+<!-- Animated Header -->
 <section class="team-header">
-    <h1 class="team-header-title">Meet Our <span>Team</span></h1>
-    <p class="team-header-sub">Professionals dedicated to delivering excellence</p>
-</section>
-
-
-<section class="team-section">
-    <div class="container">
-
-        <div class="team-grid">
-            {% for member in team_members %}
-            <div class="team-card">
-                
-                <!-- Photo -->
-                <div class="team-photo">
-                    {% if member.image %}
-                    <img src="{{ member.image }}" alt="{{ member.name }}" class="team-member-avatar" data-fallback="{% static 'images/default-user.jpg' %}">
-                    {% else %}
-                    <img src="{% static 'images/default-user.jpg' %}" alt="{{ member.name }}" class="team-member-avatar">
-                    {% endif %}
-                </div>
-
-                <!-- Text -->
-                <div class="team-info">
-                    <h3>{{ member.name }}</h3>
-                    <p>{{ member.role }}</p>
-
-                    <!-- Profile Page -->
-                    <a href="{% url 'team_member_portfolio' member_name=member.name|lower|slugify %}" 
-                       class="view-profile">
-                       View Profile <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-
-            </div>
-            {% endfor %}
+    <div class="header-background">
+        <div class="geometric-pattern"></div>
+        <div class="floating-elements">
+            <div class="floating-element" style="top: 20%; left: 10%; animation-delay: 0s;"><i class="fas fa-users"></i></div>
+            <div class="floating-element" style="top: 60%; right: 15%; animation-delay: 2s;"><i class="fas fa-lightbulb"></i></div>
+            <div class="floating-element" style="bottom: 20%; left: 20%; animation-delay: 4s;"><i class="fas fa-rocket"></i></div>
         </div>
-
+    </div>
+    
+    <div class="team-header-content">
+        <h1 class="team-header-title">Meet Our <span>Dream Team</span></h1>
+        <p class="team-header-sub">A collective of passionate professionals dedicated to turning visions into exceptional digital experiences</p>
+        
+        <div class="header-stats">
+            <div class="stat-item">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">Years Combined Experience</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">200+</span>
+                <span class="stat-label">Projects Delivered</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">98%</span>
+                <span class="stat-label">Client Satisfaction</span>
+            </div>
+        </div>
     </div>
 </section>
 
+<!-- Team Section -->
+<section class="team-section">
+    <div class="container">
+        <div class="section-intro">
+            <h2 class="section-title">Our Creative Minds</h2>
+            <p class="section-subtitle">Each member brings unique expertise and passion to create innovative solutions that drive success</p>
+        </div>
+        
+        <div class="team-grid">
+            {% for member in team_members %}
+            <div class="team-card">
+                <div class="card-header"></div>
+                
+                <div class="team-photo">
+                    {% if member.image and member.image.url %}
+                    <img src="{{ member.image.url }}" alt="{{ member.name }}"
+                         onerror="this.src='{% static 'images/default-user.jpg' %}'">
+                    {% else %}
+                    <img src="{% static 'images/default-user.jpg' %}" alt="{{ member.name }}">
+                    {% endif %}
+                </div>
+                
+                <div class="card-body">
+                    <div class="team-info">
+                        <h3>{{ member.name }}</h3>
+                        <span class="role">{{ member.role }}</span>
+                        
+                        <p class="team-description">
+                            {% if member.description %}
+                                {{ member.description|truncatewords:25 }}
+                            {% else %}
+                                Passionate professional dedicated to delivering exceptional results through creativity and technical expertise.
+                            {% endif %}
+                        </p>
+                        
+                        <div class="team-skills">
+                            {% if member.skills %}
+                                {% for skill in member.skills|slice:":3" %}
+                                    <span class="skill-tag">{{ skill }}</span>
+                                {% endfor %}
+                            {% else %}
+                                <span class="skill-tag">Expertise</span>
+                                <span class="skill-tag">Innovation</span>
+                                <span class="skill-tag">Strategy</span>
+                            {% endif %}
+                        </div>
+                        
+                        <a href="{% url 'team_member_portfolio' member_name=member.name|lower|slugify %}" 
+                           class="view-profile">
+                            View Full Profile
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+                <p style="font-size: 1.2rem; color: var(--gray);">Our team members will be listed here soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Team Values Section -->
+<section class="values-section">
+    <div class="container">
+        <div class="section-intro" style="color: white;">
+            <h2 class="section-title" style="color: white;">Our Core Values</h2>
+            <p class="section-subtitle" style="color: rgba(255, 255, 255, 0.85);">The principles that guide our team and define our work culture</p>
+        </div>
+        
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3>Innovation</h3>
+                <p>We constantly push boundaries and explore new technologies to deliver cutting-edge solutions.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3>Collaboration</h3>
+                <p>Teamwork makes the dream work. We believe in collective intelligence and shared success.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <h3>Excellence</h3>
+                <p>We strive for perfection in every detail, delivering quality that exceeds expectations.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Passion</h3>
+                <p>We love what we do, and it shows in every project we undertake and every client we serve.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <h2 class="cta-title">Ready to Work With Us?</h2>
+        <p class="cta-subtitle">Let's combine our expertise with your vision to create something extraordinary</p>
+        
+        <div class="cta-buttons">
+            <a href="{% url 'contact' %}" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i>
+                Start a Project
+            </a>
+            <a href="{% url 'portfolio' %}" class="btn btn-outline">
+                <i class="fas fa-eye"></i>
+                View Our Work
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Handle image fallbacks
-    document.querySelectorAll('img[data-fallback]').forEach(img => {
-        img.addEventListener('error', function() {
-            this.src = this.getAttribute('data-fallback');
+    // Animate team cards on scroll
+    const teamCards = document.querySelectorAll('.team-card');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, index * 100);
+            }
         });
+    }, { threshold: 0.1 });
+    
+    teamCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        observer.observe(card);
     });
-
-    // Handle hover transforms for team member avatars
-    document.querySelectorAll('.team-member-avatar').forEach(img => {
-        img.addEventListener('mouseover', function() {
-            this.style.transform = 'scale(1.04)';
+    
+    // Animate values on hover
+    const valueCards = document.querySelectorAll('.value-card');
+    
+    valueCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            const icon = card.querySelector('.value-icon');
+            icon.style.transform = 'scale(1.1) rotate(5deg)';
         });
-        img.addEventListener('mouseout', function() {
-            this.style.transform = 'scale(1)';
+        
+        card.addEventListener('mouseleave', () => {
+            const icon = card.querySelector('.value-icon');
+            icon.style.transform = 'scale(1) rotate(0)';
         });
     });
 });
 </script>
-
 {% endblock %}

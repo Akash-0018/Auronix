@@ -1,77 +1,422 @@
 {% extends 'base.html' %}
 {% load socialaccount %}
 
-{% block title %}Connect Account - Serendipity Portfolio{% endblock %}
+{% block title %}Connect Account - Auronix Portfolio{% endblock %}
 
 {% block extra_css %}
 <style>
-    .connections-container {
+    :root {
+        --primary: #a2c11c;
+        --primary-dark: #8ba916;
+        --primary-light: rgba(162, 193, 28, 0.1);
+        --dark: #0f172a;
+        --dark-light: #1e293b;
+        --gray: #64748b;
+        --gray-light: #e2e8f0;
+        --success: #10b981;
+        --info: #3b82f6;
+        --warning: #f59e0b;
+        --google-red: #ea4335;
+        --google-blue: #4285f4;
+        --radius: 12px;
+        --radius-lg: 24px;
+        --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 20px 80px rgba(0, 0, 0, 0.2);
+    }
+
+    .connection-wrapper {
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
-        padding: 20px;
-        margin-top: 100px;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        padding: 40px 20px;
+        position: relative;
+        overflow: hidden;
     }
 
-    .connections-card {
+    .connection-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(circle at 30% 30%, rgba(162, 193, 28, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 70% 70%, rgba(162, 193, 28, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    .connection-container {
+        max-width: 1000px;
+        width: 100%;
         background: white;
         border-radius: var(--radius-lg);
-        padding: 60px 40px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        max-width: 500px;
-        width: 100%;
-        text-align: center;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+        position: relative;
+        z-index: 1;
+        display: flex;
+        min-height: 600px;
     }
 
-    .connections-header {
+    .connection-left {
+        flex: 1;
+        background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
+        padding: 80px 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .connection-left::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a2c11c' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.3;
+    }
+
+    .brand-section {
+        position: relative;
+        z-index: 2;
+    }
+
+    .brand-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
         margin-bottom: 40px;
     }
 
-    .connections-header h1 {
-        font-size: 2.2rem;
+    .brand-logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--primary);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         color: var(--dark);
-        margin-bottom: 15px;
+        font-weight: 800;
+        font-size: 1.8rem;
+        box-shadow: 0 8px 20px rgba(162, 193, 28, 0.3);
     }
 
-    .existing-account {
+    .brand-logo-text {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: white;
+        letter-spacing: 0.5px;
+    }
+
+    .brand-logo-text span {
+        color: var(--primary);
+    }
+
+    .connection-title {
+        color: white;
+        font-size: 2.5rem;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    .connection-title span {
+        color: var(--primary);
+        position: relative;
+    }
+
+    .connection-title span::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 2px;
+    }
+
+    .subtitle {
+        color: var(--gray-light);
+        font-size: 1.1rem;
+        line-height: 1.6;
+        max-width: 400px;
+        margin-bottom: 30px;
+    }
+
+    .benefits {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .benefit {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .benefit-icon {
+        width: 24px;
+        height: 24px;
+        background: var(--primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--dark);
+        font-size: 0.8rem;
+        flex-shrink: 0;
+        margin-top: 3px;
+    }
+
+    .benefit-text {
+        color: white;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .benefit-text strong {
+        color: var(--primary);
+    }
+
+    .connection-right {
+        flex: 1.2;
+        padding: 80px 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: white;
+    }
+
+    .connection-header {
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .connection-header h2 {
+        font-size: 2rem;
+        color: var(--dark);
+        margin-bottom: 10px;
+    }
+
+    .connection-header p {
+        color: var(--gray);
+        font-size: 1.1rem;
+    }
+
+    .account-merge-card {
+        background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+        border-radius: var(--radius);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 2px solid rgba(59, 130, 246, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .account-merge-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--info), var(--success));
+    }
+
+    .merge-header {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 15px;
-        padding: 20px;
-        background: rgba(16, 185, 129, 0.05);
-        border-radius: var(--radius);
-        border: 2px solid rgba(16, 185, 129, 0.2);
-        margin: 30px 0;
+        margin-bottom: 25px;
     }
 
-    .existing-account i {
-        font-size: 2rem;
-        color: #10b981;
+    .merge-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--info);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.8rem;
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
     }
 
-    .existing-account div {
-        text-align: left;
-    }
-
-    .existing-account strong {
-        display: block;
+    .merge-title {
+        font-size: 1.5rem;
+        font-weight: 700;
         color: var(--dark);
-        font-size: 1.1rem;
-        margin-bottom: 5px;
     }
 
-    .existing-account small {
-        color: var(--gray);
+    .merge-subtitle {
+        color: var(--info);
+        font-weight: 600;
+        font-size: 1rem;
     }
 
-    .action-button {
-        display: inline-block;
+    .accounts-to-merge {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 40px 0;
+        position: relative;
+    }
+
+    .accounts-to-merge::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
         width: 100%;
-        padding: 16px 24px;
-        background: linear-gradient(135deg, var(--primary) 0%, #98c21f 100%);
+        height: 2px;
+        background: var(--gray-light);
+        transform: translate(-50%, -50%);
+        z-index: 1;
+    }
+
+    .account-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: white;
+        padding: 20px;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        position: relative;
+        z-index: 2;
+        width: 45%;
+        transition: transform 0.3s ease;
+    }
+
+    .account-item:hover {
+        transform: translateY(-5px);
+    }
+
+    .account-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    .account-icon.existing {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    }
+
+    .account-icon.google {
+        background: linear-gradient(135deg, var(--google-red) 0%, #d13a2d 100%);
+    }
+
+    .account-name {
+        font-weight: 700;
+        color: var(--dark);
+        margin-bottom: 5px;
+        font-size: 1.1rem;
+    }
+
+    .account-email {
+        color: var(--gray);
+        font-size: 0.9rem;
+        word-break: break-all;
+    }
+
+    .merge-arrow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        background: var(--info);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        z-index: 3;
+        font-size: 1.2rem;
+        box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: translate(-50%, -50%) scale(1); }
+        50% { transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    .merge-info {
+        background: rgba(59, 130, 246, 0.05);
+        border-radius: var(--radius);
+        padding: 20px;
+        margin: 25px 0;
+        border: 1px solid rgba(59, 130, 246, 0.1);
+    }
+
+    .merge-info-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--info);
+        font-weight: 600;
+        margin-bottom: 15px;
+        font-size: 1rem;
+    }
+
+    .merge-info-title i {
+        font-size: 1.2rem;
+    }
+
+    .merge-benefits {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .merge-benefit {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--gray);
+        font-size: 0.9rem;
+    }
+
+    .merge-benefit i {
+        color: var(--success);
+        font-size: 0.8rem;
+    }
+
+    .connection-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .connect-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 20px 24px;
+        background: linear-gradient(135deg, var(--info) 0%, #2563eb 100%);
         border: none;
         border-radius: var(--radius);
         color: white;
@@ -80,20 +425,28 @@
         font-size: 1.1rem;
         transition: all 0.3s ease;
         cursor: pointer;
-        margin-bottom: 15px;
+        position: relative;
+        overflow: hidden;
     }
 
-    .action-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 15px 35px rgba(162, 193, 28, 0.4);
+    .connect-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(59, 130, 246, 0.3);
     }
 
-    .secondary-button {
-        display: inline-block;
+    .connect-btn i {
+        margin-right: 12px;
+        font-size: 1.2rem;
+    }
+
+    .cancel-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
-        padding: 12px 24px;
-        background: transparent;
-        border: 2px solid #e0e0e0;
+        padding: 16px 24px;
+        background: white;
+        border: 2px solid var(--gray-light);
         border-radius: var(--radius);
         color: var(--dark);
         text-decoration: none;
@@ -103,74 +456,521 @@
         cursor: pointer;
     }
 
-    .secondary-button:hover {
-        border-color: #999;
-        background: #f5f5f5;
+    .cancel-btn:hover {
+        border-color: var(--primary);
+        background: var(--primary-light);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
     }
 
-    .info-text {
+    .cancel-btn i {
+        margin-right: 10px;
+    }
+
+    .security-note {
+        margin-top: 30px;
+        padding-top: 25px;
+        border-top: 1px solid var(--gray-light);
+        text-align: center;
         color: var(--gray);
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         line-height: 1.6;
-        margin-bottom: 30px;
+    }
+
+    .security-note strong {
+        color: var(--dark);
+    }
+
+    .security-badges {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+    }
+
+    .security-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: #f8fafc;
+        color: var(--gray);
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .security-badge i {
+        color: var(--success);
+        font-size: 0.9rem;
+    }
+
+    .floating-shapes {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .shape {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.1;
+    }
+
+    .shape-1 {
+        width: 80px;
+        height: 80px;
+        background: var(--info);
+        top: 15%;
+        right: 8%;
+        animation: float 25s infinite ease-in-out;
+    }
+
+    .shape-2 {
+        width: 60px;
+        height: 60px;
+        background: var(--primary);
+        bottom: 20%;
+        left: 10%;
+        animation: float 20s infinite ease-in-out reverse;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+    }
+
+    .loading-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .loading-content {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 40px;
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .loading-spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid var(--gray-light);
+        border-top-color: var(--info);
+        border-radius: 50%;
+        margin: 0 auto 25px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+        color: var(--dark);
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .loading-subtext {
+        color: var(--gray);
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    @media (max-width: 992px) {
+        .connection-container {
+            flex-direction: column;
+            max-width: 700px;
+        }
+
+        .connection-left {
+            padding: 60px 40px;
+        }
+
+        .connection-right {
+            padding: 60px 40px;
+        }
+
+        .connection-title {
+            font-size: 2rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .accounts-to-merge {
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .accounts-to-merge::before {
+            display: none;
+        }
+
+        .account-item {
+            width: 100%;
+        }
+
+        .merge-arrow {
+            position: relative;
+            top: auto;
+            left: auto;
+            transform: none;
+            margin: 20px 0;
+            order: 2;
+        }
+
+        .accounts-to-merge {
+            position: relative;
+        }
     }
 
     @media (max-width: 576px) {
-        .connections-card {
+        .connection-left, .connection-right {
             padding: 40px 30px;
         }
 
-        .connections-header h1 {
+        .brand-logo-text {
             font-size: 1.8rem;
         }
 
-        .action-button,
-        .secondary-button {
-            font-size: 0.95rem;
-            padding: 14px 20px;
+        .connection-title {
+            font-size: 1.8rem;
+        }
+
+        .merge-header {
+            flex-direction: column;
+            text-align: center;
+            gap: 10px;
+        }
+
+        .connect-btn, .cancel-btn {
+            padding: 16px 20px;
+            font-size: 1rem;
+        }
+
+        .security-badges {
+            flex-direction: column;
+            align-items: center;
         }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="connections-container">
-    <div class="connections-card">
-        <div class="connections-header">
-            <h1><span style="color: var(--primary);">Seren</span>dipity</h1>
-        </div>
-
-        <div class="existing-account">
-            <i class="fas fa-check-circle"></i>
-            <div>
-                <strong>Account Found</strong>
-                <small>An account with this email already exists</small>
+<div class="connection-wrapper">
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </div>
+    
+    <div class="connection-container">
+        <!-- Left side: Brand & Benefits -->
+        <div class="connection-left">
+            <div class="brand-section">
+                <div class="brand-logo">
+                    <div class="brand-logo-icon">A</div>
+                    <div class="brand-logo-text"><span>Auron</span>ix</div>
+                </div>
+                
+                <h1 class="connection-title">Connect <span>Accounts</span></h1>
+                <p class="subtitle">
+                    Streamline your login experience by connecting your Google account to your existing Auronix profile.
+                </p>
+                
+                <div class="benefits">
+                    <div class="benefit">
+                        <div class="benefit-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <strong>One-click access:</strong> Sign in instantly with Google
+                        </div>
+                    </div>
+                    <div class="benefit">
+                        <div class="benefit-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <strong>Enhanced security:</strong> Google's secure authentication
+                        </div>
+                    </div>
+                    <div class="benefit">
+                        <div class="benefit-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <strong>Unified profile:</strong> All your data in one place
+                        </div>
+                    </div>
+                    <div class="benefit">
+                        <div class="benefit-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <strong>Preserved content:</strong> Keep all your existing portfolio work
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        
+        <!-- Right side: Account Connection -->
+        <div class="connection-right">
+            <div class="connection-header">
+                <h2>Account Connection</h2>
+                <p>Connect your Google account to your existing profile</p>
+            </div>
 
-        <p class="info-text">
-            We found an existing account associated with this email. Would you like to connect your Google account to this profile?
-        </p>
+            <div class="account-merge-card">
+                <div class="merge-header">
+                    <div class="merge-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <div>
+                        <div class="merge-title">Account Merge</div>
+                        <div class="merge-subtitle">Connect and Simplify</div>
+                    </div>
+                </div>
 
-        <div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 15px; border-radius: 4px; margin-bottom: 25px;">
-            <p style="color: #065f46; font-size: 0.9rem; margin: 0; line-height: 1.5;">
-                <i class="fas fa-shield-alt" style="margin-right: 8px; color: #10b981;"></i>
-                <strong>Your Credentials Are Safe</strong><br>
-                We don't save or store your Google password. All authentication is handled securely by Google.
-            </p>
+                <div class="accounts-to-merge">
+                    <div class="account-item">
+                        <div class="account-icon existing">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="account-name">Existing Account</div>
+                        <div class="account-email">
+                            {% if request.user.is_authenticated %}
+                                {{ request.user.email }}
+                            {% else %}
+                                user@example.com
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="merge-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+
+                    <div class="account-item">
+                        <div class="account-icon google">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div class="account-name">Google Account</div>
+                        <div class="account-email">Same email address</div>
+                    </div>
+                </div>
+
+                <div class="merge-info">
+                    <div class="merge-info-title">
+                        <i class="fas fa-info-circle"></i>
+                        What happens when you connect?
+                    </div>
+                    
+                    <div class="merge-benefits">
+                        <div class="merge-benefit">
+                            <i class="fas fa-check-circle"></i>
+                            <span>You can sign in with either your password or Google</span>
+                        </div>
+                        <div class="merge-benefit">
+                            <i class="fas fa-check-circle"></i>
+                            <span>All your existing portfolio data is preserved</span>
+                        </div>
+                        <div class="merge-benefit">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Future logins are faster with Google authentication</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="connection-actions">
+                <form method="post" action="" id="connectionForm">
+                    {% csrf_token %}
+                    <button type="submit" class="connect-btn" id="connectBtn">
+                        <i class="fas fa-link"></i>
+                        Connect Google Account
+                    </button>
+                </form>
+                
+                <a href="{% url 'account_login' %}" class="cancel-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Login Options
+                </a>
+            </div>
+
+            <div class="security-note">
+                <strong>Secure Connection Process:</strong> 
+                Your credentials are never stored. Google authentication uses secure OAuth 2.0 protocol.
+                
+                <div class="security-badges">
+                    <div class="security-badge">
+                        <i class="fas fa-lock"></i>
+                        Encrypted Connection
+                    </div>
+                    <div class="security-badge">
+                        <i class="fas fa-shield-alt"></i>
+                        OAuth 2.0 Security
+                    </div>
+                    <div class="security-badge">
+                        <i class="fas fa-user-shield"></i>
+                        Data Protected
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <form method="post" action="">
-            {% csrf_token %}
-            <button type="submit" class="action-button">
-                <i class="fab fa-google" style="margin-right: 10px;"></i>
-                Connect Google Account
-            </button>
-        </form>
-
-        <a href="{% url 'account_login' %}" class="secondary-button">
-            Back to Login
-        </a>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Connecting Accounts</div>
+            <div class="loading-subtext">
+                We're securely connecting your Google account to your Auronix profile. 
+                This will only take a moment...
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    // Connection button animation
+    const connectBtn = document.getElementById('connectBtn');
+    const connectionForm = document.getElementById('connectionForm');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    
+    connectBtn.addEventListener('click', function(e) {
+        // Show loading overlay
+        loadingOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Add loading state to button
+        const originalText = connectBtn.innerHTML;
+        connectBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
+        connectBtn.disabled = true;
+        
+        // Submit form after a brief delay for UX
+        setTimeout(() => {
+            connectionForm.submit();
+        }, 1500);
+        
+        // Prevent double submission
+        e.preventDefault();
+    });
+    
+    // Animate arrow icon
+    const mergeArrow = document.querySelector('.merge-arrow');
+    setInterval(() => {
+        mergeArrow.style.transform = 'translate(-50%, -50%) scale(1.05)';
+        setTimeout(() => {
+            mergeArrow.style.transform = 'translate(-50%, -50%) scale(1)';
+        }, 300);
+    }, 3000);
+    
+    // Add hover effects to account items
+    const accountItems = document.querySelectorAll('.account-item');
+    accountItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px)';
+            this.style.boxShadow = '0 20px 50px rgba(0, 0, 0, 0.15)';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.boxShadow = 'var(--shadow)';
+        });
+    });
+    
+    // Add floating shapes animation
+    const shapes = document.querySelectorAll('.shape');
+    shapes.forEach((shape, index) => {
+        shape.style.animationDelay = `${index * 2}s`;
+    });
+    
+    // Smooth entrance animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    // Observe elements for animation
+    document.querySelectorAll('.connection-left, .connection-right').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+    
+    // Add visual feedback for form submission
+    const form = document.getElementById('connectionForm');
+    form.addEventListener('submit', function(e) {
+        // Button already handled the visual feedback
+        // This prevents double execution
+        if (connectBtn.disabled) {
+            e.preventDefault();
+        }
+    });
+    
+    // Handle responsive layout for merge arrow
+    function updateMergeArrow() {
+        const mergeArrow = document.querySelector('.merge-arrow');
+        const accountsContainer = document.querySelector('.accounts-to-merge');
+        
+        if (window.innerWidth <= 768) {
+            mergeArrow.innerHTML = '<i class="fas fa-arrow-down"></i>';
+            mergeArrow.style.transform = 'none';
+            mergeArrow.style.position = 'relative';
+            mergeArrow.style.top = 'auto';
+            mergeArrow.style.left = 'auto';
+            mergeArrow.style.margin = '20px auto';
+        } else {
+            mergeArrow.innerHTML = '<i class="fas fa-arrow-right"></i>';
+            mergeArrow.style.transform = 'translate(-50%, -50%)';
+            mergeArrow.style.position = 'absolute';
+            mergeArrow.style.top = '50%';
+            mergeArrow.style.left = '50%';
+            mergeArrow.style.margin = '0';
+        }
+    }
+    
+    // Initial call and resize listener
+    updateMergeArrow();
+    window.addEventListener('resize', updateMergeArrow);
+</script>
 {% endblock %}
